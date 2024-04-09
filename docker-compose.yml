@@ -1,6 +1,13 @@
 version: "3.8"
 
 services:
+  nginx:
+    build: "./containers/nginx"
+    container_name: "nginx_reverse_proxy"
+    ports:
+      - 80:80
+      - 443:443
+    
   node1:
     build: "./containers/node"
     container_name: "node1"
