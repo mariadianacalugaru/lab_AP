@@ -7,6 +7,10 @@ services:
     ports:
       - 80:80
       - 443:443
+    volumes:
+      - ./ssl:/etc/nginx/certs/
+    networks:
+      - app
     
   node1:
     build: "./containers/node"
@@ -41,6 +45,18 @@ services:
       - app
       - database
 
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./containers/mongo/datamongo:/data/db
+    networks:
+      - database
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    
 networks:
   app:
   database:
