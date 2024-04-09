@@ -8,3 +8,33 @@ services:
       - 8080:3000
     volumes:
       - ./containers/node:/app
+    networks:
+      - app
+      - database
+      
+  node2:
+    build: "./containers/node"
+    container_name: "node2"
+    ports:
+      - 8081:3000
+    volumes:
+      - ./containers/node:/app
+    networks:
+      - app
+      - database
+
+  node3:
+    build: "./containers/node"
+    container_name: "node3"
+    ports:
+      - 8082:3000
+    volumes:
+      - ./containers/node:/app
+    networks:
+      - app
+      - database
+
+networks:
+  app:
+  database:
+  
