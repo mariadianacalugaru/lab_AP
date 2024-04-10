@@ -2,7 +2,9 @@ FROM node:20.12.1-alpine3.18
 
 WORKDIR /app
 
-COPY ./angular-docker /app
+COPY ./angular-docker .
+
+COPY ./ssl ./ssl
 
 RUN npm install -g @angular/cli
 

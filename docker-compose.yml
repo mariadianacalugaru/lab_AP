@@ -13,40 +13,50 @@ services:
       - app
     
   node1:
-    build: "./containers/angular"
+    build: "./containers/node"
     container_name: "node1"
     ports:
       - 8080:3000
     volumes:
-      - ./containers/angular/angular-docker:/app/angular-docker
+      - ./containers/node:/app
     networks:
       - app
       - database
       - rabbit
       
   node2:
-    build: "./containers/angular"
+    build: "./containers/node"
     container_name: "node2"
     ports:
       - 8081:3000
     volumes:
-      - ./containers/angular/angular-docker:/app/angular-docker
+      - ./containers/node:/app
     networks:
       - app
       - database
       - rabbit
 
   node3:
-    build: "./containers/angular"
+    build: "./containers/node"
     container_name: "node3"
     ports:
       - 8082:3000
     volumes:
-      - ./containers/angular/angular-docker:/app/angular-docker
+      - ./containers/node:/app
     networks:
       - app
       - database
       - rabbit
+
+  angular:
+    build: "./containers/angular"
+    container_name: "angular"
+    ports:
+      - 9000:3000
+    volumes:
+      - ./containers/angular/angular-docker:/app/angular-docker
+    networks:
+      - app
 
   mongodb:
     image: mongo:6-jammy
