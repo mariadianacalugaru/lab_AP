@@ -48,6 +48,27 @@ services:
       - database
       - rabbit
 
+
+  angular1:
+    build: "./containers/angular"
+    container_name: "angular1"
+    ports:
+      - 9001:4000
+    volumes:
+      - ./containers/angular/angular-docker:/app/angular-docker
+    networks:
+      - angular
+      
+  angular2:
+    build: "./containers/angular"
+    container_name: "angular2"
+    ports:
+      - 9002:4000
+    volumes:
+      - ./containers/angular/angular-docker:/app/angular-docker
+    networks:
+      - angular
+
   mongodb:
     image: mongo:6-jammy
     container_name: "mongo"
@@ -71,6 +92,7 @@ services:
       - rabbit
 
 networks:
+  angular:
   app:
   database:
   rabbit:
