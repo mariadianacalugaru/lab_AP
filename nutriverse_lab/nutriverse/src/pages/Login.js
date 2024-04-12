@@ -7,13 +7,14 @@ import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Card from 'react-bootstrap/Card';
+import { useNavigate } from 'react-router-dom';
 import './css/Login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
 const Login = () => {
-
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [form_Data, set_Form_Data] = useState({
     firstname: "",
@@ -22,6 +23,7 @@ const Login = () => {
     confirmPass: "",
     email: "",
   });
+  
   const chngFn = (event) => {
     const { name, value } = event.target;
     set_Form_Data({
@@ -31,15 +33,15 @@ const Login = () => {
   };
 
   const handleSubmit = (event) => {
+
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
-    setValidated(true)
+    setValidated(true);
+  }
 
-
-  };
 
   return (
     <div className="home-background">
@@ -81,7 +83,7 @@ const Login = () => {
               </Tab>
               <Tab eventKey="profile" title="Registrazione">
                 <div className='Reg' >
-                  <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                  <Form noValidate validated={validated} action="https://localhost/register" method='POST' onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label>First Name</Form.Label>
                       <Form.Control required name="firstname" type="firstname" placeholder="First Name" pattern="^[a-zA-Z0-9]+$" value={form_Data.firstname} onChange={chngFn}

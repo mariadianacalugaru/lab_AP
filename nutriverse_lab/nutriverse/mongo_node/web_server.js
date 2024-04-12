@@ -50,10 +50,10 @@ app.post('/register',
     
 
  
-app.listen(4000,
+app.listen(3000,
     () => {
         console.log(
-            'Our express server is up on port 4000'
+            'Our express server is up on port 3000'
         );
     });
 

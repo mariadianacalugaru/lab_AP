@@ -11,6 +11,13 @@ services:
       - ./ssl:/etc/nginx/certs/
     networks:
       - app
+    links:
+      - node1
+      - node2
+      - node3
+      - react1
+      - react2
+    
 
   react1:
     build: "./nutriverse"
@@ -42,6 +49,8 @@ services:
       - app
       - database
       - rabbit
+    links:
+      - mongodb
       
   node2:
     build: "./node"
@@ -54,6 +63,8 @@ services:
       - app
       - database
       - rabbit
+    links:
+      - mongodb
 
   node3:
     build: "./node"
@@ -66,19 +77,23 @@ services:
       - app
       - database
       - rabbit
+    links:
+      - mongodb
 
   mongodb:
     image: mongo:6-jammy
     container_name: "mongo"
     ports:
-      - '27017:27017'
+      - '27016:27017'
     volumes:
-      - ./containers/mongo/datamongo:/data/db
+      - ./mongo/datamongo:/data/db
+      - ./mongo/init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - database
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: nutriverse
     
   rabbitmq:
     image: rabbitmq:3-management
