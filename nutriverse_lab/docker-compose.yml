@@ -16,6 +16,14 @@ services:
     build: "./nutriverse"
     container_name: "react1"
     ports:
+      - 5174:3000
+    networks:
+      - app
+  
+  react2:
+    build: "./nutriverse"
+    container_name: "react2"
+    ports:
       - 5173:3000
     networks:
       - app
