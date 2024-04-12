@@ -1,0 +1,134 @@
+.Logo{
+    height: 3rem;
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+  
+.nav{
+    background-color: white; 
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    font-family: 'Garamond';
+    font-size: 21px;
+}
+.nav menu{
+    background-color: white;
+    display: none;
+    position: absolute;
+    top:0.75rem;
+    right: 0.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 2.25rem;
+    height: 2rem;
+}
+nav .menu span{
+    height: 0.4rem;
+    width: 100%;
+    background-color: white;
+    border-radius: 0.2rem;
+}
+.nav ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap:1rem;
+}
+
+.nav a{
+    color: inherit;
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}
+
+.nav li.active{
+    background-color: 9BB150;
+}
+
+.nav li:hover{
+    border-radius: 30px;
+    background-color: #9BB150;
+}
+
+
+
+
+
+.input-wrapper{
+    background-color: white;
+    width: 100%;
+    border-radius: 10px;
+    height: 2.5rem;
+    padding:0 15px;
+    box-shadow: 0px 0px 8px #ddd;
+    display: flex;
+    align-items: center;
+    gap:1rem;
+}
+
+input{
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    font-size:1.25rem;
+    width: 100%;
+    margin-left:5px;
+}
+
+input:focus{
+    outline: none;
+}
+.SearchBarComponent{
+    padding-top:20vh;
+    width: 40%;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 200px;
+}
+#search-icon{
+    color:#9BB150;
+}
+
+.results-list{
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 8px white;
+    border-radius: 10px;
+    margin-top: 1rem;
+    max-height: 300px;
+    overflow-y: scroll;
+    
+}
+
+
+
+
+.search-result{
+    padding:10px 20px;
+    border: 1px black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.search-result:hover{
+    background-color: #9BB150;
+}
+
+.card1{
+    top: 100px;
+}
+
