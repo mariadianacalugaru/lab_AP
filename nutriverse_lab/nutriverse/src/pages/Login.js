@@ -72,8 +72,6 @@ const Login = () => {
               {state:{
                 firstname: form_Data.firstname,
                 lastname: form_Data.lastname,
-                email: form_Data.email,
-                  password: form_Data.password
                 }}
                 );
             }

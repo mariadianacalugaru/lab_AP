@@ -49,3 +49,11 @@
 }
 
 
+.existing_user{
+    text-align: center;
+}
+
+.existing_user h4{
+    color: red;
+    padding-bottom: 20px;
+}
