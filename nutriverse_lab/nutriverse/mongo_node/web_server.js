@@ -2,9 +2,11 @@
 // Importing express module
 const express = require('express');
 const app = express();
+const cors = require('cors');
+
+app.use(cors());
 app.use(express.json());       
 app.use(express.urlencoded({ extended: true })); 
-
 const { MongoClient } = require('mongodb');
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
@@ -13,12 +15,38 @@ app.get('/',
     (req, res) => {
         res.sendFile(__dirname + '/index.html');
     });
- 
+
+
+app.post('/login', async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const nutriverse = client.db("nutriverse");
+    const users = nutriverse.collection("users");
+   
+    users.findOne({email: email}).then(user => {
+        if (user){
+            if (user.password == password){
+                res.send("Successfully logged in!");
+            }
+            else{
+                res.send("Incorrect password!")
+            }
+        }
+        else {
+            res.send("No account associated to this email!")
+        }
+    })
+});
+
+
 app.post('/register', async (req, res) => {
+    console.log("ciao")
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
     const password = req.body.password;
+    console.log(firstname)
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
     const exist = await check(users, email).catch(console.dir);
@@ -34,7 +62,7 @@ app.post('/register', async (req, res) => {
             console.log("1 document inserted");
             client.close();
         });
-        res.redirect('http://localhost:3000/');
+        res.send('user registered');
     }
     else {
         res.send("user already registered");
