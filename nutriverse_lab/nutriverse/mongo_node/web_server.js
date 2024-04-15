@@ -3,6 +3,8 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const bcrypt = require('bcrypt'); 
+const saltRounds = 10;
 
 app.use(cors());
 app.use(express.json());       
@@ -19,19 +21,21 @@ app.get('/',
 
 app.post('/login', async (req, res) => {
     const email = req.body.email;
-    const password = req.body.password;
+    const password = req.body.password
 
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
    
     users.findOne({email: email}).then(user => {
         if (user){
-            if (user.password == password){
-                res.send("Successfully logged in!");
-            }
-            else{
-                res.send("Incorrect password!")
-            }
+            bcrypt.compare(password, user.password, function(err, result) {
+                if(result==true){
+                    res.send("Successfully logged in!");
+                }
+                else{
+                    res.send("Incorrect password!")
+                }
+        })
         }
         else {
             res.send("No account associated to this email!")
@@ -45,7 +49,7 @@ app.post('/register', async (req, res) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
-    const password = req.body.password;
+    const password = await bcrypt.hash(req.body.password, saltRounds);
     console.log(firstname)
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
