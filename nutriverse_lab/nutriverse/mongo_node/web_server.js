@@ -18,7 +18,22 @@ app.get('/',
         res.sendFile(__dirname + '/index.html');
     });
 
-
+    app.post('/user_informations', (req, res) => {
+        console.log(req.body._id)
+        const nutriverse = client.db("nutriverse");
+        const users = nutriverse.collection("users");
+        var ObjectId = require('mongodb').ObjectId;
+        users.findOne({ _id: new ObjectId(req.body._id)}).then(user => {
+            if (user){
+                res.send(user.firstname)
+            }
+            else {
+                res.send("No account")
+            }
+        })
+    
+    });
+        
 app.post('/login', async (req, res) => {
     const email = req.body.email;
     const password = req.body.password
@@ -30,7 +45,7 @@ app.post('/login', async (req, res) => {
         if (user){
             bcrypt.compare(password, user.password, function(err, result) {
                 if(result==true){
-                    res.send("Successfully logged in!");
+                    res.send(user._id.toString());
                 }
                 else{
                     res.send("Incorrect password!")

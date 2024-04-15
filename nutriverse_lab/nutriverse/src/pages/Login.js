@@ -8,9 +8,10 @@ import axios from 'axios'
 import './css/Login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate, Link } from "react-router-dom"
-
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
+  const [cookies, setCookie] = useCookies(['user']);
   const [existed, setExisted] = useState(false);
   const [validated, setValidated] = useState(false);
   const [form_Data, set_Form_Data] = useState({
@@ -50,6 +51,8 @@ const Login = () => {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "http://localhost:4000",
         },
+        
+        credentials: 'true',
         data: {
           firstname: form_Data.firstname,
           lastname: form_Data.lastname,
@@ -115,15 +118,16 @@ const Login = () => {
       try {
         await axios(configuration)
           .then(res => {
-            if (res.data == "Successfully logged in!") {
-              alert("login ok");
+            if (res.data == "No account associated to this email!"){
+              alert("no account found");
             }
             else if (res.data == "Incorrect password!") {
               alert("incorrect password");
             }
-            else if (res.data == "No account associated to this email!"){
-              alert("no account found");
-            }
+            else { 
+              setCookie('_id', res.data, { path: '/' });
+              history('/');
+            } 
           })
           .catch(event => {
             alert("wrong details")
