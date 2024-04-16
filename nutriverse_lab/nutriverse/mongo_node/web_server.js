@@ -4,7 +4,29 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bcrypt = require('bcrypt'); 
+const session = require('express-session')
 const saltRounds = 10;
+var MongoDBStore = require('connect-mongodb-session')(session);
+
+var store = new MongoDBStore({
+    uri: 'mongodb://localhost:27017/nutriverse',
+    collection: 'mySessions'
+  });
+
+// Catch errors
+store.on('error', function(error) {
+    console.log(error);
+  });
+
+app.use(
+    session({
+      secret: "some secret",
+      cookie: { maxAge: 60000 * 20},
+      saveUninitialized: false,
+      store: store,
+      resave: true
+    })
+  );
 
 app.use(cors());
 app.use(express.json());       
@@ -57,6 +79,35 @@ app.post('/login', async (req, res) => {
         }
     })
 });
+
+app.post("/login_sessione", (req, res) => {
+    const { username, password } = req.body;
+    if (username && password) {
+      if (req.session.authenticated) {
+        res.json(session);
+      } else {
+        if (password === "123") {
+          req.session.authenticated = true;
+          req.session.user = 
+          { username ,
+            "role": "user",
+            "birthday": "01-01-2010",
+            "email":"user@email.com",
+            "nino frassica":"il mio albero genealogico"
+        };
+          res.send("logged in");
+        } else {
+          res.status(403).json({ msg: "Bad credentials" });
+        }
+      }
+    } else {
+      res.status(403).json({ msg: "Bad credentials" });
+    }
+  });
+
+app.post("/session_info",(req,res)=>{
+    res.send(req.session.authenticated);
+})
 
 
 app.post('/register', async (req, res) => {
