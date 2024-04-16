@@ -6,7 +6,8 @@ import { useLocation } from "react-router-dom";
 import axios from 'axios'
 import Cookies from "js-cookie";
 import { withCookies } from 'react-cookie';
-const Home = () => {
+
+const Home = ({setSid}) => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
 
@@ -32,6 +33,7 @@ const Home = () => {
               return "";
             }
             else {
+              setSid(Cookies.get("connect.sid"));
               setInfo(true);
               setFirstname(res.data)
             }

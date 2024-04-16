@@ -40,7 +40,6 @@ app.use(cors(corsOptions));
 app.use(express.json());       
 app.use(express.urlencoded({ extended: true })); 
 const { MongoClient } = require('mongodb');
-const { header } = require('request/lib/hawk');
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
  
