@@ -4,15 +4,14 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom"
 import Navbar from "./component/Navbar";
-import Cookies from 'js-cookie';
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 function App() {
-  const [sid,setSid] = useState("Logout")
-
+  const [sid, setSid] = useState("")
+  
   return (
     <>
-      <Navbar sid={sid}/>
+      <Navbar sid={sid} setSid={setSid} />
     
         <Routes>
         <Route path="/" element={<Home setSid={setSid}/>} />

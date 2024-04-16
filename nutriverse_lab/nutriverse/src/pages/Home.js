@@ -33,9 +33,9 @@ const Home = ({setSid}) => {
               return "";
             }
             else {
-              setSid(Cookies.get("connect.sid"));
               setInfo(true);
               setFirstname(res.data)
+              setSid(res.data);
             }
           })
           .catch(event => {
@@ -58,7 +58,6 @@ const Home = ({setSid}) => {
         <center><div  className='logo-home'><img src={Logo_home} alt="Nutriverse"></img></div>
         </center>
           <div className="search-bar"><SearchBarComponent /></div>
-          <h1>{info && firstname}</h1>
         </div> 
       </>
   )

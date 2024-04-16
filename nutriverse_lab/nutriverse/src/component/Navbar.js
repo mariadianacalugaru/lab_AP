@@ -7,9 +7,13 @@ import Logout from "./Logout";
 
 
 
-export default function Navbar({sid}) {
+export default function Navbar({sid,setSid}) {
     
     const [logged, setLogged] = useState(false);
+
+    const change_sid = () => {
+        setSid("");
+    }
 
     function login() {
         setLogged((logged) => !logged);
@@ -19,8 +23,12 @@ export default function Navbar({sid}) {
             <img src={Logo} className="Logo" alt="Nutriverse" ></img>
         </Link>
         <ul>
-           <Logout sid={sid}></Logout>
-            {!logged && <CustomLink to="/Login" className="Login" onClick={login}>
+            {(sid!="") && <div >
+                
+                <button type="button" onclick={change_sid}>{sid}</button>
+            
+            </div>}
+            {(sid=="") && <CustomLink to="/Login" className="Login" onClick={login}>
                 <FaRegUser /> Login
             </CustomLink>}
         </ul>
