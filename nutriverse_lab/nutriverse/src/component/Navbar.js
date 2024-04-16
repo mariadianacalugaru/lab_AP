@@ -3,10 +3,12 @@ import Logo from "../assets/logo-removebg-preview.png"
 import { FaRegUser } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
 import { useState } from "react";
+import Logout from "./Logout";
 
 
 
-export default function Navbar() {
+export default function Navbar({sid}) {
+    
     const [logged, setLogged] = useState(false);
 
     function login() {
@@ -17,11 +19,7 @@ export default function Navbar() {
             <img src={Logo} className="Logo" alt="Nutriverse" ></img>
         </Link>
         <ul>
-            {logged && <CustomLink to="/MyProfile">MyProfile</CustomLink>}
-            {logged && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
-            {logged && <CustomLink to="/" className="Login" onClick={login}>
-                <CiLogout /> Logout
-            </CustomLink>}
+           <Logout sid={sid}></Logout>
             {!logged && <CustomLink to="/Login" className="Login" onClick={login}>
                 <FaRegUser /> Login
             </CustomLink>}
