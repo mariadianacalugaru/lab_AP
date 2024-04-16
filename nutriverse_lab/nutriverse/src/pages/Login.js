@@ -124,8 +124,7 @@ const Login = () => {
             else if (res.data == "Incorrect password!") {
               alert("incorrect password");
             }
-            else { 
-              setCookie('_id', res.data, { path: '/' });
+            else if(res.data=="logged in"){ 
               history('/');
             } 
           })

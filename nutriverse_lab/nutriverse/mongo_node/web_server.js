@@ -73,7 +73,11 @@ app.post('/login', async (req, res) => {
                 bcrypt.compare(password, user.password, function(err, result) {
                     if(result==true){
                         req.session.authenticated = true;
-                        req.session.user = user;
+                        req.session.user = {
+                            "_id":user._id,
+                            "firstname": user.firstname,
+                            "lastname":user.lastname
+                        };
                         res.send("logged in")
                         }
                     else{
@@ -88,43 +92,17 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.post("/login_sessione", (req, res) => {
-    const { username, password } = req.body;
-    if (username && password) {
-      if (req.session.authenticated) {
-        res.json(session);
-      } else {
-        if (password === "123") {
-          req.session.authenticated = true;
-          req.session.user = 
-          { username ,
-            "role": "user",
-            "birthday": "01-01-2010",
-            "email":"user@email.com",
-            "nino frassica":"il mio albero genealogico"
-        };
-          res.send("logged in");
-        } else {
-          res.status(403).json({ msg: "Bad credentials" });
-        }
-      }
-    } else {
-      res.status(403).json({ msg: "Bad credentials" });
-    }
-  });
 
 app.post("/session_info",(req,res)=>{
-    res.send(req.session.authenticated);
+    res.send(req.session.user.firstname+" "+req.session.user.lastname);
 })
 
 
 app.post('/register', async (req, res) => {
-    console.log("ciao")
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
     const password = await bcrypt.hash(req.body.password, saltRounds);
-    console.log(firstname)
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
     const exist = await check(users, email).catch(console.dir);
