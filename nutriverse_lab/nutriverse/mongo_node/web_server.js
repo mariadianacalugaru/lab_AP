@@ -57,27 +57,35 @@ app.get('/',
     });
         
 app.post('/login', async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password
-
-    const nutriverse = client.db("nutriverse");
-    const users = nutriverse.collection("users");
-   
-    users.findOne({email: email}).then(user => {
-        if (user){
-            bcrypt.compare(password, user.password, function(err, result) {
-                if(result==true){
-                    res.send(user._id.toString());
-                }
-                else{
-                    res.send("Incorrect password!")
-                }
+    if (req.session.authenticated) {
+        res.json(session);
+    }
+    else {
+        
+        const email = req.body.email;
+        const password = req.body.password
+    
+        const nutriverse = client.db("nutriverse");
+        const users = nutriverse.collection("users");
+       
+        users.findOne({email: email}).then(user => {
+            if (user){
+                bcrypt.compare(password, user.password, function(err, result) {
+                    if(result==true){
+                        req.session.authenticated = true;
+                        req.session.user = user;
+                        res.send("logged in")
+                        }
+                    else{
+                        res.send("Incorrect password!")
+                    }
+            })
+            }
+            else {
+                res.send("No account associated to this email!")
+            }
         })
-        }
-        else {
-            res.send("No account associated to this email!")
-        }
-    })
+    }
 });
 
 app.post("/login_sessione", (req, res) => {
