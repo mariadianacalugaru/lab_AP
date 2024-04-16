@@ -5,6 +5,7 @@ import Logo_home from '../assets/scritta.png'
 import { useLocation } from "react-router-dom";
 import axios from 'axios'
 import Cookies from "js-cookie";
+import { withCookies } from 'react-cookie';
 const Home = () => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
@@ -17,14 +18,12 @@ const Home = () => {
     async function get_info() {
       const configuration = {
         method: "post",
-        url: "http://localhost:4000/user_informations",
+        url: "http://localhost:4000/session_info",
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "http://localhost:4000",
         },
-        data: {
-          _id: Cookies.get("_id"),
-        },
+        withCredentials:true,
       };
       try {
         await axios(configuration)

@@ -9,6 +9,10 @@
     padding: 20px; 
 }
 
+.Tab:hover{
+    background-color: #7f7d7d !important;
+}
+
 .forgot-password,
 .forgot-password a {
   text-align: right;
@@ -32,16 +36,30 @@
     background-color: #9BB150;
 }
 
-.mb-3{
-    gap:2px;
+.label-mb-3{
+    margin-left: 5pt;
+
 }
 
+.title{
+    font-family:Arial, Helvetica, sans-serif !important;
+}
+
+.title:hover {
+    background-color: #9BB150;
+    color:black !important;
+}
 .card1{
     width: 50%; 
     text-align:left;
     
 
 }
+
+.mb-3-r{
+    margin-left: 4pt;
+}
+
 
 
 .Reg{

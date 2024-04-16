@@ -3,6 +3,14 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const corsOptions = {
+    origin: "http://localhost:3000",
+    credentials: true,
+    optionsSuccessStatus: 200,
+    
+    
+    // exposedHeaders: \['Set-Cookie', 'Date', 'ETag'\]
+  };
 const bcrypt = require('bcrypt'); 
 const session = require('express-session')
 const saltRounds = 10;
@@ -28,10 +36,11 @@ app.use(
     })
   );
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());       
 app.use(express.urlencoded({ extended: true })); 
 const { MongoClient } = require('mongodb');
+const { header } = require('request/lib/hawk');
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
  
@@ -74,12 +83,12 @@ app.post('/login', async (req, res) => {
                     if(result==true){
                         req.session.authenticated = true;
                         req.session.user = {
-                            "_id":user._id,
-                            "firstname": user.firstname,
-                            "lastname":user.lastname
+                            _id:user._id,
+                            firstname: user.firstname,
+                            lastname:user.lastname
                         };
                         res.send("logged in")
-                        }
+                    }
                     else{
                         res.send("Incorrect password!")
                     }

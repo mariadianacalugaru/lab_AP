@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Card from 'react-bootstrap/Card';
+import Nav from 'react-bootstrap/Nav';
 import axios from 'axios'
 import './css/Login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -52,7 +53,7 @@ const Login = () => {
           "Access-Control-Allow-Origin": "http://localhost:4000",
         },
         
-        credentials: 'true',
+        withCredentials: true,
         data: {
           firstname: form_Data.firstname,
           lastname: form_Data.lastname,
@@ -105,6 +106,7 @@ const Login = () => {
       const configuration = {
         method: "post",
         url: "http://localhost:4000/login",
+        withCredentials: true,
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "http://localhost:4000",
@@ -124,7 +126,7 @@ const Login = () => {
             else if (res.data == "Incorrect password!") {
               alert("incorrect password");
             }
-            else if(res.data=="logged in"){ 
+            else { 
               history('/');
             } 
           })
@@ -146,16 +148,21 @@ const Login = () => {
   return (
     <div className="home-background">
       <center>
-        <Card xs className="card1">
-          <Card.Body>
+      <Tab.Container id="left-tabs-example" defaultActiveKey="login">
+      <Card className="card1">
+      <Card.Body >
 
-            <Tabs
-              defaultActiveKey="profile"
-              id="fill-tab-example"
-              className="mb-3"
-              fill
-            >
-              <Tab eventKey="home" title="Login">
+        <Nav variant="tabs" defaultActiveKey="first" fill>
+          <Nav.Item>
+            <Nav.Link eventKey="login" className='title'>Login</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="registration" className='title'>Registration</Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <Tab.Content>
+            <Tab.Pane eventKey="login"><div className='Reg' >
+              <left>
                 <Form noValidate validated={validated} onSubmit={handleLogin}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Email address</Form.Label>
@@ -184,9 +191,12 @@ const Login = () => {
                 <center><Button type="submit" id="submit">Login</Button></center>
 
                   </Form>
-              </Tab>
-              <Tab eventKey="profile" title="Registrazione">
-                <div className='Reg' >
+                  </left>
+                  </div>
+                  
+                </Tab.Pane>
+                <Tab.Pane eventKey="registration"> <div className='Reg'>
+                
                   <div className="existing_user" >
                     {existed && <h4>This email is already in use!</h4>}
                   </div>
@@ -247,13 +257,16 @@ const Login = () => {
 
                     />
                     <center><Button type="submit" id="submit" >Registration</Button></center>
-                  </Form>
-                </div>
-              </Tab>
-
-            </Tabs>
-          </Card.Body>
-        </Card>
+                    </Form>
+                 </div> </Tab.Pane>
+          </Tab.Content>
+         
+      
+       
+      </Card.Body>
+      
+    </Card>
+    </Tab.Container>
       </center>
     </div>
   )
