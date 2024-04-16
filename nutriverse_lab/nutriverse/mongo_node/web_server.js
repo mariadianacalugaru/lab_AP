@@ -40,7 +40,6 @@ app.use(cors(corsOptions));
 app.use(express.json());       
 app.use(express.urlencoded({ extended: true })); 
 const { MongoClient } = require('mongodb');
-const { header } = require('request/lib/hawk');
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
  
@@ -66,6 +65,7 @@ app.get('/',
     });
         
 app.post('/login', async (req, res) => {
+ 
     if (req.session.authenticated) {
         res.json(session);
     }
@@ -87,6 +87,7 @@ app.post('/login', async (req, res) => {
                             firstname: user.firstname,
                             lastname:user.lastname
                         };
+                        res.cookie("sid","ciao")
                         res.send("logged in")
                     }
                     else{
