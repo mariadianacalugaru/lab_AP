@@ -1,50 +1,77 @@
-import {Link,useMatch,useResolvedPath} from "react-router-dom"
+import { Link, useMatch, useResolvedPath } from "react-router-dom"
 import Logo from "../assets/logo-removebg-preview.png"
 import { FaRegUser } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
 import { useState } from "react";
-import Logout from "./Logout";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom"
 
 
+export default function Navbar({ sid, setSid }) {
 
-export default function Navbar({sid,setSid}) {
-    
-    const [logged, setLogged] = useState(false);
+    const history = useNavigate();
 
-    const change_sid = () => {
-        setSid("");
+    async function logout() {
+        const configuration = {
+            method: "post",
+            url: "http://localhost:4000/logout",
+            withCredentials: true,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "http://localhost:4000",
+            }
+        };
+        
+        try {
+            await axios(configuration)
+            .then(res => {
+                if (res.data == "Ok.") {
+                    window.location.reload()
+                    }
+                })
+                .catch(event => {
+                    alert("wrong details")
+                    console.log(event);
+                })
+
+        }
+        catch (event) {
+            console.log(event);
+
+        }
+
     }
 
-    function login() {
-        setLogged((logged) => !logged);
-    }
     return <><nav className="nav">
         <Link to="/" >
             <img src={Logo} className="Logo" alt="Nutriverse" ></img>
         </Link>
         <ul>
-            {(sid!="") && <div >
-                
-                <button type="button" onclick={change_sid}>{sid}</button>
-            
-            </div>}
-            {(sid=="") && <CustomLink to="/Login" className="Login" onClick={login}>
+            {(sid != "") && <CustomLink to="/MyProfile">MyProfile</CustomLink>}
+            {(sid != "") && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
+            {(sid != "") && <CustomLink className="Login">
+                <FaRegUser /> {sid}
+            </CustomLink>}
+            {(sid != "") && <CustomLink className="Login"  onClick={logout}>
+                <CiLogout /> Logout
+            </CustomLink>}
+            {(sid == "") && <CustomLink to="/Login" className="Login" >
                 <FaRegUser /> Login
             </CustomLink>}
         </ul>
     </nav></>
 }
 
-function CustomLink({ to, children,...props }) {
+function CustomLink({ to, children, ...props }) {
     const resolvedPath = useResolvedPath(to)
     const isActive = useMatch({ path: resolvedPath.pathname, end: true })
     return (
-        <li className={isActive ? "active":""} >
+        <li className={isActive ? "active" : ""} >
             <Link to={to} {...props}>
                 {children}
             </Link>
         </li>
     )
 
-    
+
 }

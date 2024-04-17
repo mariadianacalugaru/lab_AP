@@ -45,7 +45,7 @@ const client = new MongoClient(uri);
  
 app.get('/',
     (req, res) => {
-        res.sendFile(__dirname + '/index.html');
+        res.sendFile("ciao");
     });
 
     app.post('/user_informations', (req, res) => {
@@ -103,8 +103,13 @@ app.post('/login', async (req, res) => {
 });
 
 
-app.post("/session_info",(req,res)=>{
-    res.send(req.session.user.firstname+" "+req.session.user.lastname);
+app.post("/session_info", (req, res) => {
+    if (req.session.authenticated) {
+        res.send(req.session.user.firstname+" "+req.session.user.lastname);
+    }
+    else {
+        res.send("")
+    }
 })
 
 
@@ -135,7 +140,9 @@ app.post('/register', async (req, res) => {
     }
 });
 
-
+app.post("/logout", (req, res) => {
+    res.clearCookie("connect.sid").status(200).send('Ok.');
+})
 
         
 
