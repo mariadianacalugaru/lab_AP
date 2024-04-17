@@ -80,7 +80,7 @@
     padding-bottom: 4.5em;
 }
 
-form input[type="file"]{
+#fileToUpload{
           display: none;
           cursor: pointer;
  }

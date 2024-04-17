@@ -52,7 +52,7 @@ export default function Navbar({ sid, setSid }) {
             {(sid != "") && <CustomLink className="Login">
                 <FaRegUser /> {sid}
             </CustomLink>}
-            {(sid != "") && <CustomLink className="Login"  onClick={logout}>
+            {(sid != "") && <CustomLink className="Login" to="/" onClick={logout}>
                 <CiLogout /> Logout
             </CustomLink>}
             {(sid == "") && <CustomLink to="/Login" className="Login" >
