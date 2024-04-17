@@ -4,8 +4,9 @@
     margin-bottom: 0.5rem;
 }
 
-  
-.nav{
+
+.nav_nutriverse{
+    z-index: 20;
     background-color: white; 
     color: black;
     display: flex;
@@ -18,7 +19,8 @@
     font-family: 'Garamond';
     font-size: 21px;
 }
-.nav menu{
+
+.nav_nutriverse menu{
     background-color: white;
     display: none;
     position: absolute;
@@ -29,13 +31,13 @@
     width: 2.25rem;
     height: 2rem;
 }
-nav .menu span{
+nav_nutriverse .menu span{
     height: 0.4rem;
     width: 100%;
     background-color: white;
     border-radius: 0.2rem;
 }
-.nav ul{
+.nav_nutriverse ul{
     padding: 0;
     margin: 0;
     list-style: none;
@@ -43,7 +45,7 @@ nav .menu span{
     gap:1rem;
 }
 
-.nav a{
+.nav_nutriverse a{
     color: inherit;
     text-decoration: none;
     height: 100%;
@@ -52,11 +54,11 @@ nav .menu span{
     padding: 1rem;
 }
 
-.nav li.active{
+.nav_nutriverse li.active{
     background-color: 9BB150;
 }
 
-.nav li:hover{
+.nav_nutriverse li:hover{
     border-radius: 30px;
     background-color: #9BB150;
 }
@@ -90,7 +92,6 @@ input:focus{
     outline: none;
 }
 .SearchBarComponent{
-    padding-top:20vh;
     width: 40%;
     margin:auto;
     display: flex;

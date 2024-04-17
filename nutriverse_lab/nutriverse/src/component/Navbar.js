@@ -42,7 +42,7 @@ export default function Navbar({ sid, setSid }) {
 
     }
 
-    return <><nav className="nav">
+    return <><nav className="nav_nutriverse">
         <Link to="/" >
             <img src={Logo} className="Logo" alt="Nutriverse" ></img>
         </Link>

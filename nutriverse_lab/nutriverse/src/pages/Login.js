@@ -146,9 +146,10 @@ const Login = () => {
 
   }
   return (
-    <div className="home-background">
+    <>
+      <div className="home-background"></div>
       <center>
-      <Tab.Container id="left-tabs-example" defaultActiveKey="login">
+      <Tab.Container className="container_form" id="left-tabs-example" defaultActiveKey="login">
       <Card className="card1">
       <Card.Body >
 
@@ -267,8 +268,8 @@ const Login = () => {
       
     </Card>
     </Tab.Container>
-      </center>
-    </div>
+    </center>
+    </>
   )
 }
 

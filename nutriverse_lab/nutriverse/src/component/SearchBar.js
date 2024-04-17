@@ -25,31 +25,21 @@ const SearchBar = ({setResults}) => {
     
       const fetchData = (value) => {
         fetch("http://localhost:4000/search_nutritionists")
-            .then(response=>response.json())
-            .then(json=>{
-
-                const results = json.filter((user) => {
-                //alert(user)
-                return value && user.firstname;
-                   
-            });
-            setResults(results);
-            });
-    
-            /*.then(response => response.json())
-            .then(json => { 
+            .then(response => response.json())
+            .then(json => {
                 const results = json.filter((user) => {
                     return value
                         && user
                         && user.firstname
-                        && user.firstname.toLowerCase().includes(value)
+                        && user.lastname
+                        && (user.firstname.toLowerCase().startsWith(value) || user.lastname.toLowerCase().startsWith(value))
                 });
-                console.log(results);
                 setResults(results);
-            });*/
-        
+            });
     }
 
+
+    
     const handleChange = (value) => {
         setInput(value);
         fetchData(value);
