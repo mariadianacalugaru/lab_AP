@@ -14,10 +14,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate, Link } from "react-router-dom"
 import { useCookies } from 'react-cookie';
 import SearchCountry from '../component/SearchCountry';
+import SearchCity from '../component/search_city/SearchCity';
 
 const Login = () => {
+  const [listCity, setListCity] = useState([]);
   const [country, setCountry] = useState("");
-
+  const [city, setCity] = useState("");
   const [cookies, setCookie] = useCookies(['user']);
   const [existed, setExisted] = useState(false);
   const [nutritionist, setNutritionist] = useState(false);
@@ -272,7 +274,8 @@ const Login = () => {
                         <Form.Label>Insert your certificate</Form.Label>
                         <Form.Control type="file" />
                       </Form.Group>
-                      <SearchCountry country={country} setCountry={setCountry}/>
+                      <SearchCountry country={country} setCountry={setCountry} listCity={listCity} setListCity={setListCity} setCity={setCity}/>
+                      <SearchCity country={country} city={city} setCity={setCity} listCity={listCity} setListCity={setListCity}/>
                     </Col>}
                     <center>
                       <Button type="submit" id="submit" >Registration</Button>
