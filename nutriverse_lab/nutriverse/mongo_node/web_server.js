@@ -144,11 +144,20 @@ app.post("/logout", (req, res) => {
     res.clearCookie("connect.sid").status(200).send('Ok.');
 })
 
-        
+app.get('/search_nutritionists', async (req, res) => {  
+    const nutriverse = client.db("nutriverse");
+    const users = nutriverse.collection("users");
+    const result =  await users.find({}).toArray();
+    //const all_users = JSON.stringify(result);
+    //console.log(all_users);
+    res.send(result)
+    //res.send("ciao")     
+});    
 
     
 
- 
+
+
 app.listen(4000,
     () => {
         console.log(
