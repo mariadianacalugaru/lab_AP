@@ -17,6 +17,7 @@ import SearchCountry from '../component/SearchCountry';
 import SearchCity from '../component/search_city/SearchCity';
 
 const Login = () => {
+  const [selectedCountry,setSelectedCountry] = useState(false)
   const [listCity, setListCity] = useState([]);
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
@@ -274,8 +275,8 @@ const Login = () => {
                         <Form.Label>Insert your certificate</Form.Label>
                         <Form.Control type="file" />
                       </Form.Group>
-                      <SearchCountry country={country} setCountry={setCountry} listCity={listCity} setListCity={setListCity} setCity={setCity}/>
-                      <SearchCity country={country} city={city} setCity={setCity} listCity={listCity} setListCity={setListCity}/>
+                      <SearchCountry  country={country} setCountry={setCountry} listCity={listCity} setListCity={setListCity} setCity={setCity} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry}/>
+                      <SearchCity country={country} city={city} setCity={setCity} listCity={listCity} setListCity={setListCity} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry}/>
                     </Col>}
                     <center>
                       <Button type="submit" id="submit" >Registration</Button>
