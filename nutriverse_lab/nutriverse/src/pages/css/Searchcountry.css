@@ -1,0 +1,37 @@
+.SearchCountryComponent{
+    width: 40%;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 200px;
+}
+#search-icon{
+    color:#9BB150;
+}
+
+.results-list{
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 8px white;
+    border-radius: 10px;
+    margin-top: 1rem;
+    max-height: 300px;
+    overflow-y: scroll;
+    
+}
+
+
+
+
+.search-result{
+    padding:10px 20px;
+    border: 1px black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.search-result:hover{
+    background-color: #9BB150;
+}

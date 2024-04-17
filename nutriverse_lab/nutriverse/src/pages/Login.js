@@ -13,6 +13,7 @@ import './css/Login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate, Link } from "react-router-dom"
 import { useCookies } from 'react-cookie';
+import SearchCountry from '../component/SearchCountry';
 
 const Login = () => {
   const [cookies, setCookie] = useCookies(['user']);
@@ -269,8 +270,11 @@ const Login = () => {
                         <Form.Label>Insert your certificate</Form.Label>
                         <Form.Control type="file" />
                       </Form.Group>
+                      <SearchCountry />
                     </Col>}
-                    <center><Button type="submit" id="submit" >Registration</Button></center>
+                    <center>
+                      <Button type="submit" id="submit" >Registration</Button>
+                    </center>
                     </Form>
                  </div> </Tab.Pane>
           </Tab.Content>

@@ -154,7 +154,6 @@ app.get('/search_nutritionists', async (req, res) => {
     //res.send("ciao")     
 });    
 
-    
 
 
 
