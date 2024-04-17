@@ -3,7 +3,7 @@ import { FaSearch } from 'react-icons/fa'
 import SearchResultCity from './search_city/SearchResultCity';
 
 
-const SearchBarCountry = ({setResults,country,setCountry, setCity}) => {
+const SearchBarCountry = ({setResults,country,setCountry, setCity,setSelectedCountry,setListCity}) => {
     
     const fetchData = async (value) => {
           await fetch("https://countriesnow.space/api/v0.1/countries/states")
@@ -20,6 +20,8 @@ const SearchBarCountry = ({setResults,country,setCountry, setCity}) => {
 
     
     const handleChange = (value) => {
+        setListCity([])
+        setSelectedCountry(false)
         setCountry(value);
         setCity("");
         fetchData(value);
