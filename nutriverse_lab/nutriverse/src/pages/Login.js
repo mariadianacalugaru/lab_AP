@@ -5,6 +5,9 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Card from 'react-bootstrap/Card';
 import Nav from 'react-bootstrap/Nav';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Col';
+
 import axios from 'axios'
 import './css/Login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,6 +17,8 @@ import { useCookies } from 'react-cookie';
 const Login = () => {
   const [cookies, setCookie] = useCookies(['user']);
   const [existed, setExisted] = useState(false);
+  const [nutritionist, setNutritionist] = useState(false);
+
   const [validated, setValidated] = useState(false);
   const [form_Data, set_Form_Data] = useState({
     firstname: "",
@@ -24,7 +29,10 @@ const Login = () => {
     email_login: "",
     password_login: "",
   });
-
+  
+  const ciao = () => {
+    setNutritionist((nutritionist)=>!nutritionist)
+  }
   const chngFn = (event) => {
     const { name, value } = event.target;
     set_Form_Data({
@@ -202,18 +210,19 @@ const Login = () => {
                     {existed && <h4>This email is already in use!</h4>}
                   </div>
                   <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                  <Col className="mb-3">
+                    <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label>First Name</Form.Label>
                       <Form.Control required name="firstname" type="firstname" placeholder="First Name" pattern="^[a-zA-Z0-9]+$" value={form_Data.firstname} onChange={chngFn}
                         isInvalid={validated && !/^[a-zA-Z0-9]+$/.test(form_Data.user)} />
                       <Form.Control.Feedback type='invalid'>Please enter a valid name</Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label>Last Name</Form.Label>
                       <Form.Control value={form_Data.lastname} onChange={chngFn} required name="lastname" type="lastname" placeholder="Last Name" isInvalid={validated && !/^[a-zA-Z0-9]+$/.test(form_Data.user)} />
                       <Form.Control.Feedback type='invalid'>Please enter a valid lastname</Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label>Email address</Form.Label>
                       <Form.Control id="email" value={form_Data.email} onChange={chngFn} required name="email" type="email" placeholder="name@example.com" isInvalid={
                         (validated &&
@@ -222,7 +231,7 @@ const Login = () => {
                       <Form.Control.Feedback type="invalid" id="feedback_email">
                         Please enter a valid email address.
                       </Form.Control.Feedback>      </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label>Password</Form.Label>
                       <Form.Control minLength={6} value={form_Data.password} onChange={chngFn} id="password" required name="password" type="password" placeholder="Password" isInvalid={
                         validated && form_Data.password.length < 6
@@ -231,9 +240,9 @@ const Login = () => {
                         Password must be at least 6 characters long.
                       </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group controlId="confirmPassword">
+                    <Form.Group as={Row} controlId="confirmPassword">
                       <Form.Label>Confirm Password</Form.Label>
-                      <Form.Control
+                      <Form.Control 
                         type="password"
                         name="confirmPass"
                         placeholder='Confirm Password'
@@ -251,12 +260,16 @@ const Login = () => {
                         Passwords do not match.
                       </Form.Control.Feedback>
                     </Form.Group>
-                    <input // prettier-ignore
-                      type="switch"
-                      id="custom-switch"
-                      label="Are you a nutritionist?"
-
-                    />
+                    <Form.Group as={Row} className="mb-3">
+                      <Form.Check type="checkbox" label="Are you a nutritionist? " onClick={ciao}/>
+                      </Form.Group>
+                    </Col>
+                    {nutritionist && <Col>
+                      <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Label>Insert your certificate</Form.Label>
+                        <Form.Control type="file" />
+                      </Form.Group>
+                    </Col>}
                     <center><Button type="submit" id="submit" >Registration</Button></center>
                     </Form>
                  </div> </Tab.Pane>
