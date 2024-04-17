@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import SearchBarCountry from './SearchBarCountry';
 import SearchResultsListCountry from './SearchResultsListCountry';
 
-const SearchCountry = () => {
+const SearchCountry = ({country,setCountry}) => {
   const [list, setList] = useState([]);
-  const [country, setCountry] = useState("");
       return (
         <div className='SearchCountryComponent'>
           <SearchBarCountry setResults={setList} country={country} setCountry={setCountry}/>

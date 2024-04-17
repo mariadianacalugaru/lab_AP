@@ -16,6 +16,8 @@ import { useCookies } from 'react-cookie';
 import SearchCountry from '../component/SearchCountry';
 
 const Login = () => {
+  const [country, setCountry] = useState("");
+
   const [cookies, setCookie] = useCookies(['user']);
   const [existed, setExisted] = useState(false);
   const [nutritionist, setNutritionist] = useState(false);
@@ -270,7 +272,7 @@ const Login = () => {
                         <Form.Label>Insert your certificate</Form.Label>
                         <Form.Control type="file" />
                       </Form.Group>
-                      <SearchCountry />
+                      <SearchCountry country={country} setCountry={setCountry}/>
                     </Col>}
                     <center>
                       <Button type="submit" id="submit" >Registration</Button>
