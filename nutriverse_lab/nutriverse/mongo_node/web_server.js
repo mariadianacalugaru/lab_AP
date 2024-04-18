@@ -118,15 +118,30 @@ app.post('/register', async (req, res) => {
     const lastname = req.body.lastname;
     const email = req.body.email;
     const password = await bcrypt.hash(req.body.password, saltRounds);
+    const is_nutritionist = req.body.is_nutritionist;
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
     const exist = await check(users, email).catch(console.dir);
     if (exist < 1) {
-        var data = {
-            "firstname": firstname,
-            "lastname": lastname,
-            "email": email,
-            "password": password
+        var data = ""
+        if (!is_nutritionist){
+            data = {
+                "firstname": firstname,
+                "lastname": lastname,
+                "email": email,
+                "password": password
+        }}
+        else{
+            data = {
+                "firstname": firstname,
+                "lastname": lastname,
+                "email": email,
+                "password": password,
+                "is_nutritionis": is_nutritionist,
+                "country": req.body.country,
+                "city": req.body.city,
+                "address": req.body.address,
+            }
         }
         users.insertOne(data, function (err, res) {
             if (err) throw err;

@@ -133,7 +133,7 @@
 
 .SearchCountryComponent{
     width: 100%;
-    margin-top:40px;
+    margin-left: 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -174,4 +174,9 @@
 
 #checkbox_nutritionist{
     margin-top: 20px !important;
+}
+
+#form_nutritionist{
+    margin-top: 30px;
+    margin-bottom: 30px !important;
 }

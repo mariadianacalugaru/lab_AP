@@ -35,6 +35,9 @@ const Login = () => {
     email: "",
     email_login: "",
     password_login: "",
+    country: "",
+    city: "",
+    address: "",
   });
   
   const expand_form = () => {
@@ -72,22 +75,49 @@ const Login = () => {
       
     }
     else {
-      const configuration = {
-        method: "post",
-        url: "http://localhost:4000/register",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
-        },
-        
-        withCredentials: true,
-        data: {
-          firstname: form_Data.firstname,
-          lastname: form_Data.lastname,
-          email: form_Data.email,
-          password: form_Data.password,
-        },
-      };
+      var configuration =''
+      if (!nutritionist){
+         configuration = {
+            method: "post",
+            url: "http://localhost:4000/register",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "http://localhost:4000",
+            },
+            
+            withCredentials: true,
+            data: {
+              firstname: form_Data.firstname,
+              lastname: form_Data.lastname,
+              email: form_Data.email,
+              password: form_Data.password,
+              is_nutritionist: false,
+            },
+          };
+      }
+      else{
+        configuration = {
+          method: "post",
+          url: "http://localhost:4000/register",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:4000",
+          },
+          
+          withCredentials: true,
+          data: {
+            firstname: form_Data.firstname,
+            lastname: form_Data.lastname,
+            email: form_Data.email,
+            password: form_Data.password,
+            is_nutritionist: true,
+            country: country,
+            city: city,
+            address: form_Data.address,
+          },
+        };
+
+      }
 
       try {
         await axios(configuration)
@@ -273,7 +303,7 @@ const Login = () => {
                       </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group id="checkbox_nutritionist" as={Row} className="mb-3">
-                      <Form.Check   type="checkbox" label="Are you a nutritionist? " onClick={expand_form}/>
+                      <Form.Check type="checkbox" name="nutritionist" label="Are you a nutritionist? " onClick={expand_form} onChange={chngFn}/>
                       </Form.Group>
                     </Col>
                     {nutritionist && <Col>
@@ -292,6 +322,13 @@ const Login = () => {
                       <SearchCountry  country={country} setCountry={setCountry} listCity={listCity} setListCity={setListCity} setCity={setCity} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry}/>
                       {validated && city=="" && <div className="existing_user" ><h4>You must select a city!</h4></div>}
                       <SearchCity country={country} city={city} setCity={setCity} listCity={listCity} setListCity={setListCity} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
+                      <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Label>Address</Form.Label>
+                          <Form.Control value={form_Data.address} onChange={chngFn} required name="address" type="address" placeholder="Address"
+                            isInvalid={(validated && !/^[a-zA-Z0-9]+$/.test(form_Data.address)) || (validated && form_Data.address == "")}
+                            isValid={(validated && /^[a-zA-Z0-9]+$/.test(form_Data.address))} />
+                        <Form.Control.Feedback type='invalid'>Please enter a valid address</Form.Control.Feedback>
+                      </Form.Group>
                     </Col>}
                     <center>
                       <Button type="submit" id="submit" >Registration</Button>
