@@ -8,12 +8,10 @@ import { Route, Routes } from "react-router-dom"
 import Navbar from "./component/Navbar";
 import 'react-chat-elements/dist/main.css'
 import { useState } from 'react'
-<<<<<<< Updated upstream
 import Admin  from "./pages/Admin";
-=======
-import { MessageBox } from 'react-chat-elements'
 
->>>>>>> Stashed changes
+
+
 function App() {
   const [sid, setSid] = useState("")
   
