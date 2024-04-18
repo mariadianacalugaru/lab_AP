@@ -1,4 +1,4 @@
-
+const fs = require('fs')
 // Importing express module
 const express = require('express');
 const app = express();
@@ -10,7 +10,24 @@ const corsOptions = {
     
     
     // exposedHeaders: \['Set-Cookie', 'Date', 'ETag'\]
-  };
+};
+  
+const multer = require("multer")
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'files')
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.originalname)
+    }
+  })
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 5000000
+    }
+})
+
 const bcrypt = require('bcrypt'); 
 const session = require('express-session')
 const saltRounds = 10;
@@ -110,6 +127,11 @@ app.post("/session_info", (req, res) => {
     else {
         res.send("")
     }
+})
+
+app.post("/file", upload.any(), (req, res) => {
+    console.log(req.files);
+
 })
 
 

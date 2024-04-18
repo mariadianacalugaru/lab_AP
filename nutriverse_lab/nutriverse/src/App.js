@@ -6,7 +6,7 @@ import Nutritionists from "./pages/Nutritionists";
 import { Route, Routes } from "react-router-dom"
 import Navbar from "./component/Navbar";
 import { useState } from 'react'
-
+import Admin  from "./pages/Admin";
 function App() {
   const [sid, setSid] = useState("")
   
@@ -14,7 +14,8 @@ function App() {
     <>
       <Navbar sid={sid} setSid={setSid} />
     
-        <Routes>
+      <Routes>
+      <Route path="/admin" element={<Admin />} />
         <Route path="/" element={<Home setSid={setSid}/>} />
           <Route path="/MyProfile" element={<MyProfile />} />
           <Route path="/MyFoodPlan" element={<MyFoodPlan />} />
