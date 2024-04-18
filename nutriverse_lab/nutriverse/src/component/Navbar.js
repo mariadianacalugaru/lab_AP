@@ -41,7 +41,6 @@ export default function Navbar({ sid, setSid }) {
         }
 
     }
-
     return <><nav className="nav_nutriverse">
         <Link to="/" >
             <img src={Logo} className="Logo" alt="Nutriverse" ></img>
@@ -49,13 +48,13 @@ export default function Navbar({ sid, setSid }) {
         <ul>
             {(sid != "") && <CustomLink to="/MyProfile">MyProfile</CustomLink>}
             {(sid != "") && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
-            {(sid != "") && <CustomLink className="Login">
+            {(sid != "") && <CustomLink >
                 <FaRegUser /> {sid}
             </CustomLink>}
             {(sid != "") && <CustomLink className="Login" to="/" onClick={logout}>
                 <CiLogout /> Logout
             </CustomLink>}
-            {(sid == "") && <CustomLink to="/Login" className="Login" >
+            {(sid == "" && window.location.pathname != "/Login") && <CustomLink to="/Login" className="Login" >
                 <FaRegUser /> Login
             </CustomLink>}
         </ul>
