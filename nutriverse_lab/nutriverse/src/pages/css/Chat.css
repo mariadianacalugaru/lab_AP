@@ -1,0 +1,44 @@
+.ChatIcon{
+    width:75px;
+    position: absolute;
+    bottom: 5%;
+    right:2.5%;
+}
+
+.chat_box{
+    background-color: lightgray;
+    width: 30%;
+    position: absolute;
+    bottom: 0;
+    right: 2.5%;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    
+}
+
+.scrollable_list{
+    max-height: 500px;
+    overflow-y:scroll;
+}
+
+.heading{
+    background-color: #9bb150;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    display: block ruby;
+
+}
+
+.close_icon{
+    position: absolute;
+    top:10px;
+    right: 2%;
+}
+
+.chat_title{
+    
+    position: relative;
+    left: 15px;
+    top: 2px;
+    width: fit-content;
+}

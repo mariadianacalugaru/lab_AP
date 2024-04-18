@@ -7,6 +7,8 @@ import axios from 'axios'
 import Cookies from "js-cookie";
 import { withCookies } from 'react-cookie';
 
+
+
 const Home = ({setSid}) => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")

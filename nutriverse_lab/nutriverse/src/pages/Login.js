@@ -15,6 +15,7 @@ import { useNavigate, Link } from "react-router-dom"
 import { useCookies } from 'react-cookie';
 import SearchCountry from '../component/SearchCountry';
 import SearchCity from '../component/search_city/SearchCity';
+import Chat from './Chat';
 
 const Login = () => {
   const [empty,setEmpty] = useState(false)
@@ -344,6 +345,7 @@ const Login = () => {
     </Card>
     </Tab.Container>
     </center>
+    
     </>
   )
 }
