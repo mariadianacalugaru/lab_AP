@@ -151,7 +151,8 @@ app.post('/register', async (req, res) => {
                 "firstname": firstname,
                 "lastname": lastname,
                 "email": email,
-                "password": password
+                "password": password,
+                "is_nutritionist": false
         }}
         else{
             data = {
@@ -159,7 +160,7 @@ app.post('/register', async (req, res) => {
                 "lastname": lastname,
                 "email": email,
                 "password": password,
-                "is_nutritionis": is_nutritionist,
+                "is_nutritionist": is_nutritionist,
                 "country": req.body.country,
                 "city": req.body.city,
                 "address": req.body.address,
@@ -187,7 +188,7 @@ app.get('/search_nutritionists', async (req, res) => {
     const result =  await users.find({}).toArray();
     //const all_users = JSON.stringify(result);
     //console.log(all_users);
-    res.send(result)
+    res.send(result);
     //res.send("ciao")     
 });    
 

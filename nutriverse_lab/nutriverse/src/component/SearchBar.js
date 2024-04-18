@@ -13,6 +13,7 @@ const SearchBar = ({setResults}) => {
                 const results = json.filter((user) => {
                     return value
                         && user
+                        && user.is_nutritionist
                         && user.firstname
                         && user.lastname
                         && (user.firstname.toLowerCase().startsWith(value) || user.lastname.toLowerCase().startsWith(value))

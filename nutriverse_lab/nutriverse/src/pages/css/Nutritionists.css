@@ -1,0 +1,18 @@
+.multiple_cards{
+    display: flex; 
+    flex-wrap: wrap;
+    margin-bottom: 100px;
+}
+
+.nutritionist_card{
+    height: 20% !important;
+    width: 20%;
+    box-shadow: 10px 10px 5px #dededeb9;
+    margin: 30px;
+}
+
+
+.card_text {
+    background-color: white;
+}
+

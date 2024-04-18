@@ -46,9 +46,10 @@ export default function Navbar({ sid, setSid }) {
             <img src={Logo} className="Logo" alt="Nutriverse" ></img>
         </Link>
         <ul>
-            {(sid != "") && <CustomLink to="/MyProfile">MyProfile</CustomLink>}
+            <CustomLink to="/Nutritionists">Nutritionists</CustomLink>
+            
             {(sid != "") && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
-            {(sid != "") && <CustomLink >
+            {(sid != "") && <CustomLink to="/MyProfile">
                 <FaRegUser /> {sid}
             </CustomLink>}
             {(sid != "") && <CustomLink className="Login" to="/" onClick={logout}>
