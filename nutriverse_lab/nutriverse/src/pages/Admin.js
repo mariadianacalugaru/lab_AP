@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { Link, useMatch, useResolvedPath } from "react-router-dom"
+import Verify from "../assets/verify.png"
+import { CiLogout } from "react-icons/ci";
+
+
 import axios from "axios";
 import SearchBarComponent from "../component/SearchBarComponent";
 import "./css/Home.css";
 import "./css/Nutritionists.css";
-
+import Table from 'react-bootstrap/Table';
+import { MdVerified } from "react-icons/md";
 import {
   MDBCard,
   MDBCardBody,
@@ -17,6 +23,7 @@ const Admin = () => {
   const [info, setInfo] = useState(false);
   const [nutritionists, setNutritionists] = useState([]);
 
+  
   useEffect(() => {
     async function get_nutritionists() {
       const configuration = {
@@ -57,13 +64,13 @@ const Admin = () => {
         "Access-Control-Allow-Origin": "http://localhost:4000",
       },
       withCredentials: true,
-        "email": email
+      "email": email
     };
     try {
       axios
         .post("http://localhost:4000/approve_nutritionist", configurations)
-        .then((response) => { 
-          if(response.data=="verified"){
+        .then((response) => {
+          if (response.data == "verified") {
             window.location.reload();
           };
         })
@@ -101,6 +108,41 @@ const Admin = () => {
             </MDBCard>
           ))}
         </div>
+        
+            <center>
+           <Table bordered variant="dark">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>email</th>
+          <th>Country of the study</th>
+          <th>City of the study</th>
+                <th>Address of the study</th>
+                <th>Certificate</th>
+                <th>Verify</th>
+        </tr>
+            </thead>
+            <tbody>
+            {nutritionists.map((item) => (
+                <tr>
+                <td>{item.firstname}</td>
+                  <td>{item.lastname}</td>
+                  <td>{item.email}</td>
+                <td>{item.country}</td>
+                <td>{item.city}</td>
+                <td>{item.address}</td>
+                <td><a href="/">{item.filename}</a></td>
+                <td>
+                <Link onClick={() => approve(item.email)} >
+                <img src={Verify} className="Logo" alt="Nutriverse" ></img>
+                  </Link>
+                </td>
+                </tr>
+            ))}
+              </tbody>
+    </Table>
+          </center>
       </div>
     </>
   );
