@@ -35,7 +35,7 @@ const Nutritionists = () => {
           .then((json) => {
             setInfo(true);
             const results = json.filter((user) => {
-              return user && user.is_nutritionist;
+              return user && user.is_nutritionist && user.verified;
             });
             setNutritionists(results);
           })
@@ -51,7 +51,7 @@ const Nutritionists = () => {
     }
   }, []);
 
-  nutritionists.map((item) => console.log(item.firstname));
+  
   return (
     <>
       <div className="home-background">
@@ -59,7 +59,7 @@ const Nutritionists = () => {
           <SearchBarComponent />
         </div>
         <div className="multiple_cards">
-          {nutritionists.map((item) => (
+          {nutritionists.map((item) => ( item.verified &&
             <MDBCard className="nutritionist_card">
               <MDBCardImage
                 className="picture"
@@ -76,7 +76,7 @@ const Nutritionists = () => {
                   <br></br>
                   {item.city}, {item.country}
                 </MDBCardText>
-                <MDBBtn href="#">Contact</MDBBtn>
+                <MDBBtn>Contact</MDBBtn>
               </MDBCardBody>
             </MDBCard>
           ))}

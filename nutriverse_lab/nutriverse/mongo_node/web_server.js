@@ -196,11 +196,19 @@ app.get('/search_nutritionists', async (req, res) => {
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
     const result = await users.find({}).toArray();
-    //const all_users = JSON.stringify(result);
-    //console.log(all_users);
-    res.send(result);
-    //res.send("ciao")     
+    res.send(result);    
 });
+
+app.post('/approve_nutritionist', async (req,res) => {
+    const email = req.body.email;
+    const nutriverse = client.db("nutriverse");
+    const users = nutriverse.collection("users");
+    users.updateOne({ email: email },
+        { $set: { verified: false}}
+    );
+    res.send("verfied");
+    
+})
 
 
 
