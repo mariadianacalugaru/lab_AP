@@ -200,7 +200,8 @@ app.get('/search_nutritionists', async (req, res) => {
 });
 
 app.post('/approve_nutritionist', async (req,res) => {
-    const email = req.body.email;
+    const email = req.body.data;
+    console.log(email);
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
     users.updateOne({ email: email },

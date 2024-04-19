@@ -50,14 +50,14 @@ const Admin = () => {
     }
   }, []);
 
-  async function approve() {
+  async function approve(email) {
     const configurations = {
       headers: {
         "Content-Type": "appplication/json",
         "Access-Control-Allow-Origin": "http://localhost:4000",
       },
       withCredentials: true,
-      data:{email:"rossi@gmail.com"} 
+      data: JSON.stringify(email)
     };
     try {
       axios
@@ -92,7 +92,7 @@ const Admin = () => {
                   <br></br>
                   {item.city}, {item.country}
                 </MDBCardText>
-                <button onClick={() => approve()}>Approve</button>
+                <button onClick={() => approve(item.email)}>Approve</button>
               </MDBCardBody>
             </MDBCard>
           ))}
