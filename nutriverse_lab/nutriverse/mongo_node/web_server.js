@@ -1,26 +1,36 @@
-const fs = require('fs')
 // Importing express module
 const express = require('express');
 const app = express();
 const cors = require('cors');
+
 const corsOptions = {
     origin: "http://localhost:3000",
     credentials: true,
     optionsSuccessStatus: 200,
-    
-    
+
+
     // exposedHeaders: \['Set-Cookie', 'Date', 'ETag'\]
 };
-  
+const whitelist = [
+    'file/pdf'
+]
+
 const multer = require("multer")
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'files')
+        cb(null, 'files')
     },
     filename: (req, file, cb) => {
-      cb(null, file.originalname)
+        cb(null, file.originalname)
+    },
+    fileFilter: (req, file, cb) => {
+        if (!whitelist.includes(file.mimetype)) {
+            return cb(new Error('file is not allowed'))
+        }
+        cb(null, true)
     }
-  })
+})
+
 const upload = multer({
     storage: storage,
     limits: {
@@ -28,7 +38,7 @@ const upload = multer({
     }
 })
 
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcrypt');
 const session = require('express-session')
 const saltRounds = 10;
 var MongoDBStore = require('connect-mongodb-session')(session);
@@ -36,81 +46,81 @@ var MongoDBStore = require('connect-mongodb-session')(session);
 var store = new MongoDBStore({
     uri: 'mongodb://localhost:27017/nutriverse',
     collection: 'mySessions'
-  });
+});
 
 // Catch errors
-store.on('error', function(error) {
+store.on('error', function (error) {
     console.log(error);
-  });
+});
 
 app.use(
     session({
-      secret: "some secret",
-      cookie: { maxAge: 60000 * 20},
-      saveUninitialized: false,
-      store: store,
-      resave: true
+        secret: "some secret",
+        cookie: { maxAge: 60000 * 20 },
+        saveUninitialized: false,
+        store: store,
+        resave: true
     })
-  );
+);
 
 app.use(cors(corsOptions));
-app.use(express.json());       
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const { MongoClient } = require('mongodb');
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
- 
+
 app.get('/',
     (req, res) => {
         res.sendFile("ciao");
     });
 
-    app.post('/user_informations', (req, res) => {
-        console.log(req.body._id)
-        const nutriverse = client.db("nutriverse");
-        const users = nutriverse.collection("users");
-        var ObjectId = require('mongodb').ObjectId;
-        users.findOne({ _id: new ObjectId(req.body._id)}).then(user => {
-            if (user){
-                res.send(user.firstname)
-            }
-            else {
-                res.send("No account")
-            }
-        })
-    
-    });
-        
+app.post('/user_informations', (req, res) => {
+    console.log(req.body._id)
+    const nutriverse = client.db("nutriverse");
+    const users = nutriverse.collection("users");
+    var ObjectId = require('mongodb').ObjectId;
+    users.findOne({ _id: new ObjectId(req.body._id) }).then(user => {
+        if (user) {
+            res.send(user.firstname)
+        }
+        else {
+            res.send("No account")
+        }
+    })
+
+});
+
 app.post('/login', async (req, res) => {
- 
+
     if (req.session.authenticated) {
         res.json(session);
     }
     else {
-        
+
         const email = req.body.email;
         const password = req.body.password
-    
+
         const nutriverse = client.db("nutriverse");
         const users = nutriverse.collection("users");
-       
-        users.findOne({email: email}).then(user => {
-            if (user){
-                bcrypt.compare(password, user.password, function(err, result) {
-                    if(result==true){
+
+        users.findOne({ email: email }).then(user => {
+            if (user) {
+                bcrypt.compare(password, user.password, function (err, result) {
+                    if (result == true) {
                         req.session.authenticated = true;
                         req.session.user = {
-                            _id:user._id,
+                            _id: user._id,
                             firstname: user.firstname,
-                            lastname:user.lastname
+                            lastname: user.lastname
                         };
-                        res.cookie("sid","ciao")
+                        res.cookie("sid", "ciao")
                         res.send("logged in")
                     }
-                    else{
+                    else {
                         res.send("Incorrect password!")
                     }
-            })
+                })
             }
             else {
                 res.send("No account associated to this email!")
@@ -122,20 +132,16 @@ app.post('/login', async (req, res) => {
 
 app.post("/session_info", (req, res) => {
     if (req.session.authenticated) {
-        res.send(req.session.user.firstname+" "+req.session.user.lastname);
+        res.send(req.session.user.firstname + " " + req.session.user.lastname);
     }
     else {
         res.send("")
     }
 })
 
-app.post("/file", upload.any(), (req, res) => {
-    console.log(req.files);
-
-})
 
 
-app.post('/register', async (req, res) => {
+app.post('/register', upload.any(), async (req, res) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
@@ -146,15 +152,16 @@ app.post('/register', async (req, res) => {
     const exist = await check(users, email).catch(console.dir);
     if (exist < 1) {
         var data = ""
-        if (!is_nutritionist){
+        if (!is_nutritionist) {
             data = {
                 "firstname": firstname,
                 "lastname": lastname,
                 "email": email,
                 "password": password,
                 "is_nutritionist": false
-        }}
-        else{
+            }
+        }
+        else {
             data = {
                 "firstname": firstname,
                 "lastname": lastname,
@@ -164,6 +171,8 @@ app.post('/register', async (req, res) => {
                 "country": req.body.country,
                 "city": req.body.city,
                 "address": req.body.address,
+                "filename": req.files[0].filename,
+                "verified": false
             }
         }
         users.insertOne(data, function (err, res) {
@@ -172,6 +181,7 @@ app.post('/register', async (req, res) => {
             client.close();
         });
         res.send('user registered');
+
     }
     else {
         res.send("user already registered");
@@ -182,15 +192,15 @@ app.post("/logout", (req, res) => {
     res.clearCookie("connect.sid").status(200).send('Ok.');
 })
 
-app.get('/search_nutritionists', async (req, res) => {  
+app.get('/search_nutritionists', async (req, res) => {
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
-    const result =  await users.find({}).toArray();
+    const result = await users.find({}).toArray();
     //const all_users = JSON.stringify(result);
     //console.log(all_users);
     res.send(result);
     //res.send("ciao")     
-});    
+});
 
 
 
@@ -203,11 +213,11 @@ app.listen(4000,
     });
 
 
-async function check(users,email) {
+async function check(users, email) {
     try {
-        
+
         // Get the database and collection on which to run the operation
-        
+
         // Query for a movie that has the title 'The Room'
         const query = { "email": email };
         // Execute query
@@ -217,7 +227,7 @@ async function check(users,email) {
     } catch {
         console.log("errore")
     }
-    }
+}
 
 
 

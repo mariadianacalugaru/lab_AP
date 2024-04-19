@@ -57,6 +57,8 @@ const Login = () => {
 
   const history = useNavigate();
 
+  var formdata = new FormData();
+
   async function handleSubmit(event) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -78,50 +80,45 @@ const Login = () => {
     else {
       var configuration =''
       if (!nutritionist){
-         configuration = {
-            method: "post",
-            url: "http://localhost:4000/register",
+        configuration = {
             headers: {
               "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "http://localhost:4000",
             },
             
-            withCredentials: true,
-            data: {
-              firstname: form_Data.firstname,
-              lastname: form_Data.lastname,
-              email: form_Data.email,
-              password: form_Data.password,
-              is_nutritionist: false,
-            },
-          };
+            withCredentials: true
+        };
+        formdata.append("firstname", form_Data.firstname)
+        formdata.append("lastname", form_Data.lastname)
+        formdata.append("email", form_Data.email)
+        formdata.append("password", form_Data.password)
+        formdata.append("is_nutritionist", false)
+
       }
       else{
         configuration = {
-          method: "post",
-          url: "http://localhost:4000/register",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": 'multipart/form-data',
             "Access-Control-Allow-Origin": "http://localhost:4000",
           },
           
           withCredentials: true,
-          data: {
-            firstname: form_Data.firstname,
-            lastname: form_Data.lastname,
-            email: form_Data.email,
-            password: form_Data.password,
-            is_nutritionist: true,
-            country: country,
-            city: city,
-            address: form_Data.address,
-          },
-        };
+        }
+        alert(document.getElementById("formFile").files[0])
+        formdata.append("file",document.getElementById("formFile").files[0])
+        formdata.append("firstname", form_Data.firstname)
+        formdata.append("lastname", form_Data.lastname)
+        formdata.append("email", form_Data.email)
+        formdata.append("password", form_Data.password)
+        formdata.append("is_nutritionist", true)
+        formdata.append("country", country)
+        formdata.append("city", city)
+        formdata.append("address", form_Data.address)
 
       }
 
       try {
-        await axios(configuration)
+        await axios.post("http://localhost:4000/register",formdata,configuration)
           .then(res => {
             if (res.data == "user already registered") {
               form_Data.email = "";
@@ -308,7 +305,7 @@ const Login = () => {
                       </Form.Group>
                     </Col>
                     {nutritionist && <Col>
-                      <Form.Group  id="form_nutritionist" controlId="formFile" className="mb-3">
+                      <Form.Group id="form_nutritionist" controlId="formFile" className="mb-3">
                         <Form.Label >Insert your certificate</Form.Label>
                         <Form.Control isInvalid={empty} type="file" />
                         <Form.Control.Feedback type="invalid">
@@ -326,8 +323,8 @@ const Login = () => {
                       <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>Address</Form.Label>
                           <Form.Control value={form_Data.address} onChange={chngFn} required name="address" type="address" placeholder="Address"
-                            isInvalid={(validated && !/^[a-zA-Z0-9]+$/.test(form_Data.address)) || (validated && form_Data.address == "")}
-                            isValid={(validated && /^[a-zA-Z0-9]+$/.test(form_Data.address))} />
+                            isInvalid={(validated && !/^[a-zA-Z0-9 ]+$/.test(form_Data.address)) || (validated && form_Data.address == "")}
+                            isValid={(validated && /^[a-zA-Z0-9 ]+$/.test(form_Data.address))} />
                         <Form.Control.Feedback type='invalid'>Please enter a valid address</Form.Control.Feedback>
                       </Form.Group>
                     </Col>}
