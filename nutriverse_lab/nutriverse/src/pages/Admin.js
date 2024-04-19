@@ -57,12 +57,16 @@ const Admin = () => {
         "Access-Control-Allow-Origin": "http://localhost:4000",
       },
       withCredentials: true,
-      data: JSON.stringify(email)
+        "email": email
     };
     try {
       axios
         .post("http://localhost:4000/approve_nutritionist", configurations)
-        .then((response) => console.log(response));
+        .then((response) => { 
+          if(response.data=="verified"){
+            window.location.reload();
+          };
+        })
     } catch (event) {
       console.log(event);
     }

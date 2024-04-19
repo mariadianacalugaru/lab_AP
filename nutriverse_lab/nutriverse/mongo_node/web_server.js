@@ -200,14 +200,16 @@ app.get('/search_nutritionists', async (req, res) => {
 });
 
 app.post('/approve_nutritionist', async (req,res) => {
-    const email = req.body.data;
-    console.log(email);
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
-    users.updateOne({ email: email },
-        { $set: { verified: true}}
-    );
-    res.send("verfied");
+    var myquery = { email: req.body.email };
+    var newvalues = { $set: { verified: true} };
+    users.updateOne(myquery, newvalues, function(err, res) {
+        if (err) throw err;
+        console.log("1 document updated");
+        nutriverse.close();
+      });
+    res.send("verified");
     
 })
 
