@@ -204,7 +204,7 @@ app.post('/approve_nutritionist', async (req,res) => {
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
     users.updateOne({ email: email },
-        { $set: { verified: false}}
+        { $set: { verified: true}}
     );
     res.send("verfied");
     

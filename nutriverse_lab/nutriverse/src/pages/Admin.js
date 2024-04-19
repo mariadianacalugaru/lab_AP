@@ -92,7 +92,7 @@ const Admin = () => {
                   <br></br>
                   {item.city}, {item.country}
                 </MDBCardText>
-                <button onClick={approve()}>Approve</button>
+                <button onClick={() => approve()}>Approve</button>
               </MDBCardBody>
             </MDBCard>
           ))}
