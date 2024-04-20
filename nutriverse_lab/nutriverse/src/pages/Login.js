@@ -63,11 +63,17 @@ const Login = () => {
     event.preventDefault();
     const form = event.currentTarget;
     if (nutritionist) {
-      if (document.getElementById("formFile").files.length == 0) {
+      if (document.getElementById("formFile").files.length == 0 ) {
         setEmpty(true);
       }
       else {
-        setEmpty(false);
+        var arr = document.getElementById("formFile").files[0].name.split(".")
+        if (arr[arr.length - 1] === "pdf") {
+          setEmpty(false);
+        }
+        else {
+          setEmpty(true);
+        }
       }
     }
     else {
@@ -307,9 +313,9 @@ const Login = () => {
                     {nutritionist && <Col>
                       <Form.Group id="form_nutritionist" controlId="formFile" className="mb-3">
                         <Form.Label >Insert your certificate</Form.Label>
-                        <Form.Control isInvalid={empty} type="file" />
+                        <Form.Control accept=".pdf" isInvalid={empty} isValid={!empty} type="file" />
                         <Form.Control.Feedback type="invalid">
-                        You must insert a certification
+                        You must insert a certification (format pdf)
                       </Form.Control.Feedback>
                       </Form.Group>
                       {validated && country == "" &&

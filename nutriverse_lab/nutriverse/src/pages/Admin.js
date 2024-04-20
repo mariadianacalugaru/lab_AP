@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link, useMatch, useResolvedPath } from "react-router-dom"
+import { Link } from "react-router-dom"
 import Verify from "../assets/verify.png"
-import { CiLogout } from "react-icons/ci";
+import Reject from "../assets/reject.png"
+import Button from '@mui/material/Button';
 
 
 import axios from "axios";
-import SearchBarComponent from "../component/SearchBarComponent";
 import "./css/Home.css";
 import "./css/Nutritionists.css";
 import Table from 'react-bootstrap/Table';
-import { MdVerified } from "react-icons/md";
-import {
-  MDBCard,
-  MDBCardBody,
-  MDBCardTitle,
-  MDBCardText,
-  MDBCardImage,
-  MDBBtn,
-} from "mdb-react-ui-kit";
+import { FaDownload } from "react-icons/fa";
+
 
 const Admin = () => {
   const [info, setInfo] = useState(false);
@@ -79,36 +72,64 @@ const Admin = () => {
     }
   }
 
+  async function reject(email) {
+    const configurations = {
+      headers: {
+        "Content-Type": "appplication/json",
+        "Access-Control-Allow-Origin": "http://localhost:4000",
+      },
+      withCredentials: true,
+      "email": email
+    };
+    try {
+      axios
+        .post("http://localhost:4000/reject_nutritionist", configurations)
+        .then((response) => {
+          if (response.data == "rejected") {
+            window.location.reload();
+          };
+        })
+    } catch (event) {
+      console.log(event);
+    }
+  }
+
+  const onButtonClick = async (filename,firstname,lastname) => {
+    const configurations = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        "Access-Control-Allow-Origin": "http://localhost:4000",
+        'Accept': 'blob'
+      },
+      withCredentials: true,
+      responseType:"blob"
+    }
+    var formdata = new FormData()
+    formdata.append("filename",filename)
+    try {
+      await axios.post('http://localhost:4000/get_certificate', formdata, configurations)
+      .then((response) => {
+         
+            // Creating new object of PDF file
+            const fileURL =
+                window.URL.createObjectURL(response.data);
+                 
+            // Setting various property values
+            let alink = document.createElement("a");
+            alink.href = fileURL;
+            alink.download = firstname+"_"+lastname+"_certificate.pdf";
+            alink.click();
+        });
+    }
+    catch (event) {
+      console.log(event);
+    }
+};
   return (
     <>
       <div className="home-background">
-        <div className="search-bar">
-          <SearchBarComponent />
-        </div>
-        <div className="multiple_cards">
-          {nutritionists.map((item) => (
-            <MDBCard className="nutritionist_card">
-              <MDBCardImage
-                className="picture"
-                src="https://mdbootstrap.com/img/new/standard/nature/184.webp"
-                position="top"
-                alt="..."
-              />
-              <MDBCardBody className="card_text">
-                <MDBCardTitle className="name">
-                  {item.firstname} {item.lastname}
-                </MDBCardTitle>
-                <MDBCardText className="address">
-                  {item.address}
-                  <br></br>
-                  {item.city}, {item.country}
-                </MDBCardText>
-                <button onClick={() => approve(item.email)}>Approve</button>
-              </MDBCardBody>
-            </MDBCard>
-          ))}
-        </div>
-        
+        <div className="container_table">
+
             <center>
            <Table bordered variant="dark">
       <thead>
@@ -121,22 +142,36 @@ const Admin = () => {
                 <th>Address of the study</th>
                 <th>Certificate</th>
                 <th>Verify</th>
+                <th>Reject</th>
         </tr>
             </thead>
             <tbody>
             {nutritionists.map((item) => (
-                <tr>
+              <tr>
                 <td>{item.firstname}</td>
                   <td>{item.lastname}</td>
                   <td>{item.email}</td>
                 <td>{item.country}</td>
                 <td>{item.city}</td>
                 <td>{item.address}</td>
-                <td><a href="/">{item.filename}</a></td>
                 <td>
+                  <Button onClick={() => onButtonClick(item.filename,item.firstname,item.lastname)} variant="contained" startIcon={<FaDownload />}>Certificate</Button>
+                </td>
+                <td>
+                  <center>
+
                 <Link onClick={() => approve(item.email)} >
-                <img src={Verify} className="Logo" alt="Nutriverse" ></img>
+                <img src={Verify} className="Verify" alt="Nutriverse" ></img>
                   </Link>
+                  </center>
+                </td>
+                <td>
+                  <center>
+                <Link onClick={() => reject(item.email)} >
+                <img src={Reject} className="Verify" alt="Nutriverse" ></img>
+
+                  </Link>
+                  </center>
                 </td>
                 </tr>
             ))}
@@ -144,6 +179,7 @@ const Admin = () => {
     </Table>
           </center>
       </div>
+    </div>
     </>
   );
 };

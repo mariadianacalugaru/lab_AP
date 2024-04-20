@@ -133,3 +133,15 @@ input:focus{
     top: 100px;
 }
 
+
+.Verify{
+    height:3rem;
+}
+
+.Verify:hover{
+    height:4rem;
+}
+
+.container_table{
+    margin-top: 10rem;
+}

@@ -147,44 +147,49 @@ app.post('/register', upload.any(), async (req, res) => {
     const email = req.body.email;
     const password = await bcrypt.hash(req.body.password, saltRounds);
     const is_nutritionist = req.body.is_nutritionist;
-    const nutriverse = client.db("nutriverse");
-    const users = nutriverse.collection("users");
-    const exist = await check(users, email).catch(console.dir);
-    if (exist < 1) {
-        var data = ""
-        if (!is_nutritionist) {
-            data = {
-                "firstname": firstname,
-                "lastname": lastname,
-                "email": email,
-                "password": password,
-                "is_nutritionist": false
-            }
-        }
-        else {
-            data = {
-                "firstname": firstname,
-                "lastname": lastname,
-                "email": email,
-                "password": password,
-                "is_nutritionist": is_nutritionist,
-                "country": req.body.country,
-                "city": req.body.city,
-                "address": req.body.address,
-                "filename": req.files[0].filename,
-                "verified": false
-            }
-        }
-        users.insertOne(data, function (err, res) {
-            if (err) throw err;
-            console.log("1 document inserted");
-            client.close();
-        });
-        res.send('user registered');
-
+    if (is_nutritionist && req.files.filename != "application/pdf") {
+        res.send("wrong type format")
     }
     else {
-        res.send("user already registered");
+        const nutriverse = client.db("nutriverse");
+        const users = nutriverse.collection("users");
+        const exist = await check(users, email).catch(console.dir);
+        if (exist < 1) {
+            var data = ""
+            if (!is_nutritionist) {
+                data = {
+                    "firstname": firstname,
+                    "lastname": lastname,
+                    "email": email,
+                    "password": password,
+                    "is_nutritionist": false
+                }
+            }
+            else {
+                data = {
+                    "firstname": firstname,
+                    "lastname": lastname,
+                    "email": email,
+                    "password": password,
+                    "is_nutritionist": is_nutritionist,
+                    "country": req.body.country,
+                    "city": req.body.city,
+                    "address": req.body.address,
+                    "filename": req.files[0].filename,
+                    "verified": false
+                }
+            }
+            users.insertOne(data, function (err, res) {
+                if (err) throw err;
+                console.log("1 document inserted");
+                client.close();
+            });
+            res.send('user registered');
+    
+        }
+        else {
+            res.send("user already registered");
+        }
     }
 });
 
@@ -211,6 +216,26 @@ app.post('/approve_nutritionist', async (req,res) => {
       });
     res.send("verified");
     
+})
+
+app.post('/reject_nutritionist', async (req,res) => {
+    const nutriverse = client.db("nutriverse");
+    const users = nutriverse.collection("users");
+    var myquery = { email: req.body.email };
+    var newvalues = { $set: { verified: true} };
+    users.deleteOne(myquery, newvalues, function(err, res) {
+        if (err) throw err;
+        console.log("1 document updated");
+        nutriverse.close();
+      });
+    res.send("rejected");
+    
+})
+
+
+app.post('/get_certificate',upload.any(), async (req, res) => {
+    res.setHeader('Content-Type', 'application/pdf');
+    res.download('./mongo_node/files/'+req.body.filename);
 })
 
 
