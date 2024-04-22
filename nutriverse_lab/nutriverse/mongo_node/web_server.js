@@ -142,7 +142,6 @@ app.post("/session_info", (req, res) => {
 
 
 app.post('/register', upload.any(), async (req, res) => {
-    console.log(req.body)
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
