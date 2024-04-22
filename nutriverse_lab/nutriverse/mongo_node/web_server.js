@@ -127,57 +127,70 @@ app.post("/session_info", (req, res) => {
 
 
 
-app.post('/register', upload.any(), async (req, res) => {
+app.post("/register", upload.any(), async (req, res) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
-    const password = await bcrypt.hash(req.body.password, saltRounds);
-    const is_nutritionist = req.body.is_nutritionist === "false" ? false:true;
+    console.log(req.body);
+    const password = await bcrypt.hash(req.body.password.toString(), saltRounds);
+    const is_nutritionist = req.body.is_nutritionist === "false" ? false : true;
     if (is_nutritionist) {
-        if (req.files.filename !== "application/pdf") {
+        if (req.files[0].mimetype !== "application/pdf") {
             res.send("wrong type format")
+           
         }
     }
-    else {
-        const nutriverse = client.db("nutriverse");
-        const users = nutriverse.collection("users");
-        const exist = await check(users, email).catch(console.dir);
-        if (exist < 1) {
-            var data = ""
-            if (!is_nutritionist) {
-                data = {
-                    "firstname": firstname,
-                    "lastname": lastname,
-                    "email": email,
-                    "password": password,
-                    "is_nutritionist": false
-                }
+
+    const nutriverse = client.db("nutriverse");
+    const users = nutriverse.collection("users");
+    const exist = await check(users, email).catch(console.dir);
+    if (exist < 1) {
+        var data = "";
+        if (!is_nutritionist) {
+        data = {
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            password: password,
+            is_nutritionist: false,
+        };
+        } else {
+        data = {
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            password: password,
+            is_nutritionist: true,
+            country: req.body.country,
+            city: req.body.city,
+            address: req.body.address,
+            filename: req.files[0].filename,
+            verified: false,
+        };
+        }
+        if (is_nutritionist){
+            if (req.files[0].mimetype !== "application/pdf") {
+                res.send("wrong type format");
             }
             else {
-                data = {
-                    "firstname": firstname,
-                    "lastname": lastname,
-                    "email": email,
-                    "password": password,
-                    "is_nutritionist": is_nutritionist,
-                    "country": req.body.country,
-                    "city": req.body.city,
-                    "address": req.body.address,
-                    "filename": req.files[0].filename,
-                    "verified": false
-                }
+                users.insertOne(data, function (err, res) {
+                    if (err) throw err;
+                    console.log("1 document inserted");
+                    client.close();
+            });
+            res.send("user registered");
             }
+        }
+        else {
             users.insertOne(data, function (err, res) {
                 if (err) throw err;
                 console.log("1 document inserted");
                 client.close();
-            });
-            res.send('user registered');
-    
+        });
+        res.send("user registered");
         }
-        else {
-            res.send("user already registered");
-        }
+    } else {
+        res.send("user already registered");
     }
 });
 

@@ -146,7 +146,7 @@ const Login = (show) => {
           
           withCredentials: true,
         }
-        alert(document.getElementById("formFile").files[0])
+        //alert(document.getElementById("formFile").files[0])
         formdata.append("file",document.getElementById("formFile").files[0])
         formdata.append("firstname", form_Data.firstname)
         formdata.append("lastname", form_Data.lastname)
