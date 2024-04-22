@@ -128,7 +128,7 @@
   cursor: pointer;
 }
 
-form input[type="file"] {
+#fileToUpload{
         display: none;
         cursor: pointer;
 }
