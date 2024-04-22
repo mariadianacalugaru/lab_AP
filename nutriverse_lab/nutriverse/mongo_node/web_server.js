@@ -237,7 +237,7 @@ app.post('/reject_nutritionist', async (req,res) => {
 
 app.post('/get_certificate',upload.any(), async (req, res) => {
     res.setHeader('Content-Type', 'application/pdf');
-    res.download('./mongo_node/files/'+req.body.filename);
+    res.download(__dirname+"/files/"+req.body.filename);
 })
 
 
