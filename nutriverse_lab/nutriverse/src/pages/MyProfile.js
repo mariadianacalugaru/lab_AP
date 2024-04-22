@@ -11,10 +11,10 @@ import Tab from 'react-bootstrap/Tab';
 import './css/MyProfile.css';
 import axios from 'axios';
 
-const MyProfile = ({sid,setSid}) => {
+const MyProfile = () => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
-  const[lastname,setLastname] = useState("")
+  const[email,setEmail] = useState("")
  
 
 
@@ -29,6 +29,8 @@ const MyProfile = ({sid,setSid}) => {
           "Access-Control-Allow-Origin": "http://localhost:4000",
         },
         withCredentials:true,
+        
+       
       };
       try {
         await axios(configuration)
@@ -39,8 +41,7 @@ const MyProfile = ({sid,setSid}) => {
             else {
               setInfo(true);
               setFirstname(res.data);
-              setLastname(res.data);
-              setSid(res.data);
+              setEmail(res.email);
             }
           })
           .catch(event => {
@@ -87,14 +88,16 @@ const MyProfile = ({sid,setSid}) => {
       <Row className="mb-3">
       <Col sm={4}>
         <center>
+        <div  className='photo'>
         <form  action="upload.php" method="post" enctype="multipart/form-data">
         <label for="fileToUpload">
-        <div class="profile-pic" style={{ backgroundImage: {Profile_image} }}>
+       
         <span>Change Image</span>
-        </div>
+        
         </label>
         <input type="File" name="fileToUpload" id="fileToUpload"></input>
         </form>
+        </div>
         </center>
         </Col >
         <Col sm={8}>
@@ -108,13 +111,13 @@ const MyProfile = ({sid,setSid}) => {
           <Col>
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label>Change Email</Form.Label>
-          <Form.Control className='control' type="email" placeholder="Enter email" />
+          <Form.Control className='control' type="email" placeholder={email} />
         </Form.Group>
         </Col>
         <Col>
         <Form.Group   controlId="formGridPassword">
           <Form.Label>Confirm new email</Form.Label>
-          <Form.Control className='control' type="password" placeholder="Password" />
+          <Form.Control className='control' type="password" placeholder="Confirm new email" />
         </Form.Group>
         
         </Col>
@@ -124,13 +127,13 @@ const MyProfile = ({sid,setSid}) => {
           <Col>
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label>Change Password</Form.Label>
-          <Form.Control className='control' type="email" placeholder="Enter email" />
+          <Form.Control className='control' type="email" placeholder="Enter password" />
         </Form.Group>
         </Col>
         <Col>
         <Form.Group   controlId="formGridPassword">
           <Form.Label>Confirm new password</Form.Label>
-          <Form.Control className='control' type="password" placeholder="Password" />
+          <Form.Control className='control' type="password" placeholder="Confirm new password" />
         </Form.Group>
         
         </Col>
@@ -150,7 +153,18 @@ const MyProfile = ({sid,setSid}) => {
             </Card>
             </Tab.Pane>
 
-            <Tab.Pane eventKey="#myfoodplan">Tab pane content 2</Tab.Pane>
+            <Tab.Pane className='pane' eventKey="#myfoodplan">
+            <Card>
+              <Card.Header as="h5">MyFoodPlan</Card.Header>
+              <Card.Body>
+                
+                
+                
+                
+                
+              </Card.Body>
+            </Card>
+            </Tab.Pane>
           </Tab.Content>
         </Col>
       </Row>
