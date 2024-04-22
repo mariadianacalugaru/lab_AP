@@ -265,18 +265,18 @@ const Login = (show) => {
                 <Form noValidate validated={validated} onSubmit={handleLogin}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" name="email_login" placeholder="name@example.com" onChange={chngFn} required isInvalid={
+                  <Form.Control className='control' type="email" name="email_login" placeholder="name@example.com" onChange={chngFn} required isInvalid={
                     (validated &&
                       !/^\S+@\S+\.\S+$/.test(form_Data.email))} />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" name="password_login" placeholder="Password" onChange={chngFn} required />
+                  <Form.Control className='control' type="password" name="password_login" placeholder="Password" onChange={chngFn} required />
                 </Form.Group>
                 <Form.Group>
 
                   {['checkbox'].map((type) => (
-                    <div key={`default-${type}`} className="mb-3">
+                    <div key={`default-${type}`} className='checkbox'>
                       <Form.Check // prettier-ignore
                         type={type}
                         id={`default-${type}`}
@@ -303,21 +303,21 @@ const Login = (show) => {
                   <Col className="mb-3">
                     <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label>First Name</Form.Label>
-                      <Form.Control required name="firstname" type="firstname" placeholder="First Name" pattern="^[a-zA-Z0-9]+$" value={form_Data.firstname} onChange={chngFn}
+                      <Form.Control className='control' required name="firstname" type="firstname" placeholder="First Name" pattern="^[a-zA-Z0-9]+$" value={form_Data.firstname} onChange={chngFn}
                           isInvalid={(validated && !/^[a-zA-Z0-9]+$/.test(form_Data.firstname)) || (validated && form_Data.firstname == "")}
                           isValid={(validated && /^[a-zA-Z0-9]+$/.test(form_Data.firstname))}/>
                       <Form.Control.Feedback type='invalid'>Please enter a valid name</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label>Last Name</Form.Label>
-                        <Form.Control value={form_Data.lastname} onChange={chngFn} required name="lastname" type="lastname" placeholder="Last Name"
+                        <Form.Control className='control' value={form_Data.lastname} onChange={chngFn} required name="lastname" type="lastname" placeholder="Last Name"
                           isInvalid={(validated && !/^[a-zA-Z0-9]+$/.test(form_Data.lastname)) || (validated && form_Data.lastname == "")}
                           isValid={(validated && /^[a-zA-Z0-9]+$/.test(form_Data.lastname))} />
                       <Form.Control.Feedback type='invalid'>Please enter a valid lastname</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label>Email address</Form.Label>
-                        <Form.Control id="email" value={form_Data.email} onChange={chngFn} required name="email" type="email" placeholder="name@example.com"
+                        <Form.Control className='control' id="email" value={form_Data.email} onChange={chngFn} required name="email" type="email" placeholder="name@example.com"
                           isInvalid={(validated && !/^\S+@\S+\.\S+$/.test(form_Data.email))}
                           isValid={(validated && /^\S+@\S+\.\S+$/.test(form_Data.email))}/>
                       <Form.Control.Feedback type="invalid" id="feedback_email">
@@ -325,7 +325,7 @@ const Login = (show) => {
                       </Form.Control.Feedback>      </Form.Group>
                     <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                       <Form.Label>Password</Form.Label>
-                        <Form.Control minLength={6} value={form_Data.password} onChange={chngFn} id="password" required name="password" type="password" placeholder="Password"
+                        <Form.Control className='control' minLength={6} value={form_Data.password} onChange={chngFn} id="password" required name="password" type="password" placeholder="Password"
                           isInvalid={validated && form_Data.password.length < 6}
                           isValid={validated && form_Data.password.length >= 6}/>
                       <Form.Control.Feedback type="invalid" >
@@ -334,7 +334,7 @@ const Login = (show) => {
                     </Form.Group>
                     <Form.Group as={Row} controlId="confirmPassword">
                       <Form.Label>Confirm Password</Form.Label>
-                      <Form.Control type="password" name="confirmPass" placeholder='Confirm Password' value={form_Data.confirmPass} onChange={chngFn} minLength={6} required pattern={form_Data.password}
+                      <Form.Control  className='control' type="password" name="confirmPass" placeholder='Confirm Password' value={form_Data.confirmPass} onChange={chngFn} minLength={6} required pattern={form_Data.password}
                           isInvalid={(validated && form_Data.confirmPass !== form_Data.password)||(validated && form_Data.confirmPass==="")}
                           isValid={ (validated && form_Data.confirmPass === form_Data.password) && (validated && form_Data.confirmPass!=="")}
                       />
@@ -343,13 +343,13 @@ const Login = (show) => {
                       </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group id="checkbox_nutritionist" as={Row} className="mb-3">
-                      <Form.Check type="checkbox" name="nutritionist" label="Are you a nutritionist? " onClick={expand_form} onChange={chngFn}/>
+                      <Form.Check type="checkbox" name="nutritionist" label="Are you a nutritionist? " className='checkbox' onClick={expand_form} onChange={chngFn}/>
                       </Form.Group>
                     </Col>
                     {nutritionist && <Col>
                       <Form.Group id="form_nutritionist" controlId="formFile" className="mb-3" onChange={()=>change_pdf}>
                         <Form.Label >Insert your certificate</Form.Label>
-                        <Form.Control accept=".pdf" isInvalid={empty && validated} isValid={!empty && validated} type="file" />
+                        <Form.Control className='control' accept=".pdf" isInvalid={empty && validated} isValid={!empty && validated} type="file" />
                         <Form.Control.Feedback type="invalid">
                         You must insert a certification (format pdf)
                       </Form.Control.Feedback>
@@ -364,7 +364,7 @@ const Login = (show) => {
                       <SearchCity country={country} city={city} setCity={setCity} listCity={listCity} setListCity={setListCity} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
                       <Form.Group as={Row} className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>Address</Form.Label>
-                          <Form.Control value={form_Data.address} onChange={chngFn} required name="address" type="address" placeholder="Address"
+                          <Form.Control className='control' value={form_Data.address} onChange={chngFn} required name="address" type="address" placeholder="Address"
                             isInvalid={(validated && !/^[a-zA-Z0-9 ]+$/.test(form_Data.address)) || (validated && form_Data.address == "")}
                             isValid={(validated && /^[a-zA-Z0-9 ]+$/.test(form_Data.address))} />
                         <Form.Control.Feedback type='invalid'>Please enter a valid address</Form.Control.Feedback>

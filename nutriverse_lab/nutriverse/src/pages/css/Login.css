@@ -9,6 +9,10 @@
     padding: 10px !important; 
 }
 
+.control{
+    margin:0%;
+}
+
 .Tab:hover{
     background-color: #7f7d7d !important;
 }
@@ -56,6 +60,9 @@
     margin-left: 4pt;
 }
 
+.checkbox{
+    margin-left: 1%;
+}
 
 
 .Reg{
