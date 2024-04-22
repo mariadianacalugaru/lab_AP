@@ -145,8 +145,23 @@ const MyProfile = () => {
         
         </Col>
         </Row>
+        {is_nutritionist && <Row className="mb-3-special">
+          <Col>
+        <Form.Group as={Col} controlId="formGridEmail">
+          <Form.Label>Change Address</Form.Label>
+          <Form.Control className='control' type="email" placeholder="New address" />
+        </Form.Group>
+        </Col>
+        <Col>
+        <Form.Group   controlId="formGridPassword">
+          <Form.Label>Confirm new password</Form.Label>
+          <Form.Control className='control' type="password" placeholder="Confirm new password" />
+        </Form.Group>
+        
+        </Col>
+        </Row>}
       <center>
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" className='mybutton'>
         Save
       </Button>
       </center>
