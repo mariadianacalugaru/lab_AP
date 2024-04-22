@@ -51,10 +51,8 @@ const Login = (show) => {
     setModalShow(false);
     history(0)
   }
-  const location = useLocation()
-  console.log(show)
   const [modalShow, setModalShow] = useState(show===true ? true:false);
-  const [empty,setEmpty] = useState(false)
+  const [empty,setEmpty] = useState(true)
   const [selectedCountry,setSelectedCountry] = useState(false)
   const [listCity, setListCity] = useState([]);
   const [country, setCountry] = useState("");
@@ -95,9 +93,7 @@ const Login = (show) => {
 
   var formdata = new FormData();
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const form = event.currentTarget;
+  const change_pdf = () => {
     if (nutritionist) {
       if (document.getElementById("formFile").files.length == 0 ) {
         setEmpty(true);
@@ -115,6 +111,11 @@ const Login = (show) => {
     else {
       setEmpty(false);
     }
+  }
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    
     if (form.checkValidity() === false) {
       event.stopPropagation();
       
@@ -162,11 +163,15 @@ const Login = (show) => {
       try {
         await axios.post("http://localhost:4000/register",formdata,configuration)
           .then(res => {
+            console.log(res)
             if (res.data == "user already registered") {
               form_Data.email = "";
               setExisted(true);
               //document.getElementById("feedback_email").innerHTML="An account with this email already exists"
 
+            }
+            else if (res.data == "wrong type format") {
+              
             }
             else if (res.data == "user registered") {
               setModalShow(true)
@@ -342,9 +347,9 @@ const Login = (show) => {
                       </Form.Group>
                     </Col>
                     {nutritionist && <Col>
-                      <Form.Group id="form_nutritionist" controlId="formFile" className="mb-3">
+                      <Form.Group id="form_nutritionist" controlId="formFile" className="mb-3" onChange={()=>change_pdf}>
                         <Form.Label >Insert your certificate</Form.Label>
-                        <Form.Control accept=".pdf" isInvalid={empty} isValid={!empty} type="file" />
+                        <Form.Control accept=".pdf" isInvalid={empty && validated} isValid={!empty && validated} type="file" />
                         <Form.Control.Feedback type="invalid">
                         You must insert a certification (format pdf)
                       </Form.Control.Feedback>
