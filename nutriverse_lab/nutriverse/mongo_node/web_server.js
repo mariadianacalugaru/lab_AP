@@ -142,13 +142,16 @@ app.post("/session_info", (req, res) => {
 
 
 app.post('/register', upload.any(), async (req, res) => {
+    console.log(req.body)
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const email = req.body.email;
     const password = await bcrypt.hash(req.body.password, saltRounds);
-    const is_nutritionist = req.body.is_nutritionist;
-    if (is_nutritionist && req.files.filename != "application/pdf") {
-        res.send("wrong type format")
+    const is_nutritionist = req.body.is_nutritionist === "false" ? false:true;
+    if (is_nutritionist) {
+        if (req.files.filename !== "application/pdf") {
+            res.send("wrong type format")
+        }
     }
     else {
         const nutriverse = client.db("nutriverse");
