@@ -139,7 +139,7 @@ input:focus{
 }
 
 .Verify:hover{
-    height:4rem;
+    opacity: 0.85;
 }
 
 .container_table{

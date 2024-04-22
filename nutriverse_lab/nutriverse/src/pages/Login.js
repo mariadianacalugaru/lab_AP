@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -11,13 +12,48 @@ import Row from 'react-bootstrap/Col';
 import axios from 'axios'
 import './css/Login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, Link, useLocation } from "react-router-dom"
 import { useCookies } from 'react-cookie';
 import SearchCountry from '../component/SearchCountry';
 import SearchCity from '../component/search_city/SearchCity';
 import Chat from './Chat';
 
-const Login = () => {
+
+function MyVerticallyCenteredModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Success Login
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>
+          registrazione andata a buon fine, accedi per usufruire di tutti i servizi
+        </p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+const Login = (show) => {
+
+
+  const close = () => {
+    setModalShow(false);
+    history(0)
+  }
+  const location = useLocation()
+  console.log(show)
+  const [modalShow, setModalShow] = useState(show===true ? true:false);
   const [empty,setEmpty] = useState(false)
   const [selectedCountry,setSelectedCountry] = useState(false)
   const [listCity, setListCity] = useState([]);
@@ -133,12 +169,7 @@ const Login = () => {
 
             }
             else if (res.data == "user registered") {
-              history('/',
-              {state:{
-                firstname: form_Data.firstname,
-                lastname: form_Data.lastname,
-                }}
-                );
+              setModalShow(true)
             }
           })
           .catch(event => {
@@ -335,7 +366,9 @@ const Login = () => {
                       </Form.Group>
                     </Col>}
                     <center>
-                      <Button type="submit" id="submit" >Registration</Button>
+                      <Link reloadDocument to="/login" state={show}>
+                        <Button type="submit" id="submit" >Registration</Button>
+                      </Link>
                     </center>
                     </Form>
                  </div> </Tab.Pane>
@@ -347,7 +380,11 @@ const Login = () => {
       
     </Card>
     </Tab.Container>
-    </center>
+      </center>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => close()}
+      />
     
     </>
   )

@@ -1,17 +1,13 @@
-import React, { useState,useEffect } from 'react'
+import React, {useEffect } from 'react'
 import './css/Home.css'
 import SearchBarComponent from '../component/SearchBarComponent'
 import Logo_home from '../assets/scritta.png'
-import { useLocation } from "react-router-dom";
 import axios from 'axios'
-import Cookies from "js-cookie";
-import { withCookies } from 'react-cookie';
+
 
 
 
 const Home = ({setSid}) => {
-  const [info, setInfo] = useState(false)
-  const[firstname,setFirstname] = useState("")
 
 
  
@@ -35,9 +31,8 @@ const Home = ({setSid}) => {
               return "";
             }
             else {
-              setInfo(true);
-              setFirstname(res.data)
-              setSid(res.data);
+              console.log(res)
+              setSid(res.data.user.firstname+" "+res.data.user.lastname);
             }
           })
           .catch(event => {

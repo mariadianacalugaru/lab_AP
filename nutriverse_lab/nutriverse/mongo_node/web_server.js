@@ -75,22 +75,6 @@ app.get('/',
         res.sendFile("ciao");
     });
 
-app.post('/user_informations', (req, res) => {
-    console.log(req.body._id)
-    const nutriverse = client.db("nutriverse");
-    const users = nutriverse.collection("users");
-    var ObjectId = require('mongodb').ObjectId;
-    users.findOne({ _id: new ObjectId(req.body._id) }).then(user => {
-        if (user) {
-            res.send(user.firstname)
-        }
-        else {
-            res.send("No account")
-        }
-    })
-
-});
-
 app.post('/login', async (req, res) => {
 
     if (req.session.authenticated) {
@@ -112,7 +96,9 @@ app.post('/login', async (req, res) => {
                         req.session.user = {
                             _id: user._id,
                             firstname: user.firstname,
-                            lastname: user.lastname
+                            lastname: user.lastname,
+                            email: user.email,
+                            is_nutritionist: user.is_nutritionist
                         };
                         res.cookie("sid", "ciao")
                         res.send("logged in")
@@ -132,7 +118,7 @@ app.post('/login', async (req, res) => {
 
 app.post("/session_info", (req, res) => {
     if (req.session.authenticated) {
-        res.send(req.session.user.firstname + " " + req.session.user.lastname);
+        res.send(req.session);
     }
     else {
         res.send("")
@@ -237,7 +223,7 @@ app.post('/reject_nutritionist', async (req,res) => {
 
 app.post('/get_certificate',upload.any(), async (req, res) => {
     res.setHeader('Content-Type', 'application/pdf');
-    res.download('./mongo_node/files/'+req.body.filename);
+    res.download(__dirname+"/files/"+req.body.filename);
 })
 
 

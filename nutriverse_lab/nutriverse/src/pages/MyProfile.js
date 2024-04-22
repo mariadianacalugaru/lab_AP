@@ -14,7 +14,8 @@ import axios from 'axios';
 const MyProfile = () => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
-  const[email,setEmail] = useState("")
+  const [email, setEmail] = useState("")
+  const[is_nutritionist,setNutritionist] = useState(false)
  
 
 
@@ -35,13 +36,16 @@ const MyProfile = () => {
       try {
         await axios(configuration)
           .then(res => {
+            console.log(res)
             if (res.data == "No account") {
               return "";
             }
             else {
               setInfo(true);
-              setFirstname(res.data);
-              setEmail(res.email);
+              setFirstname(res.data.user.firstname + " "+ res.data.user.lastname);
+              setEmail(res.data.user.email);
+              setNutritionist(res.data.user.is_nutritionist)
+
             }
           })
           .catch(event => {

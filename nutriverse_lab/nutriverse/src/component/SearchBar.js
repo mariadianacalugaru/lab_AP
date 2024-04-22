@@ -16,7 +16,7 @@ const SearchBar = ({setResults}) => {
                         && user.is_nutritionist
                         && user.firstname
                         && user.lastname
-                        && (user.firstname.toLowerCase().startsWith(value) || user.lastname.toLowerCase().startsWith(value))
+                        && ((user.firstname+" "+user.lastname).toLowerCase().startsWith(value.toLowerCase()) || (user.lastname+" "+user.firstname).toLowerCase().startsWith(value.toLowerCase()))
                 });
                 setResults(results);
             });
