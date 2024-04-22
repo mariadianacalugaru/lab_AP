@@ -131,7 +131,7 @@ const Admin = () => {
         <div className="container_table">
 
             <center>
-           <Table bordered variant="dark">
+           <Table responsive bordered variant="dark">
       <thead>
         <tr>
           <th>First Name</th>
