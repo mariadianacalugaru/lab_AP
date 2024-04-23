@@ -2,6 +2,16 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const nodemailer = require('nodemailer');
+
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'triviastack@gmail.com',
+	    pass: 'oceq atgs lajc hmfp'
+    }
+});
 
 const corsOptions = {
     origin: "http://localhost:3000",
@@ -172,8 +182,30 @@ app.post("/register", upload.any(), async (req, res) => {
                 if (err) throw err;
                 console.log("1 document inserted");
                 client.close();
-        });
-        res.send("user registered");
+                });
+                const mailOptions = {
+                    from: '"Nutriverse" <nutriverse@gmail.com>',
+                    to: email,
+                    subject: 'Welcome to Nutriverse!',
+                    text: 'Your registration has been completed successfully!',
+                    html: '<img src="cid:logo" style="width:300px; margin:10px;"/></br><b>Your registration has been completed successfully!</b></br><b>You can now login and search for a nutritionist near you!</b>',
+                    attachments: [{
+                        filename: 'logo-removebg-preview.png',
+                        path: '../src/assets/logo-removebg-preview.png',
+                        cid: 'logo' //same cid value as in the html img src
+                    }]
+                };
+                const sendMail = async (transporter, mailOptions) => {
+                    try {
+                        await transporter.sendMail(mailOptions);
+                        console.log('email inviata');
+                    }catch(error){
+                        console.log(error)
+                    } 
+                };
+                sendMail(transporter, mailOptions);
+        
+            res.send("user registered");
         }
        else {
            res.send("wrong type format")
