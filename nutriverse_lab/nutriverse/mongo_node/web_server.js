@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+var amqp = require('amqplib/callback_api');
 
 
 var transporter = nodemailer.createTransport({
@@ -47,6 +48,13 @@ const upload = multer({
         fileSize: 5000000
     }
 })
+
+function compute_chat_id(user1,user2){
+    var array_of_users = [user1,user2];
+    array_of_users.sort();
+    var chat_id = array_of_users[0]+'/'+array_of_users[2]
+    return chat_id;
+}
 
 const bcrypt = require('bcrypt');
 const session = require('express-session')
@@ -134,7 +142,6 @@ app.post("/session_info", (req, res) => {
         res.send("")
     }
 })
-
 
 
 app.post("/register", upload.any(), async (req, res) => {
@@ -255,6 +262,99 @@ app.post('/reject_nutritionist', async (req, res) => {
 
 })
 
+app.post('/send_message/:destination', async (req,res)=>{
+    // Not yet implemented 
+})
+
+
+
+app.get('/fetch_messages/:destination',async (req,res)=>{
+    if(req.session.authenticated){
+        var from_string = JSON.stringify(req.session.user._id);
+        from_string = from_string.substring(1,from_string.length-1);
+        var destination = req.params.destination;
+        
+        amqp.connect('amqp://localhost',(error0,connection)=>{
+                if (error0) throw error0;
+                connection.createChannel((error1,channel)=>{
+                    if(error1) throw error1;
+                    var queue = compute_chat_id(from_string,destination);
+                    channel.assertQueue(queue,{
+                        durable:true,
+                    });
+                    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
+                    channel.consume(queue,(msg)=>{
+                        console.log("Received %s",msg.content.toString());
+                    },{
+                        noAck: false
+                    });
+                });
+            }
+        )
+    }
+    else{
+        res.send("not authenticated!");
+    }
+    
+})
+
+app.get("/chat_history", async(req,res)=>{
+    if(req.session.authenticated){
+        const nutriverse = client.db("nutriverse");
+        const chat_history = nutriverse.collection("chat_history");
+        var from_string = JSON.stringify(req.session.user._id);
+        from_string = from_string.substring(1,from_string.length-1);
+
+        var selector = {from:from_string};
+        var options = {};
+        var result = await chat_history.findOne(selector,options);
+        res.send(result);
+    }
+    else{
+        res.send("Not Authenticated!")
+    }
+})
+
+app.post("/add_user_to_hystory/:destination", async(req,res)=>{
+
+    if(req.session.authenticated){
+        const nutriverse = client.db("nutriverse");
+        const chat_history = nutriverse.collection("chat_history");
+        var from_string = JSON.stringify(req.session.user._id);
+        from_string = from_string.substring(1,from_string.length-1);
+        var selector = {from:from_string};
+        var options={}
+        var result = await chat_history.findOne(selector,options);
+        var response = {error:"an unexpected error happened"}
+        
+        if(result==null){
+            var to_insert = {from:from_string, history_list:[req.params.destination]}
+            chat_history.insertOne(to_insert,(err,result)=>{
+                if(err) throw err;
+                
+            })
+            response = {OK:"userlist created"}
+        }
+        else{
+            var des_searched = result.history_list.find((element)=>element === req.params.destination);
+            if (des_searched ==null){
+                to_insert = result;
+                to_insert.history_list.push(req.params.destination);
+
+                await chat_history.replaceOne(selector,to_insert);
+                
+            }
+            response = {OK:"user appended to userlist"}
+        }
+        res.send(response);
+        
+        //res.send("something gone wrong")
+
+    }
+    else{res.send("user not authenticated!")}
+    
+
+})
 
 app.post('/get_certificate', upload.any(), async (req, res) => {
     res.setHeader('Content-Type', 'application/pdf');

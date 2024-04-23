@@ -17,7 +17,7 @@
 }
 
 .scrollable_list{
-    max-height: 500px;
+    max-height: 600px;
     overflow-y:scroll;
 }
 
@@ -42,3 +42,42 @@
     top: 2px;
     width: fit-content;
 }
+
+.chatlist_box{
+    height: 600px;
+
+}
+
+.chat_heading{
+    position: absolute;
+    background-color: lightgray;
+    left:0;
+    right: 0;
+    z-index: 1;
+}
+
+.exit_chat{
+    position: absolute;
+    margin-bottom: 0;
+    z-index: 2;
+    top: 20%;
+    text-decoration: underline;
+    width: fit-content;
+    
+}
+
+.input_field{
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    left: 0;
+    right: 0;
+}
+.space_block{
+    height: 45px;
+}
+
+.chat_name{
+    width: fit-content;
+}
+
