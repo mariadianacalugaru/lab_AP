@@ -112,6 +112,7 @@ const MyProfile = () => {
             <ListGroup.Item className='listgroup' action href="#editprofile">
               Edit Profile
             </ListGroup.Item>
+           
             {!is_nutritionist && <ListGroup.Item className='listgroup' action href="#myfoodplan">
               MyFoodPlan
             </ListGroup.Item>}
@@ -239,9 +240,9 @@ const MyProfile = () => {
                 <td>{item.firstname}</td>
                   <td>{item.lastname}</td>
                   <td>{item.email}</td>
-                <td><ListGroup.Item action href="#foodplan">
+                <td><a action href="/MyFoodPlan">
                     FoodPlan
-                  </ListGroup.Item></td>
+                  </a></td>
                 <td></td>
                 
               

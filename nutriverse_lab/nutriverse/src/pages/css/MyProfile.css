@@ -1,6 +1,7 @@
 .cont1{
   min-width: min-content !important;
   margin-left:10px;
+  margin-right:10px;
   margin-top: 15px;
   display: block !important;
   position: fixed;
