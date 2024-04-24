@@ -225,7 +225,7 @@ const Login = (show) => {
               alert("incorrect password");
             }
             else { 
-              history('/');
+              history('/MyProfile');
             } 
           })
           .catch(event => {

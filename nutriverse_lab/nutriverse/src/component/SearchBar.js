@@ -14,6 +14,7 @@ const SearchBar = ({setResults}) => {
                     return value
                         && user
                         && user.is_nutritionist
+                        && user.verified
                         && user.firstname
                         && user.lastname
                         && ((user.firstname+" "+user.lastname).toLowerCase().startsWith(value.toLowerCase()) || (user.lastname+" "+user.firstname).toLowerCase().startsWith(value.toLowerCase()))
