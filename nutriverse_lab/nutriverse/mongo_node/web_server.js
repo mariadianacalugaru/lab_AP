@@ -143,6 +143,49 @@ app.post("/session_info", (req, res) => {
     }
 })
 
+app.post('/get_reservations',upload.any(), async (req, res) => {
+    const nutriverse = client.db("nutriverse");
+    const users = nutriverse.collection("bookings");
+    const result = await users.find({ nutritionist: req.body.nutritionist },{projection:{_id:0,date:1}}).toArray();
+    console.log(result)
+    res.send(result); 
+});
+
+
+
+app.post("/add_reservation", upload.any(), (req, res) => {
+    
+    if (req.session.authenticated) {
+        const email_user = req.session.user.email;
+        const email_nutr = req.body.email_nutritionist;
+        const date = req.body.date;
+        const nutriverse = client.db("nutriverse");
+        const bookings = nutriverse.collection("bookings");
+        var reservation = { "user":email_user, "nutritionist": email_nutr,"date":date };
+        bookings.insertOne(reservation, function(err, res) {
+            if (err) throw err;
+            console.log("1 document inserted");
+            nutriverse.close();
+        });
+        const users = nutriverse.collection("users");
+        var query_user = { email: email_user };
+        var new_value_user = { $set: { nutritionist: email_nutr } };
+        users.updateOne(query_user, new_value_user, function(err, res) {
+            if (err) throw err;
+            console.log("1 document updated");
+            nutriverse.close();
+          });
+        var query_nutr = { email: email_nutr };
+        var new_value_nutr = { $push: { list_patients: { patient: email_user } } };
+        users.updateOne(query_nutr, new_value_nutr, function(err, res) {
+            if (err) throw err;
+            console.log("1 document updated");
+            nutriverse.close();
+          });
+    };
+    res.send("booking accepted")
+})
+
 
 app.post("/register", upload.any(), async (req, res) => {
     const firstname = req.body.firstname;

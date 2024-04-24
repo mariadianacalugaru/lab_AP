@@ -31,7 +31,7 @@
     width: 2.25rem;
     height: 2rem;
 }
-nav_nutriverse .menu span{
+.nav_nutriverse .menu span{
     height: 0.4rem;
     width: 100%;
     background-color: white;
@@ -55,12 +55,13 @@ nav_nutriverse .menu span{
 }
 
 .nav_nutriverse li.active{
-    background-color: 9BB150;
+    background-color: #9BB150;
+    border-radius: 30px;
 }
 
 .nav_nutriverse li:hover{
-    border-radius: 30px;
     background-color: #9BB150;
+    border-radius: 30px;
 }
 
 
@@ -130,6 +131,7 @@ input:focus{
 }
 
 .card1{
+    
     top: 100px;
 }
 
@@ -147,3 +149,4 @@ input:focus{
     margin-left: 2rem;
     margin-right: 2rem;
 }
+

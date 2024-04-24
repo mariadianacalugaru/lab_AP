@@ -1,5 +1,5 @@
 .multiple_cards{
-    display: flex; 
+    display:inline-flex; 
     flex-wrap: wrap;
     margin-bottom: 100px;
 }
@@ -15,4 +15,5 @@
 .card_text {
     background-color: white;
 }
+
 

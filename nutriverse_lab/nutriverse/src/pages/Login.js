@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import Card from 'react-bootstrap/Card';
 import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/Col';
@@ -262,12 +261,13 @@ const Login = (show) => {
         <Tab.Content>
             <Tab.Pane eventKey="login"><div className='Reg' >
               <left>
-                <Form noValidate validated={validated} onSubmit={handleLogin}>
+                <Form noValidate onSubmit={handleLogin}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control className='control' type="email" name="email_login" placeholder="name@example.com" onChange={chngFn} required isInvalid={
                     (validated &&
-                      !/^\S+@\S+\.\S+$/.test(form_Data.email))} />
+                            !/^\S+@\S+\.\S+$/.test(form_Data.email))} />
+                        <Form.Control.Feedback type='invalid'>Wrong email</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Password</Form.Label>
@@ -275,17 +275,7 @@ const Login = (show) => {
                 </Form.Group>
                 <Form.Group>
 
-                  {['checkbox'].map((type) => (
-                    <div key={`default-${type}`} className='checkbox'>
-                      <Form.Check // prettier-ignore
-                        type={type}
-                        id={`default-${type}`}
-                        label={`Remember Me`}
-                        />
-
-
-                    </div>
-                  ))}
+                        <Form.Check type="checkbox" name="nutritionist" label="Remember me " className='checkbox'/>
                 </Form.Group>
                 <center><Button type="submit" id="submit">Login</Button></center>
 
