@@ -12,11 +12,21 @@ import {
   MDBCardText,
   MDBCardImage,
   MDBBtn,
+  MDBCardLink
 } from "mdb-react-ui-kit";
+import { Link, useNavigate ,createSearchParams} from "react-router-dom";
 
-const Nutritionists = () => {
+const Nutritionists = ({ setName, setEmail }) => {
   const [info, setInfo] = useState(false);
   const [nutritionists, setNutritionists] = useState([]);
+
+  const navigate = useNavigate()
+
+  const handleBook = (nutr) => {
+    navigate({ 
+      pathname: '/booking', 
+      search: createSearchParams({ name: nutr.firstname + " " + nutr.lastname,email: nutr.email}).toString() 
+    });  }
 
   useEffect(() => {
     async function get_nutritionists() {
@@ -51,7 +61,7 @@ const Nutritionists = () => {
     }
   }, []);
 
-  
+
   return (
     <>
       <div className="home-background">
@@ -59,7 +69,7 @@ const Nutritionists = () => {
           <SearchBarComponent />
         </div>
         <div className="multiple_cards">
-          {nutritionists.map((item) => ( item.verified &&
+          {nutritionists.map((item) => (item.verified &&
             <MDBCard className="nutritionist_card">
               <MDBCardImage
                 className="picture"
@@ -76,7 +86,9 @@ const Nutritionists = () => {
                   <br></br>
                   {item.city}, {item.country}
                 </MDBCardText>
-                <MDBBtn>Contact</MDBBtn>
+                  <button onClick={(e)=>handleBook(item)}>Book</button>
+                  
+                <MDBCardLink href='#' >Contact</MDBCardLink>
               </MDBCardBody>
             </MDBCard>
           ))}
