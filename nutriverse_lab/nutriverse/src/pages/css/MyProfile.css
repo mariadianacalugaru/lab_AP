@@ -84,7 +84,7 @@
 }
 
 .photo {
-  background-image: url('https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*');
+ 
   width: 50%; /* Adjust as needed */
   height: 0;
   padding-bottom: 50%; /* This creates a square container */

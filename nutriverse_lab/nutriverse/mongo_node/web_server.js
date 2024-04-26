@@ -5,6 +5,8 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 var amqp = require('amqplib/callback_api');
 
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -81,6 +83,7 @@ app.use(
     })
 );
 
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -94,7 +97,6 @@ app.get('/',
     });
 
 app.post('/login', async (req, res) => {
-
     if (req.session.authenticated) {
         res.json(session);
     }
@@ -116,7 +118,8 @@ app.post('/login', async (req, res) => {
                             firstname: user.firstname,
                             lastname: user.lastname,
                             email: user.email,
-                            is_nutritionist: user.is_nutritionist
+                            is_nutritionist: user.is_nutritionist,
+                            image: user.image
                         };
                         res.cookie("sid", "ciao")
                         res.send("logged in")
@@ -266,9 +269,27 @@ app.post("/register", upload.any(), async (req, res) => {
     }
 });
 
+app.post("/update_user", async (req,res) => {
+    const email = req.body.email;
+    const base64 = req.body.image;
+    const nutriverse = client.db("nutriverse");
+    const users = nutriverse.collection("users");
+    req.session.user.image = base64;
+    var query_user = { email: email};
+    var new_value_user = { $set: { image: base64} };
+    users.updateOne(query_user, new_value_user, function(err, res) {
+        if (err) throw err;
+            console.log("1 document updated");
+            nutriverse.close();
+        });
+    res.send("picture updated")
+});
+
+
+
 app.post("/logout", (req, res) => {
     res.clearCookie("connect.sid").status(200).send('Ok.');
-})
+});
 
 app.get('/search_nutritionists', async (req, res) => {
     const nutriverse = client.db("nutriverse");

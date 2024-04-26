@@ -12,17 +12,63 @@ import Tab from 'react-bootstrap/Tab';
 import './css/MyProfile.css';
 import axios from 'axios';
 import { TabPane } from 'react-bootstrap';
+import { useNavigate, Link, useLocation } from "react-router-dom"
 
 const MyProfile = () => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
   const [email, setEmail] = useState("")
   const[is_nutritionist,setNutritionist] = useState(false)
- 
-  
+  const [avatar, setAvatar] = useState("")
   const [patients, setPatients] = useState([]);
+  const [image, setImage] = useState("");
 
-  
+  function convertToBase64(e){
+      console.log(e);
+      var reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = () => {
+          setImage(reader.result);
+      };
+      reader.onerror = error => {
+          console.log(error);
+      }
+  }
+
+  const update = async () =>{
+    var formdata = new FormData()
+    formdata.append('email',email);
+    formdata.append('image',JSON.stringify({base64:image}));
+    const configuration = {
+        method: "post",
+          crossDomain: true,
+          headers: {
+            "Content-Type": "application/json",
+             "Accept": "application/json",
+             "Access-Control-Allow-Origin": "http://localhost:4000",
+          },
+          withCredentials: true,
+          responseType:"blob",
+      }
+      try {
+        await axios.post("http://localhost:4000/update_user",formdata, configuration)
+          .then(res => {
+            console.log(res);
+            window.location.reload();
+          })
+          .catch(event => {
+            alert("wrong details")
+            console.log(event);
+          })
+
+      }
+      catch (event) {
+        console.log(event);
+
+      }
+    
+  }
+
   useEffect(() => {
     async function get_patients() {
       const configuration = {
@@ -82,8 +128,8 @@ const MyProfile = () => {
               setInfo(true);
               setFirstname(res.data.user.firstname + " "+ res.data.user.lastname);
               setEmail(res.data.user.email);
-              setNutritionist(res.data.user.is_nutritionist)
-
+              setNutritionist(res.data.user.is_nutritionist);
+              setAvatar(JSON.parse(res.data.user.image).base64);
             }
           })
           .catch(event => {
@@ -98,7 +144,7 @@ const MyProfile = () => {
     }
     // Call the async function
     get_info();
-  },);
+  },[]);
 
   return (
     <Tab.Container  id="list-group-tabs-example" defaultActiveKey="#link1">
@@ -107,7 +153,8 @@ const MyProfile = () => {
         <Col sm={2}>
         <Card className='cont1'>
           <ListGroup>
-            <center><div className='label2'>{firstname}</div><Image src='https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=1200:*' className='image' roundedCircle></Image>
+            <h1>{}</h1>
+            <center><div className='label2'>{firstname}</div><Image src={avatar} className='image' roundedCircle></Image>
             </center>
             <ListGroup.Item className='listgroup' action href="#editprofile">
               Edit Profile
@@ -130,20 +177,20 @@ const MyProfile = () => {
               <Card.Body>
                 
                 
-                <Form>
+      <Form onSubmit={() => update()} >
       <Row className="mb-3">
       <Col sm={4}>
         <center>
-        <div  className='photo'>
-        <form  action="upload.php" method="post" enctype="multipart/form-data">
-        <label for="fileToUpload">
-       
-        <span>Change Image</span>
-        
-        </label>
-        <input type="File" name="fileToUpload" id="fileToUpload"></input>
-        </form>
+        <div style={{witdh: "auto"}}>
+            {image == "" || image == null ? <img width={150} src={avatar}></img>: <img width={150}  src={image}/>}
+            <input accept="image/*"
+                   type="file"
+                   onChange={convertToBase64}
+            />
+            
+            
         </div>
+
         </center>
         </Col >
         <Col sm={8}>
@@ -153,21 +200,9 @@ const MyProfile = () => {
           <Form.Control className='control' type="surname" placeholder={firstname} disabled/>
         </Form.Group>
         
-        <Row className="mb-3-special">
-          <Col>
-        <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>Change Email</Form.Label>
-          <Form.Control className='control' type="email" placeholder={email} />
-        </Form.Group>
-        </Col>
-        <Col>
-        <Form.Group   controlId="formGridPassword">
-          <Form.Label>Confirm new email</Form.Label>
-          <Form.Control className='control' type="password" placeholder="Confirm new email" />
-        </Form.Group>
         
-        </Col>
-        </Row>
+        
+       
 
         <Row className="mb-3-special">
           <Col>
@@ -203,10 +238,11 @@ const MyProfile = () => {
         </Col>
         </Row>}
       <center>
-      <Button variant="primary" type="submit" className='mybutton'>
+      <Button variant="primary"  className='mybutton' onClick={() => update()}>
         Save
       </Button>
       </center>
+      
     </Form>
                 
                 
