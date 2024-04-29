@@ -146,12 +146,17 @@ app.post("/session_info", (req, res) => {
     }
 })
 
-app.post('/get_reservations',upload.any(), async (req, res) => {
-    const nutriverse = client.db("nutriverse");
-    const users = nutriverse.collection("bookings");
-    const result = await users.find({ nutritionist: req.body.nutritionist },{projection:{_id:0,date:1}}).toArray();
-    console.log(result)
-    res.send(result); 
+app.post('/get_reservations', upload.any(), async (req, res) => {
+    if (!req.session.authenticated) {
+        res.send("not logged")
+    }
+    else {
+        const nutriverse = client.db("nutriverse");
+        const users = nutriverse.collection("bookings");
+        const result = await users.find({ nutritionist: req.body.nutritionist }, { projection: { _id: 0, date: 1 } }).toArray();
+        console.log(result)
+        res.send(result);
+    }
 });
 
 

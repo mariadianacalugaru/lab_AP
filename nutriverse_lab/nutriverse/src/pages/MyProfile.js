@@ -40,8 +40,7 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
-const MyProfile = () => {
-  const [modalShow, setModalShow] = useState(false);
+const MyProfile = ({setSid}) => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
   const [email, setEmail] = useState("")
@@ -204,6 +203,7 @@ const MyProfile = () => {
             }
             else {
               setInfo(true);
+              setSid(res.data.user.firstname + " "+ res.data.user.lastname)
               setFirstname(res.data.user.firstname + " "+ res.data.user.lastname);
               setEmail(res.data.user.email);
               setNutritionist(res.data.user.is_nutritionist);

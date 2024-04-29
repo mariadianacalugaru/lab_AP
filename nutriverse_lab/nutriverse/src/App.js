@@ -7,16 +7,54 @@ import Nutritionists from "./pages/Nutritionists";
 import { Route, Routes } from "react-router-dom"
 import Navbar from "./component/Navbar";
 import 'react-chat-elements/dist/main.css'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import Admin from "./pages/Admin";
 import Booking from "./pages/Booking";
-
+import axios from "axios"
 
 
 function App() {
   const [sid, setSid] = useState("")
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+
+  useEffect(() => {
+    // Define your async function
+    async function get_info() {
+      const configuration = {
+        method: "post",
+        url: "http://localhost:4000/session_info",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "http://localhost:4000",
+        },
+        withCredentials:true,
+      };
+      try {
+        await axios(configuration)
+          .then(res => {
+            if (res.data == "No account") {
+              return "";
+            }
+            else {
+              console.log(res)
+              
+              setSid(res.data.user.firstname+" "+res.data.user.lastname);
+            }
+          })
+          .catch(event => {
+            console.log(event);
+          })
+  
+      }
+      catch (event) {
+        console.log(event);
+  
+      }
+    }
+    // Call the async function
+    get_info();
+  },);
   
   return (
     <>
@@ -25,7 +63,7 @@ function App() {
       <Routes>
       <Route path="/admin" element={<Admin />} />
         <Route path="/" element={<Home setSid={setSid}/>} />
-          <Route path="/MyProfile" element={<MyProfile />} />
+          <Route path="/MyProfile" element={<MyProfile setSid={setSid}/>} />
           <Route path="/MyFoodPlan" element={<MyFoodPlan />} />
         <Route path="/Nutritionists" element={<Nutritionists setName={setName} setEmail={setEmail} />} />
           <Route path="/Login" element={<Login />} />

@@ -56,20 +56,24 @@ const Booking = () => {
             };
             try {
                 await axios.post("http://localhost:4000/get_reservations", formdata, configuration)
-                .then((res) => res.data)
-                    .then((json) => {
-                        setInfo(true);
-                        const results = json.filter((date) => {
-                    return date
-                  });
-                        setDates(results);
-                })
-                    .catch((event) => {
+                    .then((res) => {
+                        if (res.data == "not logged") {
+                            navigate("/login")
+                        }
+                        else {
+                            setDates(res.data)
+                        }
+                    }    
+                )
+                .catch((event) => {
                         console.log(event);
                     });
             } catch (event) {
                 console.log(event);
             }
+        }
+        if (name == null || email == null) {
+            navigate("/nutritionists")
         }
         if (!info) {
             get_reservations()
