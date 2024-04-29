@@ -5,6 +5,7 @@ import axios from "axios";
 import SearchBarComponent from "../component/SearchBarComponent";
 import "./css/Home.css";
 import "./css/Nutritionists.css";
+import NoAvatar from "../assets/no_avatar.png"
 
 import {
   MDBCard,
@@ -137,7 +138,7 @@ const Nutritionists = ({ setName, setEmail }) => {
             <MDBCard className="nutritionist_card">
               <MDBCardImage
                 className="picture"
-                src="https://mdbootstrap.com/img/new/standard/nature/184.webp"
+                src={item.image == "" ? NoAvatar : JSON.parse(item.image).base64}
                 position="top"
                 alt="..."
               />

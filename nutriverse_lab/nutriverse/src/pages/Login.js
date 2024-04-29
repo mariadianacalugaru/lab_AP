@@ -72,6 +72,7 @@ const Login = (show) => {
     country: "",
     city: "",
     address: "",
+    image: "" 
   });
   
   const expand_form = () => {
@@ -156,6 +157,7 @@ const Login = (show) => {
         formdata.append("country", country)
         formdata.append("city", city)
         formdata.append("address", form_Data.address)
+        formdata.append("image", "")
 
       }
 

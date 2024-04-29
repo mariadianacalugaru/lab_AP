@@ -242,7 +242,8 @@ app.post("/register", upload.any(), async (req, res) => {
                     "city": req.body.city,
                     "address": req.body.address,
                     "filename": req.files[0].filename,
-                    "verified": false
+                    "verified": false,
+                    "image":  ""
                 }
             }
         }
@@ -287,10 +288,12 @@ app.post("/register", upload.any(), async (req, res) => {
 
 app.post("/update_user", async (req,res) => {
     console.log("richiesta arrivata");
-    
+    console.log(req.body)
     const email = req.body.email;
     const image = req.body.image;
     const password = req.body.password;
+    const city = req.body.city;
+    const address = req.body.address;
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
     var query_user = { email: email};
@@ -307,6 +310,22 @@ app.post("/update_user", async (req,res) => {
     if(password != ""){
         const hashed_password = await bcrypt.hash(password, saltRounds);
         var new_value_user = { $set: { password: hashed_password} };
+        users.updateOne(query_user, new_value_user, function(err, res) {
+            if (err) throw err;
+                console.log("1 document updated");
+                nutriverse.close();
+            });
+    }
+    if(city != ""){
+        var new_value_user = { $set: { city: city} };
+        users.updateOne(query_user, new_value_user, function(err, res) {
+            if (err) throw err;
+                console.log("1 document updated");
+                nutriverse.close();
+            });
+    }
+    if(address != ""){
+        var new_value_user = { $set: { address: address} };
         users.updateOne(query_user, new_value_user, function(err, res) {
             if (err) throw err;
                 console.log("1 document updated");

@@ -13,6 +13,8 @@ import axios from 'axios';
 import { TabPane } from 'react-bootstrap';
 import { useNavigate, Link, useLocation } from "react-router-dom"
 import Modal from 'react-bootstrap/Modal';
+import NoAvatar from "../assets/no_avatar.png"
+
 
 
 function MyVerticallyCenteredModal(props) {
@@ -69,7 +71,7 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
       [name]: value,
     });
     
-    if ((form_Data.password != "" && form_Data.confirmPass != "") || document.getElementById("fileToUpload").files[0] !=""){
+    if ((form_Data.password != "" && form_Data.confirmPass != "") || document.getElementById("fileToUpload").files[0] !="" || form_Data.city != "" || form_Data.address != ""){
         setAble(true);
     }
     else{
@@ -113,6 +115,8 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
       formdata.append('email',email);
       formdata.append('image',JSON.stringify({base64:image}));
       formdata.append('password', form_Data.password)
+      formdata.append('city', form_Data.city)
+      formdata.append('address', form_Data.address)
     
       const configuration = {
           method: "post",
@@ -234,7 +238,7 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
         <Card className='cont1'>
           <ListGroup>
             <h1>{}</h1>
-            <center><div className='label2'>{firstname}</div><Image src={avatar} className='image' ></Image>
+            <center><div className='label2'>{firstname}</div><Image src={avatar == "" ? NoAvatar : avatar} className='image' ></Image>
             </center>
             <ListGroup.Item className='listgroup' action href="#editprofile">
               Edit Profile
@@ -263,7 +267,7 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
         <center>
         <div style={{witdh: "auto"}}>
         <label for="fileToUpload" className="photo"> 
-            {image == "" || image == null ? <img width={170} src={avatar} ></img>: <img width={150}  src={image} />}
+            {image == "" || image == null ? <img width={170} src={avatar == "" ? NoAvatar : avatar} ></img>: <img width={150}  src={image} />}
             <span>Change Image</span>
         </label>
       
@@ -296,7 +300,7 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
         <Row className="mb-3-special">
           <Col>
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>Change Password</Form.Label>
+          <Form.Label>New password</Form.Label>
           <Form.Control className='control' placeholder="Enter password" minLength={6} value={form_Data.password} onChange={chngFn} id="password" name="password" type="password" 
           isInvalid={validated && form_Data.password != "" && form_Data.password.length < 6}
           isValid={validated && (form_Data.password.length >= 6 || form_Data.password.length == 0)}/>
@@ -325,14 +329,18 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
         {is_nutritionist && <Row className="mb-3-special">
           <Col>
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>Change Address</Form.Label>
-          <Form.Control className='control' type="email" placeholder="New address" />
+          <Form.Label>New address</Form.Label>
+          <Form.Control className='control' placeholder="New address"  name="address"   value={form_Data.address} onChange={chngFn}
+                          isInvalid={false }
+                          isValid={(validated )}/>
         </Form.Group>
         </Col>
         <Col>
         <Form.Group   controlId="formGridPassword">
-          <Form.Label>Change City</Form.Label>
-          <Form.Control className='control' type="password" placeholder="New city" />
+          <Form.Label>New city</Form.Label>
+          <Form.Control className='control'  placeholder="New city" name="city"  value={form_Data.city} onChange={chngFn}
+                          isInvalid={false}
+                          isValid={(validated) } />
         </Form.Group>
         
         </Col>
