@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom"
 export default function Navbar({ sid, setSid, is_nutritionist }) {
 
     const history = useNavigate();
-
     async function logout() {
         const configuration = {
             method: "post",
@@ -49,7 +48,7 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
             <CustomLink to="/Nutritionists">Nutritionists</CustomLink>
             
             {(sid != "" && !is_nutritionist) && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
-            {(sid != "" && is_nutritionist) && <CustomLink to="/MyProfile#myfoodplan">MyPatients</CustomLink>}
+            {(sid != "" && is_nutritionist) && <CustomLink to="/MyPatients">MyPatients</CustomLink>}
             
             {(sid != "") && <CustomLink to="/MyProfile">
                 <FaRegUser /> {sid}

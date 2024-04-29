@@ -119,7 +119,7 @@ const Booking = () => {
     }
     const handleScheduled = async (dateTime) => {
         var formdata = new FormData()
-        formdata.append("email_nutritionist", email)
+        formdata.append("email_nutritionist", email);
         formdata.append("date",dateTime)
         const configuration = {
             headers: {

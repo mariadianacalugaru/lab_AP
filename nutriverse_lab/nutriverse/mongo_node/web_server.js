@@ -154,10 +154,19 @@ app.post('/get_reservations', upload.any(), async (req, res) => {
         const nutriverse = client.db("nutriverse");
         const users = nutriverse.collection("bookings");
         const result = await users.find({ nutritionist: req.body.nutritionist }, { projection: { _id: 0, date: 1 } }).toArray();
-        console.log(result)
         res.send(result);
     }
 });
+
+app.post('/get_patients', upload.any(), async (req, res) => {
+    const email = req.session.user.email;
+    const nutriverse = client.db("nutriverse");
+        const users = nutriverse.collection("users");
+        const result = await users.find({ email: email }, { projection: { list_patients: 1 } }).toArray();
+        console.log(result)
+        res.send(result);
+});
+
 
 
 
@@ -165,6 +174,8 @@ app.post("/add_reservation", upload.any(), (req, res) => {
     
     if (req.session.authenticated) {
         const email_user = req.session.user.email;
+        const name_user = req.session.user.firstname;
+        const lastname_user = req.session.user.lastname;
         const email_nutr = req.body.email_nutritionist;
         const date = req.body.date;
         const nutriverse = client.db("nutriverse");
@@ -184,7 +195,7 @@ app.post("/add_reservation", upload.any(), (req, res) => {
             nutriverse.close();
           });
         var query_nutr = { email: email_nutr };
-        var new_value_nutr = { $addToSet: { list_patients: { patient: email_user } } };
+        var new_value_nutr = { $addToSet: { list_patients: { patient: email_user, name: name_user, lastname: lastname_user } } };
         users.updateOne(query_nutr, new_value_nutr, function(err, res) {
             if (err) throw err;
             console.log("1 document updated");

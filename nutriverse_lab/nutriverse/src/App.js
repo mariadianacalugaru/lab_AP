@@ -11,7 +11,7 @@ import { useState,useEffect } from 'react'
 import Admin from "./pages/Admin";
 import Booking from "./pages/Booking";
 import axios from "axios"
-
+import MyPatients from "./pages/MyPatients"
 
 function App() {
   const [sid, setSid] = useState("")
@@ -39,7 +39,7 @@ function App() {
             }
             else {
               console.log(res)
-              
+              setIs_nutritionist(res.data.user.is_nutritionist)
               setSid(res.data.user.firstname+" "+res.data.user.lastname);
             }
           })
@@ -59,13 +59,14 @@ function App() {
   
   return (
     <>
-      <Navbar sid={sid} setSid={setSid} is_nutritionist={is_nutritionist}/>
+      <Navbar sid={sid} setSid={setSid} is_nutritionist={is_nutritionist} />
     
       <Routes>
       <Route path="/admin" element={<Admin />} />
         <Route path="/" element={<Home setSid={setSid}/>} />
           <Route path="/MyProfile" element={<MyProfile setSid={setSid} setIs_nutritionist={setIs_nutritionist}/>} />
-          <Route path="/MyFoodPlan" element={<MyFoodPlan />} />
+        <Route path="/MyFoodPlan" element={<MyFoodPlan />} />
+        <Route path="/MyPatients" element={<MyPatients is_nut={is_nutritionist} />} />
         <Route path="/Nutritionists" element={<Nutritionists setName={setName} setEmail={setEmail} />} />
           <Route path="/Login" element={<Login />} />
         <Route path="/Chat" element={<Chat />} />
