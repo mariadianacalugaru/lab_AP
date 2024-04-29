@@ -270,19 +270,34 @@ app.post("/register", upload.any(), async (req, res) => {
 });
 
 app.post("/update_user", async (req,res) => {
+    console.log("richiesta arrivata");
+    
     const email = req.body.email;
-    const base64 = req.body.image;
+    const image = req.body.image;
+    const password = req.body.password;
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
-    req.session.user.image = base64;
     var query_user = { email: email};
-    var new_value_user = { $set: { image: base64} };
-    users.updateOne(query_user, new_value_user, function(err, res) {
-        if (err) throw err;
-            console.log("1 document updated");
-            nutriverse.close();
-        });
-    res.send("picture updated")
+    
+    if (JSON.parse(req.body.image).base64 !== ""){
+        req.session.user.image = image;
+        var new_value_user = { $set: { image: image} };
+        users.updateOne(query_user, new_value_user, function(err, res) {
+            if (err) throw err;
+                console.log("1 document updated");
+                nutriverse.close();
+            });
+    }
+    if(password != ""){
+        const hashed_password = await bcrypt.hash(password, saltRounds);
+        var new_value_user = { $set: { password: hashed_password} };
+        users.updateOne(query_user, new_value_user, function(err, res) {
+            if (err) throw err;
+                console.log("1 document updated");
+                nutriverse.close();
+            });
+    }
+    res.send("user updated")
 });
 
 

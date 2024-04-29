@@ -196,6 +196,7 @@ const Login = (show) => {
   async function handleLogin(event){
     event.preventDefault();
     const form = event.currentTarget;
+    
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
@@ -274,7 +275,6 @@ const Login = (show) => {
                   <Form.Control className='control' type="password" name="password_login" placeholder="Password" onChange={chngFn} required />
                 </Form.Group>
                 <Form.Group>
-
                         <Form.Check type="checkbox" name="nutritionist" label="Remember me " className='checkbox'/>
                 </Form.Group>
                 <center><Button type="submit" id="submit">Login</Button></center>
