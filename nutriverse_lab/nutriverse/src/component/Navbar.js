@@ -2,12 +2,12 @@ import { Link, useMatch, useResolvedPath } from "react-router-dom"
 import Logo from "../assets/logo-removebg-preview.png"
 import { FaRegUser } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 
 
-export default function Navbar({ sid, setSid }) {
+export default function Navbar({ sid, setSid, is_nutritionist }) {
 
     const history = useNavigate();
 
@@ -48,7 +48,9 @@ export default function Navbar({ sid, setSid }) {
         <ul>
             <CustomLink to="/Nutritionists">Nutritionists</CustomLink>
             
-            {(sid != "") && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
+            {(sid != "" && !is_nutritionist) && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
+            {(sid != "" && is_nutritionist) && <CustomLink to="/MyProfile#myfoodplan">MyPatients</CustomLink>}
+            
             {(sid != "") && <CustomLink to="/MyProfile">
                 <FaRegUser /> {sid}
             </CustomLink>}

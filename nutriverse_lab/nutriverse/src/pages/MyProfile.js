@@ -40,7 +40,7 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
-const MyProfile = ({setSid}) => {
+const MyProfile = ({setSid,setIs_nutritionist}) => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
   const [email, setEmail] = useState("")
@@ -49,7 +49,7 @@ const MyProfile = ({setSid}) => {
   const [patients, setPatients] = useState([]);
   const [image, setImage] = useState("");
   const [able, setAble] = useState(false);
-
+  const [modalShow,setModalShow] = useState(false)
   const [validated, setValidated] = useState(false);
   const [form_Data, set_Form_Data] = useState({
     password: "",
@@ -207,6 +207,7 @@ const MyProfile = ({setSid}) => {
               setFirstname(res.data.user.firstname + " "+ res.data.user.lastname);
               setEmail(res.data.user.email);
               setNutritionist(res.data.user.is_nutritionist);
+              setIs_nutritionist(res.data.user.is_nutritionist)
               setAvatar(JSON.parse(res.data.user.image).base64);
             }
           })
@@ -226,7 +227,7 @@ const MyProfile = ({setSid}) => {
 
  
   return (
-    <Tab.Container  id="list-group-tabs-example" defaultActiveKey="#link1">
+    <Tab.Container  id="list-group-tabs-example" defaultActiveKey="#editprofile">
       <Row>
       
         <Col sm={2}>

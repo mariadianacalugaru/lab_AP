@@ -17,6 +17,7 @@ function App() {
   const [sid, setSid] = useState("")
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const[is_nutritionist,setIs_nutritionist] = useState(false)
 
   useEffect(() => {
     // Define your async function
@@ -58,12 +59,12 @@ function App() {
   
   return (
     <>
-      <Navbar sid={sid} setSid={setSid} />
+      <Navbar sid={sid} setSid={setSid} is_nutritionist={is_nutritionist}/>
     
       <Routes>
       <Route path="/admin" element={<Admin />} />
         <Route path="/" element={<Home setSid={setSid}/>} />
-          <Route path="/MyProfile" element={<MyProfile setSid={setSid}/>} />
+          <Route path="/MyProfile" element={<MyProfile setSid={setSid} setIs_nutritionist={setIs_nutritionist}/>} />
           <Route path="/MyFoodPlan" element={<MyFoodPlan />} />
         <Route path="/Nutritionists" element={<Nutritionists setName={setName} setEmail={setEmail} />} />
           <Route path="/Login" element={<Login />} />

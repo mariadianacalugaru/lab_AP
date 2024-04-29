@@ -184,7 +184,7 @@ app.post("/add_reservation", upload.any(), (req, res) => {
             nutriverse.close();
           });
         var query_nutr = { email: email_nutr };
-        var new_value_nutr = { $push: { list_patients: { patient: email_user } } };
+        var new_value_nutr = { $addToSet: { list_patients: { patient: email_user } } };
         users.updateOne(query_nutr, new_value_nutr, function(err, res) {
             if (err) throw err;
             console.log("1 document updated");
