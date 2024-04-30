@@ -10,7 +10,9 @@ import Table from 'react-bootstrap/Table';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Profile_image from '../assets/background.jpg'
 import Tab from 'react-bootstrap/Tab';
+import Nav from 'react-bootstrap/Nav';
 import './css/MyProfile.css';
+import './css/MyFoodPlan.css';
 import axios from 'axios';
 import { TabPane } from 'react-bootstrap';
 
@@ -102,15 +104,80 @@ const MyFoodPlan = () => {
   },);
 
   return (
+    <Tab.Container className="container_form" id="left-tabs-example" defaultActiveKey="mon">
     <Card className='cont1'>
     <Card.Header as="h5">FoodPlan</Card.Header>
+
+              Nome e Cognome del Paziente
               <Card.Body>
-                
-                
+              <Nav variant="tabs" defaultActiveKey="mon" fill>
+              <Nav.Item>
+              <Nav.Link eventKey="mon" className='title'>Monday</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+              <Nav.Link eventKey="tue" className='title'>Tuesday</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+              <Nav.Link eventKey="wed" className='title'>Wednesday</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+              <Nav.Link eventKey="thu" className='title'>Thursday</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+              <Nav.Link eventKey="fri" className='title'>Friday</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+              <Nav.Link eventKey="sat" className='title'>Saturday</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+              <Nav.Link eventKey="sun" className='title'>Sunday</Nav.Link>
+              </Nav.Item>
+            </Nav>
+            <Tab.Content>
+                <Tab.Pane eventKey="mon">
+                <Table responsive striped bordered hover className="table1">
+                    <thead>
+                        <tr>
+                            <th style={{backgroundColor:'deepskyblue'}}>Breakfast</th>
+                            <th style={{backgroundColor:'dodgerblue'}}>Snack1</th>
+                            <th style={{backgroundColor:'goldenrod'}}>Lunch</th>
+                            <th style={{backgroundColor:'chocolate'}}>Snack2</th>
+                            <th style={{backgroundColor:'firebrick'}}>Dinner</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                        
+                    </tbody>
+                </Table>
+                </Tab.Pane>
+                <Tab.Pane eventKey="tue">
+                </Tab.Pane>
+                <Tab.Pane eventKey="wed">
+                </Tab.Pane>
+                <Tab.Pane eventKey="thu">
+                </Tab.Pane>
+                <Tab.Pane eventKey="fri">
+                </Tab.Pane>
+                <Tab.Pane eventKey="sat">
+                </Tab.Pane>
+                <Tab.Pane eventKey="sun">
+                </Tab.Pane>
+            </Tab.Content>
                
                 
               </Card.Body>
             </Card>
+            </Tab.Container>
   )
 }
 
