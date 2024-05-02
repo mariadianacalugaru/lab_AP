@@ -476,6 +476,12 @@ app.post('/get_certificate', upload.any(), async (req, res) => {
 })
 
 
+app.get('/search_food', async (req, res) => {
+    const nutriverse = client.db("nutriverse");
+    const food = nutriverse.collection("food");
+    const result = await food.find({}).toArray();
+    res.send(result);
+});
 
 
 app.listen(4000,

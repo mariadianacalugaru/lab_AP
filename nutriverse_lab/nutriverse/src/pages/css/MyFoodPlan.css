@@ -12,9 +12,13 @@
 .title:active{ background-color: #9BB150;}
 
 .table1{
-   
+    height: 60vh;
     margin-top: 2% !important;
     margin-left: 1%;
     margin-right: 2%;
 }
 
+.cont1{
+    margin-top: 50px !important;
+    margin-bottom: 200px !important;
+}

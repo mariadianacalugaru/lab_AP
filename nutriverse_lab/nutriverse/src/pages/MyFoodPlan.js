@@ -136,7 +136,7 @@ const MyFoodPlan = () => {
             <Tab.Content>
                 <Tab.Pane eventKey="mon">
                 <Table responsive striped bordered hover className="table1">
-                    <thead>
+                    <thead className="head">
                         <tr>
                             <th style={{backgroundColor:'deepskyblue'}}>Breakfast</th>
                             <th style={{backgroundColor:'dodgerblue'}}>Snack1</th>

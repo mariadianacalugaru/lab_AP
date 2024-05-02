@@ -1,0 +1,52 @@
+.foods{
+    height: 50vh;
+    margin: 5px;
+}
+
+.ingredient{
+    width: 100% !important;
+    margin-bottom: 5px;
+    border-radius: 15px;
+}
+
+
+.Verify{
+    height: 25px !important;
+}
+
+.meal{
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+.ingredient_name{
+    width: 80%;
+}
+
+.quantity{
+    width: 70px !important;
+    margin-right: 5px;
+    font-size: 4;
+}
+
+#plus-icon{
+    height: 90vh !important;
+    color:#9BB150;
+}
+
+.multiple_cards{
+    margin-top: 20px;
+    display: inline-flex !important; 
+    flex-wrap: wrap !important;
+    margin-bottom: 100px;
+    width: 100%;
+}
+
+.nutritionist_card{
+    height: 70vh !important;
+    width: 19%;
+    box-shadow: 5px 5px 5px #dededeb9;
+    margin: 4px;
+}
+
