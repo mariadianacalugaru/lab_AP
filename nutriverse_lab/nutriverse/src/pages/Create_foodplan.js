@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react'
+import React, {useEffect, useState, useMemo } from 'react'
 import axios from 'axios'
 import SearchBarComponentFood from '../component/search_food/SearchBarComponentFood'
 import './css/Create_foodplan.css';
@@ -36,6 +36,7 @@ import {
 
 
 const Create_foodplan = ({setSid, setIs_nutritionist}) => {
+    
     const [info, setInfo] = useState(false)
     const[is_nutritionist,setNutritionist] = useState(false);
     const [ingredient, setIngredient] = useState("");
@@ -43,16 +44,19 @@ const Create_foodplan = ({setSid, setIs_nutritionist}) => {
     const [listFoods, setListFoods] = useState([]);
 
     const [day, setDay] = useState("");
+    const [meal, setMeal] = useState("");
     const [elements, setElements] = useState([]);
+    const [quantity, setQuantity] = useState("");
 
     const [modalShow, setModalShow] = useState(false);
     const close = () => {
       setModalShow(false);
     }
 
-    const show = (day, meal) => {
+    const show = async (day, meal) => {
+      setMeal(meal);
+      setDay(day);
       setModalShow(true);
-     
     }
 
     const addItem = (day, meal, product, quantity) => {
@@ -73,7 +77,8 @@ const Create_foodplan = ({setSid, setIs_nutritionist}) => {
       setElements(newList);
     };
 
-    function MyVerticallyCenteredModal(props, day, meal) {
+
+    function MyVerticallyCenteredModal(props) {
       return (
         <Modal
           {...props}
@@ -83,11 +88,23 @@ const Create_foodplan = ({setSid, setIs_nutritionist}) => {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              
+              {props.day} 
+              {props.meal}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className="search-bar"><SearchBarComponentFood ingredient={ingredient} setIngredient={setIngredient} selectedFood={selectedFood} setSelectedFood={setSelectedFood} listFoods={listFoods} setListFoods={setListFoods} addItem={addItem}/></div>
+            <div className="search-bar"><SearchBarComponentFood ingredient={ingredient} setIngredient={setIngredient} selectedFood={selectedFood} setSelectedFood={setSelectedFood} listFoods={listFoods} setListFoods={setListFoods} addItem={addItem} day={props.day} meal={props.meal}/></div>
+            <div className="ingredient" >
+              <ListGroup.Item variant="light" style={{display: "flex", justifyContent: "space-between"}}>
+                  <div className="ingredient_name">{ingredient}</div>
+                    <Form.Control className="quantity" onChange={(event) => setQuantity(event.target.value)}/>
+                    <span>
+                        <Link onClick={(event) => alert(event.target.value)}>
+                            <img src={Delete} id="delete_ingredient" className="Verify"alt="Nutriverse"></img>
+                      </Link>
+                    </span>
+                </ListGroup.Item>
+              </div>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={props.onHide}>Close</Button>
@@ -174,7 +191,7 @@ const Create_foodplan = ({setSid, setIs_nutritionist}) => {
                             <hr></hr>
                             
                               <ListGroup>
-                                {elements.map((item, index) => {
+                                {elements.map((item, index) => { 
                                   return (item.day === day && item.meal === meal &&
                                     <div className="ingredient" key={item}>
                                       <ListGroup.Item variant="light" style={{display: "flex", justifyContent: "space-between"}}>
@@ -207,7 +224,7 @@ const Create_foodplan = ({setSid, setIs_nutritionist}) => {
                                     
         </div>
 
-        <MyVerticallyCenteredModal show={modalShow} onHide={() => close()}/>
+        <MyVerticallyCenteredModal day={day} meal={meal} show={modalShow} onHide={() => close()}/>
         
         </>
     );
