@@ -270,11 +270,12 @@ const Login = (show) => {
                   <Form.Control className='control' type="email" name="email_login" placeholder="name@example.com" onChange={chngFn} required isInvalid={
                     (validated &&
                             !/^\S+@\S+\.\S+$/.test(form_Data.email))} />
-                        <Form.Control.Feedback type='invalid'>Wrong email</Form.Control.Feedback>
+                        <Form.Control.Feedback type='invalid'></Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control className='control' type="password" name="password_login" placeholder="Password" onChange={chngFn} required />
+                  <Form.Control className='control' type="password" name="password_login" placeholder="Password" onChange={chngFn} />
+                                                <Form.Control.Feedback type='invalid'></Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
                         <Form.Check type="checkbox" name="nutritionist" label="Remember me " className='checkbox'/>
