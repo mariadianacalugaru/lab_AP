@@ -4,9 +4,12 @@
 }
 
 .ingredient{
-    width: 100% !important;
-    margin-bottom: 5px;
-    border-radius: 15px;
+    background-color: transparent;
+    border-radius: 5px;
+    height: 100%;
+    font-size:1.25rem;
+    width: 100%;
+    margin-left:5px;
 }
 
 
@@ -48,5 +51,13 @@
     width: 19%;
     box-shadow: 5px 5px 5px #dededeb9;
     margin: 4px;
+}
+
+.list-group-item:last-child{
+    background-color: transparent !important;
+}
+
+.add_ingredient{
+    background-color: #9BB150 !important;
 }
 

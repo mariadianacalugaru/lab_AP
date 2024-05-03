@@ -31,7 +31,7 @@ const SearchBarFood = ({setResults, ingredient, setIngredient, setSelectedFood, 
   return (
       <div className='input-wrapper'>
           <FaRegPlusSquare id="plus-icon" />
-          <input id=" input"placeholder='Add an ingredient'
+          <input autoFocus={true} type="text" id="input" placeholder='Add an ingredient'
               value={ingredient}
               onChange={(e) => handleChange(e.target.value)}
               
