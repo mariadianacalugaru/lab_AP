@@ -1,13 +1,13 @@
 import React from 'react'
 import "../../App.css"
 
-const SearchResultsFood = ({result, setIngredient, setSelectedFood, setListFoods, addItem}) => {
+const SearchResultsFood = ({result, setIngredient, setSelectedFood, setListFoods, addItem, day, meal}) => {
     const ciao = () => {
         setIngredient(result.Name);
         setSelectedFood(true);
         setListFoods([]);
-        addItem("Monday","Breakfast",result.Name,"");
-        setIngredient("")
+        //addItem(day, meal ,result.Name,"");
+        //setIngredient("")
       }
 
     return (
