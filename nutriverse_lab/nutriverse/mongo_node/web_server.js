@@ -159,12 +159,14 @@ app.post('/get_reservations', upload.any(), async (req, res) => {
 });
 
 app.post('/get_patients', upload.any(), async (req, res) => {
-    const email = req.session.user.email;
-    const nutriverse = client.db("nutriverse");
+    if (req.session.authenticated) {
+        const email = req.session.user.email;
+        const nutriverse = client.db("nutriverse");
         const users = nutriverse.collection("users");
         const result = await users.find({ email: email }, { projection: { list_patients: 1 } }).toArray();
         console.log(result)
         res.send(result);
+    }
 });
 
 
@@ -485,18 +487,20 @@ app.get('/search_food', async (req, res) => {
 
 app.post('/save_foodplan', upload.any(), async (req,res) => {
     
-    
     if (req.session.authenticated){
         const nutritionist = req.session.user.email;
         const patient = req.body.patient;
         const foodplan = JSON.parse(req.body.foodplan);
+        const date = new Date();
+        
         console.log(foodplan);
         const nutriverse = client.db("nutriverse");
         const foodplans = nutriverse.collection("foodplans");
         var data = {
             "nutritionist" : nutritionist,
             "patient" : patient,
-            "foodplan" : foodplan
+            "foodplan" : foodplan,
+            "date": date
         }
         foodplans.insertOne(data,function(err,res){
             if (err) throw err;
