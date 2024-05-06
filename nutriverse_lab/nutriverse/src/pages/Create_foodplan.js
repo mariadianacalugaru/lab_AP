@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import SearchBarComponentFood from '../component/search_food/SearchBarComponentFood'
-import './css/Create_foodplan.css';
+import './css/Foodplan.css';
 import "./css/Home.css";
-import "./css/MyFoodPlan.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -243,7 +242,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
           defaultActiveKey="Monday"
         >
           <Card className="cont1">
-            <Card.Header as="h5">FoodPlan of {searchParams.get("name")} {searchParams.get("lastname")}</Card.Header>
+            <Card.Header as="h5">Foodplan {searchParams.get("name")} {searchParams.get("lastname")}</Card.Header>
             <Card.Body>
              
               <Nav className='tabs_days' variant="tabs" defaultActiveKey="Monday" fill>
@@ -263,7 +262,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
                   {["Breakfast", "Snack 1 ", "Lunch", "Snack 2", "Dinner"].map(
                     (meal, idx) => (
 
-                      <MDBCard className="nutritionist_card" >
+                      <MDBCard className="meal_card" >
 
                         <div className="foods">
                           <MDBCardTitle className="meal">{meal}</MDBCardTitle>

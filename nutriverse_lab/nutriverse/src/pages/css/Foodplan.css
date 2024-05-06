@@ -10,7 +10,7 @@
     font-size:1.25rem;
     width: 98%;
     margin-left: 1%;
-    
+    margin-bottom: 3px;
 }
 
 .tabs_days{
@@ -31,6 +31,7 @@
 
 .ingredient_name{
     width: 80%;
+   
 }
 
 .quantity{
@@ -52,7 +53,7 @@
     width: 100%;
 }
 
-.nutritionist_card{
+.meal_card{
     height: 60vh !important;
     width: 19%;
     box-shadow: 5px 5px 5px #dededeb9;
@@ -74,3 +75,41 @@
     
 }
 
+.title{
+    font-family:Arial, Helvetica, sans-serif !important;
+    text-align: center;
+    padding: 0%;
+}
+
+.title:hover {
+    background-color: #9BB150;
+    color:black !important;
+}
+
+.title:active{ background-color: #9BB150;}
+
+.table1{
+    height: 60vh;
+    margin-top: 2% !important;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.cont1{
+    margin-top: 50px !important;
+    margin-bottom: 200px !important;
+}
+
+.no_plan{
+    width: 80%;
+    height: 70vh;
+    background-color: white;
+    position: center;
+    margin: 10%;
+    margin-top: 3%;
+    border-radius: 10px;
+}
+
+.not_found{
+   margin: 20px;
+}
