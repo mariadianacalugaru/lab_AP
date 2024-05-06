@@ -9,13 +9,12 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Stack from '@mui/material/Stack';
-import AddIcon from '@mui/icons-material/Add';
 import Button from 'react-bootstrap/Button';
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import ListGroup from "react-bootstrap/ListGroup";
 import Delete from "../assets/reject.png"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams} from "react-router-dom"
 import Form from 'react-bootstrap/Form';
 
 import Card from 'react-bootstrap/Card';
@@ -37,6 +36,7 @@ import {
 
 
 
+
 const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
   const inputRef = useRef(0)
   const [info, setInfo] = useState(false)
@@ -45,7 +45,12 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
   const [selectedFood, setSelectedFood] = useState(false);
   const [listFoods, setListFoods] = useState([]);
 
-  const [day, setDay] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  searchParams.get("name");
+  
+  
+
+  const [day, setDay] = useState("Monday");
   const [meal, setMeal] = useState("");
   const [elements, setElements] = useState([]);
   const [quantity, setQuantity] = useState("");
@@ -57,6 +62,52 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
     setSelectedFood(false);
     setModalShow(false);
   }
+
+  async function save_foodplan() {
+    var formdata = new FormData();
+    var configuration =''
+      
+      configuration = {
+          method:'post',
+          url: "http://localhost:4000/save_foodplan",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:4000",
+          },
+          
+          withCredentials: true,
+          data: {patient: searchParams.get("patient"), foodplan:JSON.stringify(elements)}
+      };
+      
+      formdata.append("elements",elements)
+       
+
+      
+
+      try {
+        await axios(configuration)
+          .then(res => {
+            console.log(res)
+            if (res.data == "Food Plan inserted") {
+              alert("ok");
+             
+            }
+            
+          })
+          .catch(event => {
+            alert("wrong details")
+            console.log(event);
+          })
+
+      }
+      catch (event) {
+        console.log(event);
+
+      }
+
+
+  } 
+
 
   const deleteIngredient = () => {
     setQuantity("");
@@ -72,6 +123,8 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
 
   const addItem = (day, meal, product, quantity) => {
     setElements([...elements, { "day": day, "meal": meal, "product": product, "quantity": quantity }]);
+
+    close();
   };
 
 
@@ -90,6 +143,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
 
 
   function MyVerticallyCenteredModal(props) {
+ 
     return (
       <Modal
         animation={false}
@@ -124,7 +178,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
         </Modal.Body>
         <Modal.Footer>
           <Stack direction="row" spacing={2}>
-            <Button onClick={props.onHide} variant="success" disabled={!selectedFood}>
+            <Button onClick={props.add} variant="success" disabled={!selectedFood}>
               Add
             </Button>
             <Button onClick={props.onHide} variant="danger">
@@ -185,12 +239,13 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
         <Tab.Container
           className="container_form"
           id="left-tabs-example"
-          defaultActiveKey="mon"
+          defaultActiveKey="Monday"
         >
           <Card className="cont1">
-            <Card.Header as="h5">FoodPlan</Card.Header>
+            <Card.Header as="h5">FoodPlan of {searchParams.get("name")} {searchParams.get("lastname")}</Card.Header>
             <Card.Body>
-              <Nav variant="tabs" defaultActiveKey="mon" fill>
+             
+              <Nav className='tabs_days' variant="tabs" defaultActiveKey="Monday" fill>
                 {["Monday", "Tuesday ", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
                   (day, idx) => (
                     <Nav.Item>
@@ -219,7 +274,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
                                 <div className="ingredient" key={item}>
                                   <ListGroup.Item variant="light" style={{ display: "flex", justifyContent: "space-between" }}>
                                     <div className="ingredient_name">{item.product}</div>
-                                    <Form.Control className="quantity" onChange={(event) => updateItem(event, item.day, item.meal, item.product, index)} />
+                                    <Form.Control className="quantity" value={item.quantity} disabled/>
                                     <span>
                                       <Link onClick={() => removeItem(index)}>
                                         <img src={Delete} id="delete_ingredient" className="Verify" alt="Nutriverse"></img>
@@ -230,8 +285,9 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
                               );
                             })}
                           </ListGroup>
-
+                          <center>
                           <Button className="add_ingredient" onClick={() => show(day, meal)} >+</Button>
+                          </center>
                         </div>
 
 
@@ -241,13 +297,17 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
                   )}
                 </div>
               </Tab.Content>
+              <center>
+          <Button className="save_button" onClick={() => save_foodplan()} >Save</Button>
+          </center>
             </Card.Body>
           </Card>
+         
         </Tab.Container>
 
       </div>
 
-      <MyVerticallyCenteredModal day={day} meal={meal} show={modalShow} onHide={() => close()} />
+      <MyVerticallyCenteredModal day={day} meal={meal} show={modalShow} onHide={() => close()} add={() => addItem(day,meal,ingredient,quantity)}  />
 
     </>
   );

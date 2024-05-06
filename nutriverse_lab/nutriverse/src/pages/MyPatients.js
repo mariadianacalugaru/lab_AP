@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/Table';
 
 import './css/MyProfile.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 
 
 const MyPatients = ({is_nut}) => {
@@ -48,6 +48,18 @@ const MyPatients = ({is_nut}) => {
         }
     }, []);
 
+ 
+    const create_foodplan = (name,lastname,patient) => {
+        navigate({
+            pathname: "/Create_foodplan",
+            search: createSearchParams({
+                name: name, 
+                lastname: lastname,
+                patient: patient
+            }).toString()
+        });}
+        
+    
 
     useEffect(() => {
         // Define your async function
@@ -113,9 +125,9 @@ const MyPatients = ({is_nut}) => {
                                 <td>{item.name}</td>
                                 <td>{item.lastname}</td>
                                 <td>{item.patient}</td>
-                                <td><a action href="/MyFoodPlan">
-                                    FoodPlan
-                                </a></td>
+                                <td><button onClick={ () =>create_foodplan(item.name,item.lastname,item.patient)}>Food Plan</button>
+                                    
+                                </td>
                                 <td></td>
 
 

@@ -8,8 +8,14 @@
     border-radius: 5px;
     height: 100%;
     font-size:1.25rem;
-    width: 100%;
-    margin-left:5px;
+    width: 98%;
+    margin-left: 1%;
+    
+}
+
+.tabs_days{
+    display:flex !important;
+    position:relative !important;
 }
 
 
@@ -42,7 +48,7 @@
     margin-top: 20px;
     display: inline-flex !important; 
     flex-wrap: wrap !important;
-    margin-bottom: 100px;
+    
     width: 100%;
 }
 
@@ -58,6 +64,13 @@
 }
 
 .add_ingredient{
+    width: 20%;
+    margin-top:10px;
     background-color: #9BB150 !important;
+}
+
+.save_button{
+    width: 20%;
+    
 }
 

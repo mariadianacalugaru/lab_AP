@@ -483,6 +483,35 @@ app.get('/search_food', async (req, res) => {
     res.send(result);
 });
 
+app.post('/save_foodplan', upload.any(), async (req,res) => {
+    
+    
+    if (req.session.authenticated){
+        const nutritionist = req.session.user.email;
+        const patient = req.body.patient;
+        const foodplan = JSON.parse(req.body.foodplan);
+        console.log(foodplan);
+        const nutriverse = client.db("nutriverse");
+        const foodplans = nutriverse.collection("foodplans");
+        var data = {
+            "nutritionist" : nutritionist,
+            "patient" : patient,
+            "foodplan" : foodplan
+        }
+        foodplans.insertOne(data,function(err,res){
+            if (err) throw err;
+
+            client.close();
+            res.send("Food Plan inserted");
+
+        
+        })
+    }
+    else{
+        res.send("Not logged");
+    }
+});
+
 
 app.listen(4000,
     () => {

@@ -51,7 +51,7 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
   const [patients, setPatients] = useState([]);
   const [image, setImage] = useState("");
   const [able, setAble] = useState(false);
-  const [modalShow,setModalShow] = useState(false)
+  const [modalShow,setModalShow1] = useState(false)
   const [validated, setValidated] = useState(false);
   const [form_Data, set_Form_Data] = useState({
     password: "",
@@ -98,7 +98,7 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
 
 
   const close = () => {
-    setModalShow(false);
+    setModalShow1(false);
     history(0)
   }
 
@@ -133,7 +133,7 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
             .then((res) => {
               console.log(res.data)
               if (res.data === "user updated"){
-                  setModalShow(true);
+                  setModalShow1(true);
               }
             })
             .catch(event => {
