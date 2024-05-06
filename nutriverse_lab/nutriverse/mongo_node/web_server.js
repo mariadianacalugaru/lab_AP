@@ -502,10 +502,8 @@ app.post('/save_foodplan', upload.any(), async (req,res) => {
             if (err) throw err;
 
             client.close();
-            res.send("Food Plan inserted");
-
-        
         })
+        res.send("Food Plan inserted");
     }
     else{
         res.send("Not logged");

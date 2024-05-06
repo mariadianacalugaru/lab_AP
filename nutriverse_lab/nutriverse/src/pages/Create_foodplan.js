@@ -90,6 +90,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
             console.log(res)
             if (res.data == "Food Plan inserted") {
               alert("ok");
+              
              
             }
             
