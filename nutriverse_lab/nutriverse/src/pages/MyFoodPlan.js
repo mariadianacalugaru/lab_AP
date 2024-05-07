@@ -91,7 +91,49 @@ const MyFoodPlan = () => {
 
     // Call the async function
     get_info();
-  },);
+  }, []);
+
+
+  async function get_nutritional_values(){
+      const wanted_elem = elements.filter(element => element.day == "Monday" && element.meal == "Breakfast")
+      const wanted_fields = wanted_elem.map(elem => ({ product: elem.product, quantity: elem.quantity }));
+
+      const requestData = {
+        "ingr": ["100gr rice", "150 gr chicken"] 
+      };
+      const configuration = {
+        method: "post",
+        url: "https://api.edamam.com/api/nutrition-details",
+
+        headers: {
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+          
+        },
+        params: {
+          app_id: '9003ffd0',
+          app_key: '9e8cff0f3c7485b39c0fdab1f447a5ac'
+        },
+        data: requestData
+      };
+
+      try {
+        await axios(configuration)
+          .then(res => {
+            console.log(res.data)})
+          .catch(event => {
+            alert("wrong details")
+            console.error(event);
+          })
+
+      }
+      catch (event) {
+        console.log(event);
+
+      }
+  }
+
+
 
   return (
     <>
@@ -135,6 +177,7 @@ const MyFoodPlan = () => {
                               );
                             })}
                           </ListGroup>
+                          <Button className="nutritional_values" onClick={() => get_nutritional_values()} >Nutritional values</Button>
                         </div>
                       </MDBCard>
                     )

@@ -68,6 +68,10 @@
     width: 20%;
     margin-top:10px;
     background-color: #9BB150 !important;
+    position: absolute;
+    bottom: 10px; 
+    left: 50%; 
+    transform: translateX(-50%);
 }
 
 .save_button{
@@ -112,4 +116,13 @@
 
 .not_found{
    margin: 20px;
+}
+
+.nutritional_values{
+    position: absolute;
+    width: 70%;
+    bottom: 10px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+   
 }
