@@ -53,7 +53,6 @@
 
 .listgroup:hover:not(.active) {
   background-color: #555;
-  color: white;
 }
 
 .listgroup:focus{

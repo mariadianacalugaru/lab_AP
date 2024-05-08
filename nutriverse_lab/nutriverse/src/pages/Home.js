@@ -14,7 +14,7 @@ const Home = ({setSid}) => {
 
     return (
       <>
-        <div className="home-background">
+        <div className="home-background">      
         <center>
           <div className='logo-home'><img src={Logo_home} alt="Nutriverse"></img></div>
           <div className="search-bar"><SearchBarComponent /></div>

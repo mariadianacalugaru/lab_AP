@@ -11,7 +11,7 @@ import Tab from 'react-bootstrap/Tab';
 import './css/MyProfile.css';
 import axios from 'axios';
 import { TabPane } from 'react-bootstrap';
-import { useNavigate, Link, useLocation } from "react-router-dom"
+import { useNavigate, Link, useLocation,createSearchParams } from "react-router-dom"
 import Modal from 'react-bootstrap/Modal';
 import NoAvatar from "../assets/no_avatar.png"
 
@@ -64,6 +64,17 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
 
   const history = useNavigate();
 
+  const create_foodplan = (name,lastname,patient) => {
+    history({
+        pathname: "/Create_foodplan",
+        search: createSearchParams({
+            name: name, 
+            lastname: lastname,
+            patient: patient
+        }).toString()
+    });
+  }
+  
   const chngFn = (event) => {
     const { name, value } = event.target;
     set_Form_Data({
@@ -389,9 +400,7 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
                 <td>{item.firstname}</td>
                   <td>{item.lastname}</td>
                   <td>{item.email}</td>
-                <td><a action href="/MyFoodPlan">
-                    FoodPlan
-                  </a></td>
+                <td><button onClick={ () =>create_foodplan(item.firstname,item.lastname,item.email)}>Food Plan</button></td>
                 <td></td>
                 
               

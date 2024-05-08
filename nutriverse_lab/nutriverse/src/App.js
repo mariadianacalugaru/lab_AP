@@ -61,7 +61,6 @@ function App() {
   return (
     <>
       <Navbar sid={sid} setSid={setSid} is_nutritionist={is_nutritionist} />
-    
       <Routes>
       <Route path="/admin" element={<Admin />} />
         <Route path="/" element={<Home setSid={setSid}/>} />

@@ -264,7 +264,7 @@ const Login = (show) => {
         <Tab.Content>
             <Tab.Pane eventKey="login"><div className='Reg' >
               <left>
-                <Form noValidate onSubmit={handleLogin}>
+                <Form noValidate onSubmit={handleLogin} href="/MyProfile">
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control className='control' type="email" name="email_login" placeholder="name@example.com" onChange={chngFn} required isInvalid={

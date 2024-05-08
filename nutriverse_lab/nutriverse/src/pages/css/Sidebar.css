@@ -1,0 +1,84 @@
+#hamburger_nutriverse {
+    height: 100vh;
+    width: 0px;
+    right: 0;
+    position: fixed;
+    z-index: 40;
+    top: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 100px;
+    border-left: 1.5px solid #9bb150;
+    box-shadow: 5px;
+
+}
+
+#sidebar menu {
+    background-color: white;
+    display: none;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 2rem;
+}
+
+#sidebar .menu span {
+    height: 0.4rem;
+    width: 100%;
+    background-color: white;
+    border-radius: 0.2rem;
+}
+
+#sidebar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar a {
+    margin-left: 10px;
+    padding: 8px 8px 8px 0px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    transition: 0.3s;
+}
+
+#sidebar li {
+    padding: 8px 8px 8px 8px;
+    width: 100%;
+}
+
+#sidebar li.active {
+    background-color: #9BB150;
+}
+
+#sidebar li:hover {
+    background-color: #9BB150;
+}
+
+
+#sidebar .closebtn {
+    cursor: pointer;
+    padding: 4px 12px 8px 12px;
+    color: #818181;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 28px;
+    margin-left: 50px;
+}
+
+#sidebar .closebtn:hover {
+    background-color: #9BB150;
+    border-radius: 30px;
+}
+
+@media screen and (min-width:1268px) {
+    #hamburger_nutriverse{
+        display: none;
+    }
+}

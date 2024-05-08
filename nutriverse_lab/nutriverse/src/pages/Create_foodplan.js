@@ -14,7 +14,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import ListGroup from "react-bootstrap/ListGroup";
 import Delete from "../assets/reject.png"
-import { Link, useSearchParams} from "react-router-dom"
+import { Link, useNavigate, useSearchParams} from "react-router-dom"
 import Form from 'react-bootstrap/Form';
 
 import Card from 'react-bootstrap/Card';
@@ -49,7 +49,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
   searchParams.get("name");
   
   
-
+  const navigate = useNavigate()
   const [day, setDay] = useState("Monday");
   const [meal, setMeal] = useState("");
   const [elements, setElements] = useState([]);
@@ -89,7 +89,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
           .then(res => {
             console.log(res)
             if (res.data == "Food Plan inserted") {
-              alert("ok");
+              navigate("/mypatients")
               
              
             }

@@ -1,7 +1,6 @@
 .Logo{
     height: 3rem;
     margin-left: 1rem;
-    margin-bottom: 0.5rem;
 }
 
 
@@ -148,5 +147,28 @@ input:focus{
     margin-top: 10rem;
     margin-left: 2rem;
     margin-right: 2rem;
+    
 }
+
+.logo{
+    display: none;
+    padding: 8px 12px 8px 12px;
+}
+
+.logo:hover{
+    cursor: pointer;
+    background-color: #9BB150;
+    color: white;
+    border-radius: 30px;
+}
+
+@media screen and (max-width: 1268px) {
+    .nav_nutriverse li{
+        display: none;
+    }
+    .nav_nutriverse .logo{
+        display: block;
+    }
+}
+
 
