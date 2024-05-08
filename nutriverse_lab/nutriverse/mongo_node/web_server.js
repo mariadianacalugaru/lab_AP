@@ -146,6 +146,8 @@ app.post("/session_info", (req, res) => {
     }
 })
 
+
+
 app.post('/get_reservations', upload.any(), async (req, res) => {
     if (!req.session.authenticated) {
         res.send("not logged")
@@ -513,6 +515,30 @@ app.post('/save_foodplan', upload.any(), async (req,res) => {
         res.send("Not logged");
     }
 });
+
+
+app.get("/get_foodplan", async (req, res) => {
+    if (req.session.authenticated) {
+        email = req.session.user.email;
+        const nutriverse = client.db("nutriverse");
+        const foodplans = nutriverse.collection("foodplans");
+        foodplans.findOne({ patient: email }).then(foodplan => {
+            if (foodplan) {
+                const result = {
+                    "user": req.session.user,
+                    "foodplan": foodplan
+                }
+                res.send(result);
+            }
+            else{
+                res.send("no foodplan yet")
+            }
+        })
+    }
+    else {
+        res.send("no user authenticated")
+    }
+})
 
 
 app.listen(4000,

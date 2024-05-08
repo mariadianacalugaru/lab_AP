@@ -12,60 +12,43 @@ import Profile_image from '../assets/background.jpg'
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 import './css/MyProfile.css';
-import './css/MyFoodPlan.css';
+import './css/Foodplan.css';
 import axios from 'axios';
 import { TabPane } from 'react-bootstrap';
+import NoFoodplan from "../assets/no_foodplan.png"
+
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBCardTitle,
+  MDBCardText,
+  MDBCardImage,
+  MDBBtn,
+  MDBCardLink
+} from "mdb-react-ui-kit";
+
 
 const MyFoodPlan = () => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
   const [email, setEmail] = useState("")
-  const[is_nutritionist,setNutritionist] = useState(false)
- 
-  
-  const [patients, setPatients] = useState([]);
+  const[is_nutritionist,setIsNutritionist] = useState(false)
 
-  
-  useEffect(() => {
-    async function get_patients() {
-      const configuration = {
-        method: "get",
-        url: "http://localhost:4000/search_nutritionists",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
-        },
-        withCredentials: true,
-      };
-      try {
-        await axios(configuration)
-          .then((res) => res.data)
-          .then((json) => {
-            setInfo(true);
-            const results = json.filter((user) => {
-              return user && !user.is_nutritionist;
-            });
-            setPatients(results);
-          })
-          .catch((event) => {
-            console.log(event);
-          });
-      } catch (event) {
-        console.log(event);
-      }
-    }
-    if (!info) {
-      get_patients();
-    }
-  }, []);
+  const [day, setDay] = useState("Monday");
+  const [meal, setMeal] = useState("");
+  const [nutritionist, setNutritionist] = useState("")
+  const [elements, setElements] = useState([]);
+
+  const [existsPlan, setExistsPlan] = useState(false);
+
 
 
   useEffect(() => {
     // Define your async function
     async function get_info() {
       const configuration = {
-        method: "post",
-        url: "http://localhost:4000/session_info",
+        method: "get",
+        url: "http://localhost:4000/get_foodplan",
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "http://localhost:4000",
@@ -78,15 +61,21 @@ const MyFoodPlan = () => {
         await axios(configuration)
           .then(res => {
             console.log(res)
-            if (res.data == "No account") {
+            if (res.data == "no user authenticated") {
               return "";
+            }
+            else if(res.data == "no foodplan yer"){
+              setExistsPlan(false);
+              alert("no foodplan");
             }
             else {
               setInfo(true);
               setFirstname(res.data.user.firstname + " "+ res.data.user.lastname);
               setEmail(res.data.user.email);
-              setNutritionist(res.data.user.is_nutritionist)
-
+              setIsNutritionist(res.data.user.is_nutritionist)
+              setNutritionist(res.data.foodplan.nutritionist)
+              setElements(res.data.foodplan.foodplan)
+              setExistsPlan(true);
             }
           })
           .catch(event => {
@@ -99,86 +88,121 @@ const MyFoodPlan = () => {
   
       }
     }
+
     // Call the async function
     get_info();
-  },);
+  }, []);
+
+
+  async function get_nutritional_values(){
+      const wanted_elem = elements.filter(element => element.day == "Monday" && element.meal == "Breakfast")
+      const wanted_fields = wanted_elem.map(elem => ({ product: elem.product, quantity: elem.quantity }));
+
+      const requestData = {
+        "ingr": ["100gr rice", "150 gr chicken"] 
+      };
+      const configuration = {
+        method: "post",
+        url: "https://api.edamam.com/api/nutrition-details",
+
+        headers: {
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+          
+        },
+        params: {
+          app_id: '9003ffd0',
+          app_key: '9e8cff0f3c7485b39c0fdab1f447a5ac'
+        },
+        data: requestData
+      };
+
+      try {
+        await axios(configuration)
+          .then(res => {
+            console.log(res.data)})
+          .catch(event => {
+            alert("wrong details")
+            console.error(event);
+          })
+
+      }
+      catch (event) {
+        console.log(event);
+
+      }
+  }
+
+
 
   return (
-    <Tab.Container className="container_form" id="left-tabs-example" defaultActiveKey="mon">
-    <Card className='cont1'>
-    <Card.Header as="h5">FoodPlan</Card.Header>
+    <>
+    <div className="home-background">
+      {existsPlan && <>
+        <Tab.Container className="container_form" id="left-tabs-example" defaultActiveKey="Monday">
+          <Card className="cont1">
+            <Card.Header as="h5">Foodplan created by {nutritionist}</Card.Header>
+            <Card.Body>
+              <Nav className='tabs_days' variant="tabs" defaultActiveKey="Monday" fill>
+                {["Monday", "Tuesday ", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
+                  (day, idx) => (
+                    <Nav.Item>
+                      <Nav.Link eventKey={day} className="title" onClick={() => setDay(day)}>
+                        {day}
+                      </Nav.Link>
+                    </Nav.Item>
+                  )
+                )}
+              </Nav>
 
-              Nome e Cognome del Paziente
-              <Card.Body>
-              <Nav variant="tabs" defaultActiveKey="mon" fill>
-              <Nav.Item>
-              <Nav.Link eventKey="mon" className='title'>Monday</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-              <Nav.Link eventKey="tue" className='title'>Tuesday</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-              <Nav.Link eventKey="wed" className='title'>Wednesday</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-              <Nav.Link eventKey="thu" className='title'>Thursday</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-              <Nav.Link eventKey="fri" className='title'>Friday</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-              <Nav.Link eventKey="sat" className='title'>Saturday</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-              <Nav.Link eventKey="sun" className='title'>Sunday</Nav.Link>
-              </Nav.Item>
-            </Nav>
-            <Tab.Content>
-                <Tab.Pane eventKey="mon">
-                <Table responsive striped bordered hover className="table1">
-                    <thead className="head">
-                        <tr>
-                            <th style={{backgroundColor:'deepskyblue'}}>Breakfast</th>
-                            <th style={{backgroundColor:'dodgerblue'}}>Snack1</th>
-                            <th style={{backgroundColor:'goldenrod'}}>Lunch</th>
-                            <th style={{backgroundColor:'chocolate'}}>Snack2</th>
-                            <th style={{backgroundColor:'firebrick'}}>Dinner</th>
+              <Tab.Content>
+                <div className="multiple_cards">
+                  {["Breakfast", "Snack 1 ", "Lunch", "Snack 2", "Dinner"].map(
+                    (meal, idx) => (
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                      <MDBCard className="meal_card" >
+                        <div className="foods">
+                          <MDBCardTitle className="meal">{meal}</MDBCardTitle>
+                          <hr></hr>
 
+                          <ListGroup>
+                            {elements.map((item, index) => {
+                              return ( item.day === day && item.meal === meal &&
+                                <div className="ingredient">
+                                  <ListGroup.Item variant="light" style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <div className="ingredient_name">{item.product}</div>
+                                    <Form.Control className="quantity" value={item.quantity} disabled/>
+                                  </ListGroup.Item>
+                                </div>
+                              );
+                            })}
+                          </ListGroup>
+                          <Button className="nutritional_values" onClick={() => get_nutritional_values()} >Nutritional values</Button>
+                        </div>
+                      </MDBCard>
+                    )
+                  )}
+                </div>
+              </Tab.Content>
+            </Card.Body>
+            
+          </Card> 
+        </Tab.Container>
+        </>}
+     
+     
 
-                            </tr>
-                        
-                    </tbody>
-                </Table>
-                </Tab.Pane>
-                <Tab.Pane eventKey="tue">
-                </Tab.Pane>
-                <Tab.Pane eventKey="wed">
-                </Tab.Pane>
-                <Tab.Pane eventKey="thu">
-                </Tab.Pane>
-                <Tab.Pane eventKey="fri">
-                </Tab.Pane>
-                <Tab.Pane eventKey="sat">
-                </Tab.Pane>
-                <Tab.Pane eventKey="sun">
-                </Tab.Pane>
-            </Tab.Content>
-               
-                
-              </Card.Body>
-            </Card>
-            </Tab.Container>
-  )
+      {!existsPlan && 
+       <div className="no_plan">
+          <center>
+            <Image src={NoFoodplan} className='not_found' ></Image>
+            <h3>You have not a foodplan yet ...</h3>
+          </center>
+       </div>
+      }
+    </div>
+    </>
+  );
 }
 
 export default MyFoodPlan
