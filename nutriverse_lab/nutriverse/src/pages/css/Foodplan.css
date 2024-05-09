@@ -124,5 +124,27 @@
     bottom: 10px; 
     left: 50%; 
     transform: translateX(-50%); 
-   
 }
+
+.nutritional_card{
+    padding: 50px;
+    width: 60%;
+    border-radius: 10px;
+    margin-bottom: 100px;
+    box-shadow: 3px 3px 3px 3px #dededeb9;
+}
+
+.nutritional_value{
+    background-color: transparent;
+    border-radius: 5px;
+    height: 100%;
+    font-size:1.25rem;
+    width: 98%;
+    margin-left: 1%;
+    margin-bottom: 3px;
+}
+
+.value{
+    width: 35% !important;
+}
+

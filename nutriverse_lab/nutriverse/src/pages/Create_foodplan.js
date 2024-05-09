@@ -46,13 +46,15 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   searchParams.get("name");
-  
-  
+
   const navigate = useNavigate()
   const [day, setDay] = useState("Monday");
   const [meal, setMeal] = useState("");
   const [elements, setElements] = useState([]);
   const [quantity, setQuantity] = useState("");
+  
+  var values = '';
+  const [nutritional, setNutritional] = useState([]);
 
   const [modalShow, setModalShow] = useState(false);
   const close = () => {
@@ -108,7 +110,6 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
 
   } 
 
-
   const deleteIngredient = () => {
     setQuantity("");
     setIngredient("");
@@ -123,15 +124,22 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
 
   const addItem = (day, meal, product, quantity) => {
     setElements([...elements, { "day": day, "meal": meal, "product": product, "quantity": quantity }]);
-
     close();
-  };
 
+    const wanted_elem = elements.filter(element => element.day == "Monday" && element.meal == "Breakfast")
+    const wanted_fields = wanted_elem.map(elem => ({ product: elem.product, quantity: elem.quantity }));
+    setTimeout(() => {
+      console.log(wanted_fields)
+    }, 5000);
+   
+    //get_nutritional_values();
+  }
 
   const removeItem = (index) => {
     const newList = [...elements];
     newList.splice(index, 1);
     setElements(newList);
+    //get_nutritional_values();
   };
 
   const updateItem = (event, index, day, meal, product) => {
@@ -179,7 +187,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
         </Modal.Body>
         <Modal.Footer>
           <Stack direction="row" spacing={2}>
-            <Button onClick={props.add} variant="success" disabled={!selectedFood}>
+            <Button onClick={props.add} variant="success" disabled={!selectedFood} >
               Add
             </Button>
             <Button onClick={props.onHide} variant="danger">
@@ -227,10 +235,62 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
 
       }
     }
+    
     get_info();
   }, []);
 
 
+  async function get_nutritional_values(){
+    const wanted_elem = elements.filter(element => element.day == "Monday" && element.meal == "Breakfast")
+
+    const wanted_fields = wanted_elem.map(elem => ({ product: elem.product, quantity: elem.quantity }));
+
+    const requestData = {
+      "ingr": ["100gr rice", "150 gr chicken"] 
+    };
+    const configuration = {
+      method: "post",
+      url: "https://api.edamam.com/api/nutrition-details",
+
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        
+      },
+      params: {
+        app_id: '9003ffd0',
+        app_key: '9e8cff0f3c7485b39c0fdab1f447a5ac'
+      },
+      data: requestData
+    };
+
+    try {
+      await axios(configuration)
+        .then(res => {
+          const cal = res.data.totalNutrients.ENERC_KCAL.quantity+" "+res.data.totalNutrients.ENERC_KCAL.unit;
+          const fats = res.data.totalNutrients.FAT.quantity+" "+res.data.totalNutrients.FAT.unit;
+          const carbs = res.data.totalNutrients.CHOCDF.quantity+" "+res.data.totalNutrients.CHOCDF.unit;
+          const chol = res.data.totalNutrients.CHOLE.quantity+" "+res.data.totalNutrients.CHOLE.unit;
+          const prot = res.data.totalNutrients.PROCNT.quantity+" "+res.data.totalNutrients.PROCNT.unit;
+          const sug = res.data.totalNutrients.SUGAR.quantity+" "+res.data.totalNutrients.SUGAR.unit;
+          const fib = res.data.totalNutrients.FIBTG.quantity+" "+res.data.totalNutrients.FIBTG.unit;
+          const ca = res.data.totalNutrients.CA.quantity+" "+res.data.totalNutrients.CA.unit;
+          const mg = res.data.totalNutrients.MG.quantity+" "+res.data.totalNutrients.MG.unit;
+          const po = res.data.totalNutrients.K.quantity+" "+res.data.totalNutrients.K.unit;
+        
+          setNutritional([cal, fats, carbs, chol, prot, sug, fib, ca, mg, po]);
+        })
+        .catch(event => {
+          alert("wrong details")
+          console.error(event);
+        })
+
+    }
+    catch (event) {
+      console.log(event);
+
+    }
+}
 
 
 
@@ -300,8 +360,23 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
                 </div>
               </Tab.Content>
               <center>
-          <Button className="save_button" onClick={() => save_foodplan()} >Save</Button>
-          </center>
+                <div className="nutritional_card">
+                  {['Calories','Fats','Carbohidrates','Cholesterol', 'Proteins','Sugars', 'Fibers', 'Calcium', 'Magnesium', 'Potassium'].map((item, index) => {
+                      return (
+                          <div className="nutritional_value">
+                              <ListGroup.Item variant="light" style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <div >{item}</div>
+                                    <Form.Control className="value" value={nutritional[index]} disabled/>
+                              </ListGroup.Item>
+                          </div>
+                      );
+                  })}
+                </div>
+                <Button className="save_button" onClick={() => save_foodplan()} >Save</Button>
+                </center>
+              
+              
+
             </Card.Body>
           </Card>
          
