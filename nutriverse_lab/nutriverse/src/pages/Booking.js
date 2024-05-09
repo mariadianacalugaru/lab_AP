@@ -5,33 +5,50 @@ import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import "./css/Booking.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import {
+    MDBCol,
+    MDBContainer,
+    MDBRow,
+    MDBCard,
+    MDBCardText,
+    MDBCardBody,
+    MDBCardImage,
+    MDBBtn,
+    MDBBreadcrumb,
+    MDBBreadcrumbItem,
+    MDBProgress,
+    MDBProgressBar,
+    MDBIcon,
+    MDBListGroup,
+    MDBListGroupItem
+} from 'mdb-react-ui-kit';
 
 
 function MyVerticallyCenteredModal(props) {
     return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Success Reservation
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>
-            La prenotazione è andata a buon fine
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Success Reservation
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <p>
+                    La prenotazione è andata a buon fine
+                </p>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={props.onHide}>Close</Button>
+            </Modal.Footer>
+        </Modal>
     );
 }
-  
+
 const Booking = () => {
 
     const [modalShow, setModalShow] = useState(false);
@@ -40,9 +57,52 @@ const Booking = () => {
     const [email, setEmail] = useState(searchParams.get("email"))
     const navigate = useNavigate()
     const [dates, setDates] = useState([])
-    const [info,setInfo] = useState(false)
+    const [info, setInfo] = useState(false)
+    const [firstname, set_firstname] = useState("")
+    const [lastname, set_lastname] = useState("")
+    const [country, set_country] = useState("")
+    const [city, set_city] = useState("")
+    const [address, set_address] = useState("")
+    const [image, set_image] = useState("")
+    const [get_info, setGetInfo] = useState(false)
 
-    
+    useEffect(() => {
+        const configuration = {
+            method: "GET",
+            url: "http://localhost:4000/info_nutritionist?email=" + email,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "http://localhost:4000",
+            },
+            withCredentials: true,
+        };
+
+        const get_info_nutritionist = () => {
+            setGetInfo(true)
+            try {
+                axios(configuration)
+                    .then((res) => {
+                        set_firstname(res.data.firstname);
+                        set_lastname(res.data.lastname);
+                        set_country(res.data.country);
+                        set_city(res.data.city);
+                        set_address(res.data.address);
+                        set_image(res.data.image)
+                    })
+                    .catch((event) => {
+                        console.log(event);
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+        if (!get_info) {
+            get_info_nutritionist()
+        }
+    });
+
+
     useEffect(() => {
         var formdata = new FormData()
         formdata.append("nutritionist", email)
@@ -63,9 +123,9 @@ const Booking = () => {
                         else {
                             setDates(res.data)
                         }
-                    }    
-                )
-                .catch((event) => {
+                    }
+                    )
+                    .catch((event) => {
                         console.log(event);
                     });
             } catch (event) {
@@ -78,7 +138,7 @@ const Booking = () => {
         if (!info) {
             get_reservations()
         }
-        
+
     }, [dates.current])
 
     const history = useNavigate()
@@ -87,12 +147,12 @@ const Booking = () => {
         setModalShow(false);
         history(0)
     }
-    
+
     function timeSlotValidator(slotTime) {
         var booked = false;
-        for (var i = 0; i < dates.length; i++){
+        for (var i = 0; i < dates.length; i++) {
             if (dates[i].date == slotTime) {
-                booked = true 
+                booked = true
             }
         }
         const start = new Date(
@@ -113,23 +173,23 @@ const Booking = () => {
             0
         );
         const isValid = !booked && slotTime.getTime() >= start.getTime() && slotTime.getTime() <= end.getTime();
-        
+
         return isValid;
 
     }
     const handleScheduled = async (dateTime) => {
         var formdata = new FormData()
         formdata.append("email_nutritionist", email);
-        formdata.append("date",dateTime)
+        formdata.append("date", dateTime)
         const configuration = {
             headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "http://localhost:4000",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "http://localhost:4000",
             },
             withCredentials: true,
-          };
+        };
         try {
-            await axios.post("http://localhost:4000/add_reservation",formdata,configuration)
+            await axios.post("http://localhost:4000/add_reservation", formdata, configuration)
                 .then((res) => {
                     if (res.data == "booking accepted") {
                         setModalShow(true)
@@ -138,25 +198,46 @@ const Booking = () => {
         }
         catch (event) {
             console.log(event);
-          }
-      };
+        }
+    };
 
     return (
-        <>
-            <h1>{name}</h1>
-            <h2>{email}</h2>
-            <div className='Calendar_timeslot'>
-                <DayTimePicker
-                    timeSlotSizeMinutes={60}
-                    timeSlotValidator={timeSlotValidator}
-                    onConfirm={handleScheduled} 
+        <center>
+
+            <div className='booking'>
+                <div className='card_nutritionist'>
+
+                    <MDBCard className="mb-10">
+                        <MDBCardBody className="text-center">
+                            <MDBCardImage
+                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                alt="avatar"
+                                className="rounded-circle"
+                                style={{ width: '150px' }}
+                                fluid />
+                            <p className="text-muted mb-1">Nutritionist</p>
+                            <p className="text-muted mb-2">{firstname} {lastname}</p>
+                            <p className="text-muted mb-2">{email}</p>
+                            <p className="text-muted mb-2">{country}, {city}, {address}</p>
+                            <div className="d-flex justify-content-center mb-2">
+                                <Button>Contact</Button>
+                            </div>
+                        </MDBCardBody>
+                    </MDBCard>
+                </div>
+                <div className='Calendar_timeslot'>
+                    <DayTimePicker
+                        timeSlotSizeMinutes={60}
+                        timeSlotValidator={timeSlotValidator}
+                        onConfirm={handleScheduled}
+                    />
+                </div>
+                <MyVerticallyCenteredModal
+                    show={modalShow}
+                    onHide={() => close()}
                 />
             </div>
-            <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => close()}
-      />
-        </>
+        </center>
     )
 }
 

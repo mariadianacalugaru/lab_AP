@@ -1,5 +1,8 @@
 .Calendar_timeslot{
-    position: absolute;
-    right: 15%;
-    top:20%;
+    margin-left: 200px;
+}
+
+.booking{
+    display: inline-flex;
+    margin-top:70px;
 }
