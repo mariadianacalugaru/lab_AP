@@ -1,10 +1,14 @@
 .full_div{
     border-radius: 5px;
     width: 90%;
-    height: 80vh;
+    height: auto;
     padding: 30px;
     background-color: white !important;
     margin: 5%;
+}
+
+.full_div h4{
+    margin-left: 8%;
 }
 
 .keywords{
@@ -16,5 +20,52 @@
 }
 
 .search{
+    margin-top: 30px;
     display: flex;
+}
+
+.receipes_cont{
+    margin: 60px;
+}
+
+.receipe{
+    height: auto;
+    min-height: 37vh;
+    border-color: lightgray !important;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px 3px #dededeb9;
+    margin-bottom: 30px;
+}
+
+.rec_info{
+    margin: 1%;
+    margin-left: 4%;
+    width: 50%
+}
+.rec_image{
+    border-radius: 5px;
+    margin-left: 2%;
+    margin-top: 2%;
+    height: 30vh!important;
+}
+
+.rec_name{
+    font-size:xx-large;
+}
+
+.rec_values{
+    margin-right: 40px;
+    margin-top: 1.5%;
+}
+
+.val{
+    padding: 5px;
+    margin-bottom: 5px;
+    border-color: black;
+}
+
+.cals{
+    padding: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
