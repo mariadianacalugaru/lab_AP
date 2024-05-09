@@ -68,6 +68,7 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
             <img src={Logo} className="Logo" alt="Nutriverse" ></img>
         </Link>
         <ul>
+            {(sid != "") && <CustomLink to="/Search_recipes">Recipes</CustomLink>}
             {!is_nutritionist && <CustomLink to="/Nutritionists">Nutritionists</CustomLink>}
             <CustomLink to="/Appointments">Appointments</CustomLink>
             {(sid != "" && !is_nutritionist) && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}

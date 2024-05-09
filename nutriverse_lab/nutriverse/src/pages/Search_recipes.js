@@ -10,7 +10,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 
 
-const Search_recipes = ({}) => {
+const Search_recipes = ({setSid}) => {
     const [query, setQuery] = useState('');
     const [result, setResult] = useState([])
 
