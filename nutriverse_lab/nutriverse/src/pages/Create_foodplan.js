@@ -140,7 +140,8 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
     newList[index] = { "day": day, "meal": meal, "product": product, "quantity": value };
     setElements(newList);
   };
-
+  
+  
 
   function MyVerticallyCenteredModal(props) {
  
@@ -161,7 +162,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {!selectedFood && <div className="search-bar"><SearchBarComponentFood ingredient={ingredient} setIngredient={setIngredient} selectedFood={selectedFood} setSelectedFood={setSelectedFood} listFoods={listFoods} setListFoods={setListFoods} addItem={addItem} day={props.day} meal={props.meal} /></div>}
+          {!selectedFood && <div className="search-bar"><SearchBarComponentFood elements={elements} ingredient={ingredient} setIngredient={setIngredient} selectedFood={selectedFood} setSelectedFood={setSelectedFood} listFoods={listFoods} setListFoods={setListFoods} addItem={addItem} day={props.day} meal={props.meal} /></div>}
           {selectedFood &&
             <div className="ingredient" >
               <ListGroup.Item variant="light" style={{ display: "flex", justifyContent: "space-between" }}>
@@ -270,8 +271,9 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
 
                           <ListGroup>
                             {elements.map((item, index) => {
+                              console.log(item);
                               return (item.day === day && item.meal === meal &&
-                                <div className="ingredient" key={item}>
+                                <div className="ingredient">
                                   <ListGroup.Item variant="light" style={{ display: "flex", justifyContent: "space-between" }}>
                                     <div className="ingredient_name">{item.product}</div>
                                     <Form.Control className="quantity" value={item.quantity} disabled/>

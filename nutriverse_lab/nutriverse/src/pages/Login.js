@@ -58,6 +58,7 @@ const Login = (show) => {
   const [city, setCity] = useState("");
   const [cookies, setCookie] = useCookies(['user']);
   const [existed, setExisted] = useState(false);
+  const [ password_wrong ,setPassword_wrong] = useState(false)
   const [nutritionist, setNutritionist] = useState(false);
 
   const [validated, setValidated] = useState(false);
@@ -224,6 +225,7 @@ const Login = (show) => {
               alert("no account found");
             }
             else if (res.data == "Incorrect password!") {
+              setPassword_wrong(true)
               alert("incorrect password");
             }
             else { 
@@ -274,8 +276,8 @@ const Login = (show) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control className='control' type="password" name="password_login" placeholder="Password" onChange={chngFn} />
-                                                <Form.Control.Feedback type='invalid'></Form.Control.Feedback>
+                        <Form.Control className='control' type="password" name="password_login" placeholder="Password" onChange={chngFn} isInvalid={password_wrong} />
+                    <Form.Control.Feedback type='invalid'></Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
                         <Form.Check type="checkbox" name="nutritionist" label="Remember me " className='checkbox'/>
