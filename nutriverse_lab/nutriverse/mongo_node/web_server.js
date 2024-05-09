@@ -361,6 +361,23 @@ app.get('/info_nutritionist', async (req, res) => {
     res.send(result[0])
 });
 
+
+app.get('/get_appointments', async (req, res) => {
+    const nutriverse = client.db("nutriverse");
+    const bookings = nutriverse.collection("bookings");
+    var query;
+    if (req.session.user.is_nutritionist) {
+        query = { nutritionist: req.session.user.email }
+    }
+    else {
+        query = { user: req.session.user.email }
+    }
+    const result = await bookings.find(query, { projection: { _id: 0, date: 1 } }).toArray();
+    console.log(result)
+    res.send(result)
+});
+
+
 app.post('/approve_nutritionist', async (req, res) => {
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");

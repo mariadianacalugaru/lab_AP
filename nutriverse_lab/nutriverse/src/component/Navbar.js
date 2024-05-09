@@ -19,20 +19,20 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
                 </Link>
             </li>
         )
-    
-    
+
+
     }
     const history = useNavigate();
-    const [selected_sidebar,setSelected] = useState(false)
+    const [selected_sidebar, setSelected] = useState(false)
     const show_sidebar = () => {
         document.getElementById("hamburger_nutriverse").style.width = "250px";
     }
 
     const closeNav = () => {
         document.getElementById("hamburger_nutriverse").style.width = "0px";
-      
+
     }
-    
+
     async function logout() {
         const configuration = {
             method: "post",
@@ -68,8 +68,8 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
             <img src={Logo} className="Logo" alt="Nutriverse" ></img>
         </Link>
         <ul>
-            <CustomLink to="/Nutritionists">Nutritionists</CustomLink>
-
+            {!is_nutritionist && <CustomLink to="/Nutritionists">Nutritionists</CustomLink>}
+            <CustomLink to="/Appointments">Appointments</CustomLink>
             {(sid != "" && !is_nutritionist) && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
             {(sid != "" && is_nutritionist) && <CustomLink to="/MyPatients">MyPatients</CustomLink>}
 
@@ -87,23 +87,24 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
     </nav>
         <div id="hamburger_nutriverse">
 
-        <div  id="sidebar" >
+            <div id="sidebar" >
                 <ul>
-                    <div className="closebtn" onClick={() => closeNav()}><MdClose/></div>
-                {(sid != "") && <CustomLink onClick={()=>closeNav()} to="/MyProfile">
-                    <FaRegUser /> {sid}
-                </CustomLink>}
-                <CustomLink onClick={()=>closeNav()} to="/Nutritionists">Nutritionists</CustomLink>
-                {(sid != "" && !is_nutritionist) && <CustomLink onClick={()=>closeNav()} to="/MyFoodPlan">MyFoodPlan</CustomLink>}
-                {(sid != "" && is_nutritionist) && <CustomLink onClick={()=>closeNav()} to="/MyPatients">MyPatients</CustomLink>}
-                {(sid != "") && <CustomLink to="/" id="logout" onClick={logout}>
-                    <CiLogout /> Logout
-                </CustomLink>}
-                {(sid == "" && window.location.pathname != "/Login") && <CustomLink onClick={()=>closeNav()} to="/Login" className="Login" >
-                        <FaRegUser/> Login
-                </CustomLink>}
-            </ul>
-        </div>
+                    <div className="closebtn" onClick={() => closeNav()}><MdClose /></div>
+                    {(sid != "") && <CustomLink onClick={() => closeNav()} to="/MyProfile">
+                        <FaRegUser /> {sid}
+                    </CustomLink>}
+                    {!is_nutritionist && <CustomLink to="/Nutritionists">Nutritionists</CustomLink>}
+                    <CustomLink to="/Appointments">Appointments</CustomLink>
+                    {(sid != "" && !is_nutritionist) && <CustomLink onClick={() => closeNav()} to="/MyFoodPlan">MyFoodPlan</CustomLink>}
+                    {(sid != "" && is_nutritionist) && <CustomLink onClick={() => closeNav()} to="/MyPatients">MyPatients</CustomLink>}
+                    {(sid != "") && <CustomLink to="/" id="logout" onClick={logout}>
+                        <CiLogout /> Logout
+                    </CustomLink>}
+                    {(sid == "" && window.location.pathname != "/Login") && <CustomLink onClick={() => closeNav()} to="/Login" className="Login" >
+                        <FaRegUser /> Login
+                    </CustomLink>}
+                </ul>
+            </div>
         </div>
     </>
 }
