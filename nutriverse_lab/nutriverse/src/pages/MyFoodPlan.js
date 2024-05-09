@@ -15,7 +15,8 @@ import './css/MyProfile.css';
 import './css/Foodplan.css';
 import axios from 'axios';
 import { TabPane } from 'react-bootstrap';
-import NoFoodplan from "../assets/no_foodplan.png"
+import NoFoodplan from "../assets/no_foodplan.png";
+import { Link } from 'react-router-dom';
 
 import {
   MDBCard,
@@ -94,7 +95,7 @@ const MyFoodPlan = () => {
   }, []);
 
 
-  async function get_nutritional_values(){
+  async function get_recipes(){
       const wanted_elem = elements.filter(element => element.day == "Monday" && element.meal == "Breakfast")
       const wanted_fields = wanted_elem.map(elem => ({ product: elem.product, quantity: elem.quantity }));
 
@@ -177,13 +178,16 @@ const MyFoodPlan = () => {
                               );
                             })}
                           </ListGroup>
-                          <Button className="nutritional_values" onClick={() => get_nutritional_values()} >Nutritional values</Button>
                         </div>
                       </MDBCard>
                     )
                   )}
                 </div>
               </Tab.Content>
+              <Link to="/Search_recipes">
+                <Button className="get_recipes">Search for recipes suggestions</Button>
+              </Link>
+              
             </Card.Body>
             
           </Card> 

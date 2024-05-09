@@ -125,14 +125,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
   const addItem = (day, meal, product, quantity) => {
     setElements([...elements, { "day": day, "meal": meal, "product": product, "quantity": quantity }]);
     close();
-
-    const wanted_elem = elements.filter(element => element.day == "Monday" && element.meal == "Breakfast")
-    const wanted_fields = wanted_elem.map(elem => ({ product: elem.product, quantity: elem.quantity }));
-    setTimeout(() => {
-      console.log(wanted_fields)
-    }, 5000);
-   
-    //get_nutritional_values();
+   // get_nutritional_values();
   }
 
   const removeItem = (index) => {
@@ -241,8 +234,8 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
 
   async function get_nutritional_values(){
     const wanted_elem = elements.filter(element => element.day == "Monday" && element.meal == "Breakfast")
-
     const wanted_fields = wanted_elem.map(elem => ({ product: elem.product, quantity: elem.quantity }));
+    const ingr = wanted_fields.map(elem => (elem.product.toString()+" "+elem.quantity.toString()));
 
     const requestData = {
       "ingr": ["100gr rice", "150 gr chicken"] 
@@ -260,7 +253,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
         app_id: '9003ffd0',
         app_key: '9e8cff0f3c7485b39c0fdab1f447a5ac'
       },
-      data: requestData
+      data: {"ingr": ingr}
     };
 
     try {
@@ -282,6 +275,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
         .catch(event => {
           alert("wrong details")
           console.error(event);
+          console.log("troppe richieste")
         })
 
     }
@@ -329,7 +323,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
                           <hr></hr>
 
                           <ListGroup>
-                            {elements.map((item, index) => {
+                            {elements.map((item, index) => {/*get_nutritional_values();*/
                               return (item.day === day && item.meal === meal &&
                                 <div className="ingredient">
                                   <ListGroup.Item variant="light" style={{ display: "flex", justifyContent: "space-between" }}>

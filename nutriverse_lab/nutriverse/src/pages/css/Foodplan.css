@@ -1,3 +1,4 @@
+
 .foods{
     height: 50vh;
     margin: 5px;
@@ -7,7 +8,7 @@
     background-color: transparent;
     border-radius: 5px;
     height: 100%;
-    font-size:1.25rem;
+    font-size:1.10rem;
     width: 98%;
     margin-left: 1%;
     margin-bottom: 3px;
@@ -31,13 +32,13 @@
 
 .ingredient_name{
     width: 80%;
-   
+    padding-top: 2%;
 }
 
 .quantity{
     width: 70px !important;
     margin-right: 5px;
-    font-size: 4;
+    font-size: 3;
 }
 
 #plus-icon{
@@ -118,10 +119,10 @@
    margin: 20px;
 }
 
-.nutritional_values{
+.get_recipes{
     position: absolute;
-    width: 70%;
-    bottom: 10px; 
+    width: 40%;
+    bottom: 40px; 
     left: 50%; 
     transform: translateX(-50%); 
 }

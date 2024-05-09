@@ -1,0 +1,20 @@
+.full_div{
+    border-radius: 5px;
+    width: 90%;
+    height: 80vh;
+    padding: 30px;
+    background-color: white !important;
+    margin: 5%;
+}
+
+.keywords{
+    border-color: lightgray;
+    height: 40px;
+    width: 60%;
+    margin-left: 8%;
+    margin-right: 5%;
+}
+
+.search{
+    display: flex;
+}
