@@ -1,5 +1,6 @@
 import Calendar from 'react-awesome-calendar';
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import "../pages/css/Appointment.css"
 
@@ -16,7 +17,7 @@ const Appointment = () => {
     const [dates, setDates] = useState([])
     const [get_info, setGetInfo] = useState(false)
     const [bookings, setbookings] = useState([])
-
+    const navigate = useNavigate()
     useEffect(() => {
         const configuration = {
             method: "GET",
@@ -34,9 +35,13 @@ const Appointment = () => {
                 axios(configuration)
                     .then((res) => res.data)
                     .then((json) => {
+                        console.log(json)
                         const results = json.map((date) => {
                             return new Date(date.date);
                         });
+                        const patients = json.map((item) => {
+                            return item.user;
+                        })
                         var events = []
                         for (var i = 0; i < results.length; i++) {
                             var data = {
@@ -44,7 +49,7 @@ const Appointment = () => {
                                 color: '#9bb150',
                                 from: results[i].getTime()+120*60000,
                                 to: results[i].getTime()+180*60000,
-                                title: 'Visit'
+                                title: 'Visit with '+ patients[i]
                             }
                             events.push(data)
                         }

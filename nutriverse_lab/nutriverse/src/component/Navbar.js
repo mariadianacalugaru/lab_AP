@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
+import { GiProgression } from "react-icons/gi";
 import "../pages/css/Sidebar.css"
 export default function Navbar({ sid, setSid, is_nutritionist }) {
     function CustomLink({ to, children, ...props }) {
@@ -70,10 +71,10 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
         <ul>
             {(sid != "") && <CustomLink to="/Search_recipes">Recipes</CustomLink>}
             {!is_nutritionist && <CustomLink to="/Nutritionists">Nutritionists</CustomLink>}
-            <CustomLink to="/Appointments">Appointments</CustomLink>
+            {is_nutritionist && <CustomLink to="/Appointments">Appointments</CustomLink>}
+            {(sid != "" && !is_nutritionist) && <CustomLink to="/MyProgress"><GiProgression className="icon"/> Progress</CustomLink>}
             {(sid != "" && !is_nutritionist) && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
             {(sid != "" && is_nutritionist) && <CustomLink to="/MyPatients">MyPatients</CustomLink>}
-
             {(sid != "") && <CustomLink to="/MyProfile">
                 <FaRegUser /> {sid}
             </CustomLink>}
@@ -95,7 +96,7 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
                         <FaRegUser /> {sid}
                     </CustomLink>}
                     {!is_nutritionist && <CustomLink to="/Nutritionists">Nutritionists</CustomLink>}
-                    <CustomLink to="/Appointments">Appointments</CustomLink>
+                    {is_nutritionist && <CustomLink to="/Appointments">Appointments</CustomLink>}
                     {(sid != "" && !is_nutritionist) && <CustomLink onClick={() => closeNav()} to="/MyFoodPlan">MyFoodPlan</CustomLink>}
                     {(sid != "" && is_nutritionist) && <CustomLink onClick={() => closeNav()} to="/MyPatients">MyPatients</CustomLink>}
                     {(sid != "") && <CustomLink to="/" id="logout" onClick={logout}>

@@ -15,6 +15,7 @@ import MyPatients from "./pages/MyPatients"
 import Create_foodplan from "./pages/Create_foodplan"
 import Search_recipes from "./pages/Search_recipes"
 import Appointment from "./component/Appointment";
+import Progress from "./pages/Progress";
 
 function App() {
   const [sid, setSid] = useState("")
@@ -74,9 +75,9 @@ function App() {
         <Route path="/Chat" element={<Chat />} />
         <Route path="/Booking" element={<Booking name={name} email={email} />} />
         <Route path="/Create_foodplan" element={<Create_foodplan setSid={setSid} setIs_nutritionist={setIs_nutritionist}/>} />
-
         <Route path="/Search_recipes" element={<Search_recipes />} />
-        <Route path="/Appointments" element={<Appointment/>} />
+        <Route path="/Appointments" element={<Appointment />} />
+        <Route path="/MyProgress" element={<Progress/>}/>
       </Routes>
       
     </>
