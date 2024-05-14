@@ -354,10 +354,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
                           <Button className="add_ingredient" onClick={() => show(day, meal)} >+</Button>
                           </center>
                         </div>
-
-
                       </MDBCard>
-
                     )
                   )}
                 </div>
