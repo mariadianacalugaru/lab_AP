@@ -11,13 +11,18 @@
     margin: 30px;
 }
 
+.image_div{
+    height: 40;
+    overflow: hidden;
+    max-height: 40vh;
+}
 
 
 .picture{
     width: 100%; /* Rendi l'immagine larga quanto il div */
-    height: 40vh;
-    
+
 }
+
 .card_text {
     background-color: white;
 }

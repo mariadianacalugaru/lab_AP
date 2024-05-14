@@ -136,12 +136,12 @@ const Nutritionists = ({ setName, setEmail }) => {
         <div className="multiple_cards">
           {nutritionists.map((item) => (item.verified &&
             <MDBCard className="nutritionist_card">
-              <MDBCardImage
+              <div className="image_div"><MDBCardImage
                 className="picture"
                 src={item.image == "" ? NoAvatar : JSON.parse(item.image).base64}
                 position="top"
                 alt="..."
-              />
+              /></div>
               <MDBCardBody className="card_text">
                 <MDBCardTitle className="name">
                   {item.firstname} {item.lastname}
