@@ -16,6 +16,7 @@ import Create_foodplan from "./pages/Create_foodplan"
 import Search_recipes from "./pages/Search_recipes"
 import Appointment from "./component/Appointment";
 import Progress from "./pages/Progress";
+import See_progress from "./pages/See_progress";
 
 function App() {
   const [sid, setSid] = useState("")
@@ -77,7 +78,8 @@ function App() {
         <Route path="/Create_foodplan" element={<Create_foodplan setSid={setSid} setIs_nutritionist={setIs_nutritionist}/>} />
         <Route path="/Search_recipes" element={<Search_recipes />} />
         <Route path="/Appointments" element={<Appointment />} />
-        <Route path="/MyProgress" element={<Progress/>}/>
+        <Route path="/MyProgress" element={<Progress />} />
+        <Route path="/see_progress" element={<See_progress />} />
       </Routes>
       
     </>

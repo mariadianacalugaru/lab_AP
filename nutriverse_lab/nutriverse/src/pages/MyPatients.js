@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/Table';
 
 import './css/MyProfile.css';
 import axios from 'axios';
-import { useNavigate, createSearchParams } from 'react-router-dom';
+import { useNavigate, createSearchParams, Link } from 'react-router-dom';
 
 
 const MyPatients = ({is_nut}) => {
@@ -33,6 +33,9 @@ const MyPatients = ({is_nut}) => {
             try {
                 await axios(configuration)
                     .then((res) => {
+                        if (res.data == "not logged") {
+                            navigate("/")
+                        }
                         console.log(res.data[0].list_patients)
                         setPatients(res.data[0].list_patients)
                     })
@@ -103,6 +106,13 @@ const MyPatients = ({is_nut}) => {
         get_info();
     },);
 
+    const see_progress = (id) => {
+        navigate({
+            pathname: "/see_progress",
+            search: createSearchParams({
+                patient: id
+            }).toString()
+        });}
     return (
         <Card className='cont1'>
             <Card.Header as="h5">My patients</Card.Header>
@@ -114,6 +124,7 @@ const MyPatients = ({is_nut}) => {
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
+                            <th>Progress</th>
                             <th>FoodPlan</th>
                             <th>Next Appointments</th>
 
@@ -125,6 +136,7 @@ const MyPatients = ({is_nut}) => {
                                 <td>{item.name}</td>
                                 <td>{item.lastname}</td>
                                 <td>{item.patient}</td>
+                                <td><button onClick={() =>see_progress(item.patient)}>Progress</button></td>
                                 <td><button onClick={ () =>create_foodplan(item.name,item.lastname,item.patient)}>Food Plan</button>
                                     
                                 </td>

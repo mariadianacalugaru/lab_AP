@@ -169,8 +169,47 @@ app.post('/get_patients', upload.any(), async (req, res) => {
         console.log(result)
         res.send(result);
     }
+    else {
+        res.send("not logged")
+    }
 });
 
+
+app.post('/add_measurements', async (req, res) => {
+    if (req.session.authenticated) {
+        console.log(req.body)
+        const nutriverse = client.db("nutriverse");
+        const measurements = nutriverse.collection("measurements");
+        var email_nutr = req.session.user.email;
+        var query = {
+            email: email_nutr,
+            patient: req.body.patient
+            
+         };
+        var new_value = {
+            $push: {
+                measurements: {
+                    
+                    date: req.body.date,
+                    weight: req.body.weight,
+                    vita: req.body.vita,
+                    fianchi: req.body.fianchi,
+                    coscia_dx: req.body.coscia_dx,
+                    coscia_sx: req.body.coscia_sx,
+                    torace: req.body.torace
+                }
+            }
+        };
+        measurements.updateOne(query, new_value, function(err, res) {
+            if (err) throw err;
+            console.log("1 document updated");
+            nutriverse.close();
+          });
+    }
+    else {
+        res.send("not logged")
+    }
+});
 
 
 
@@ -381,10 +420,19 @@ app.get('/myappointments', async (req, res) => {
         const nutriverse = client.db("nutriverse");
         const bookings = nutriverse.collection("bookings");
         var query;
-        query = { user: req.session.user.email }
-        const result = await bookings.find(query, { projection: { _id: 0, date: 1, nutritionist: 1 } }).toArray();
-        console.log(result)
-        res.send(result)
+        if (req.session.user.is_nutritionist) {
+            console.log(req.query)
+            query = { user: req.query.patient }
+            const result = await bookings.find(query, { projection: { _id: 0, date: 1, nutritionist: 1 } }).toArray();
+            console.log(result)
+            res.send(result)
+        }
+        else {
+            query = { user: req.session.user.email }
+            const result = await bookings.find(query, { projection: { _id: 0, date: 1, nutritionist: 1 } }).toArray();
+            console.log(result)
+            res.send(result)
+        }
     }
     else {
         console.log("not logged")
