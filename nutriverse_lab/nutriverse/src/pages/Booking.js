@@ -5,6 +5,7 @@ import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import "./css/Booking.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import NoAvatar from "../assets/no_avatar.png"
 import {
     MDBCol,
     MDBContainer,
@@ -87,7 +88,7 @@ const Booking = () => {
                         set_country(res.data.country);
                         set_city(res.data.city);
                         set_address(res.data.address);
-                        set_image(res.data.image)
+                        set_image(JSON.parse(res.data.image).base64)
                     })
                     .catch((event) => {
                         console.log(event);
@@ -210,7 +211,7 @@ const Booking = () => {
                     <MDBCard className="mb-10">
                         <MDBCardBody className="text-center">
                             <MDBCardImage
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                src={image == "" ? NoAvatar : image}
                                 alt="avatar"
                                 className="rounded-circle"
                                 style={{ width: '150px' }}

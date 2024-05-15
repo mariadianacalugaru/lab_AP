@@ -13,6 +13,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import ListGroup from "react-bootstrap/ListGroup";
 import Delete from "../assets/reject.png"
+import Hide from "../assets/hide.png"
 import { Link, useNavigate, useSearchParams} from "react-router-dom"
 import Form from 'react-bootstrap/Form';
 
@@ -141,6 +142,16 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
     newList[index] = { "day": day, "meal": meal, "product": product, "quantity": value };
     setElements(newList);
   };
+
+  const show_nutritional_values = (day) => {
+    const table = document.getElementById("nutritional_table")
+    table.style.display = "block";
+  }
+
+  const hide_nutritional_table = (day) =>{
+    const table = document.getElementById("nutritional_table")
+    table.style.display = "none";
+  }
 
 
   function MyVerticallyCenteredModal(props) {
@@ -343,18 +354,22 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
                           <Button className="add_ingredient" onClick={() => show(day, meal)} >+</Button>
                           </center>
                         </div>
-
-
                       </MDBCard>
-
                     )
                   )}
                 </div>
               </Tab.Content>
               <center>
-                <div className="nutritional_card">
+                <div className="nutritional_card" id="nutritional_table">
+                  <div className="upper_div">
+                    <h3>{day}</h3>
+                    <Link onClick={() => hide_nutritional_table()}>
+                      <img src={Hide} id="hide_table" className="Verify" alt="Nutriverse"></img>
+                    </Link>
+                  </div>
+                  <hr />
                   {['Calories','Fats','Carbohidrates','Cholesterol', 'Proteins','Sugars', 'Fibers', 'Calcium', 'Magnesium', 'Potassium'].map((item, index) => {
-                      return (
+                      return ( 
                           <div className="nutritional_value">
                               <ListGroup.Item variant="light" style={{ display: "flex", justifyContent: "space-between" }}>
                                     <div >{item}</div>
@@ -364,6 +379,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
                       );
                   })}
                 </div>
+                <Button className="save_button" onClick={() => show_nutritional_values(day)} >Nutritional values {day}</Button>
                 <Button className="save_button" onClick={() => save_foodplan()} >Save</Button>
                 </center>
               

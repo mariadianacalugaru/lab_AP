@@ -611,18 +611,22 @@ app.get("/get_foodplan", async (req, res) => {
         email = req.session.user.email;
         const nutriverse = client.db("nutriverse");
         const foodplans = nutriverse.collection("foodplans");
-        foodplans.findOne({ patient: email }).then(foodplan => {
-            if (foodplan) {
-                const result = {
+        const my_plans = await foodplans.find({ patient: email }).toArray();
+        console.log(my_plans)
+        if (my_plans.length > 0) {
+            const most_recent = my_plans.reduce(function(doc1, doc2) {
+                return doc1.data > doc2.data ? doc1 : doc2;
+            });
+            const result = {
                     "user": req.session.user,
-                    "foodplan": foodplan
-                }
-                res.send(result);
+                    "foodplan": most_recent
             }
-            else{
-                res.send("no foodplan yet")
+            res.send(result);
             }
-        })
+        else{
+            res.send("no foodplan yet")
+        }
+        
     }
     else {
         res.send("no user authenticated")
