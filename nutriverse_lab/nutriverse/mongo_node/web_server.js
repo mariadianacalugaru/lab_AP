@@ -174,37 +174,76 @@ app.post('/get_patients', upload.any(), async (req, res) => {
     }
 });
 
+app.get("/measurements", async (req, res) => {
+    if (req.session.authenticated) {
+        const nutriverse = client.db("nutriverse");
+        const measurements = nutriverse.collection("measurements");
+        var query;
+        query = { nutritionist: req.session.user.email, patient: req.query.patient }
+        const result = await measurements.find(query, {}).toArray();
+        if (result.length == 0) {
+            res.send("no measurements")
+        }
+        else {
+            res.send(result[0])
+        }
+    }
+    else {
+        res.send("not logged")
+    }
+
+
+});
 
 app.post('/add_measurements', async (req, res) => {
     if (req.session.authenticated) {
-        console.log(req.body)
         const nutriverse = client.db("nutriverse");
         const measurements = nutriverse.collection("measurements");
         var email_nutr = req.session.user.email;
-        var query = {
-            email: email_nutr,
-            patient: req.body.patient
+        const exist = await check_measurements(measurements, email_nutr, req.body.patient)
+        console.log(exist)
+        if (exist >= 1) {
+            var query = {
+                nutritionist: email_nutr,
+                patient: req.body.patient
             
-         };
-        var new_value = {
-            $push: {
-                measurements: {
-                    
-                    date: req.body.date,
-                    weight: req.body.weight,
-                    vita: req.body.vita,
-                    fianchi: req.body.fianchi,
-                    coscia_dx: req.body.coscia_dx,
-                    coscia_sx: req.body.coscia_sx,
-                    torace: req.body.torace
+            };
+            var new_value = {
+                $push: {
+                        date: req.body.date,
+                        weight: req.body.weight,
+                        vita: req.body.vita,
+                        fianchi: req.body.fianchi,
+                        coscia_dx: req.body.coscia_dx,
+                        coscia_sx: req.body.coscia_sx,
+                        torace: req.body.torace
                 }
+            };
+            measurements.updateOne(query, new_value, function (err, res) {
+                if (err) throw err;
+                console.log("1 document updated");
+                nutriverse.close();
+            });
+        }
+        else {
+            var value = {
+                nutritionist: email_nutr,
+                patient: req.body.patient,
+                date: [req.body.date],
+                weight: [req.body.weight],
+                vita: [req.body.vita],
+                fianchi: [req.body.fianchi],
+                coscia_dx: [req.body.coscia_dx],
+                coscia_sx: [req.body.coscia_sx],
+                torace: [req.body.torace]
             }
-        };
-        measurements.updateOne(query, new_value, function(err, res) {
-            if (err) throw err;
-            console.log("1 document updated");
-            nutriverse.close();
-          });
+            measurements.insertOne(value, function (err, res) {
+                if (err) throw err;
+                console.log("1 document updated");
+                nutriverse.close();
+            });
+        }
+        res.send("done")
     }
     else {
         res.send("not logged")
@@ -421,16 +460,13 @@ app.get('/myappointments', async (req, res) => {
         const bookings = nutriverse.collection("bookings");
         var query;
         if (req.session.user.is_nutritionist) {
-            console.log(req.query)
             query = { user: req.query.patient }
             const result = await bookings.find(query, { projection: { _id: 0, date: 1, nutritionist: 1 } }).toArray();
-            console.log(result)
             res.send(result)
         }
         else {
             query = { user: req.session.user.email }
             const result = await bookings.find(query, { projection: { _id: 0, date: 1, nutritionist: 1 } }).toArray();
-            console.log(result)
             res.send(result)
         }
     }
@@ -608,7 +644,7 @@ app.post('/save_foodplan', upload.any(), async (req,res) => {
 
 app.get("/get_foodplan", async (req, res) => {
     if (req.session.authenticated) {
-        email = req.session.user.email;
+        const email = req.session.user.email;
         const nutriverse = client.db("nutriverse");
         const foodplans = nutriverse.collection("foodplans");
         const my_plans = await foodplans.find({ patient: email }).toArray();
@@ -658,5 +694,24 @@ async function check(users, email) {
     }
 }
 
+
+async function check_measurements(measurements, nutritionist,patient) {
+    try {
+
+        // Get the database and collection on which to run the operation
+
+        // Query for a movie that has the title 'The Room'
+        const query = {
+            "nutritionist": nutritionist,
+            "patient": patient
+         };
+        // Execute query
+        const len = await measurements.countDocuments(query);
+        // Print the document returned by findOne()
+        return len;
+    } catch {
+        console.log("errore")
+    }
+}
 
 

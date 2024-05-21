@@ -134,11 +134,12 @@ const Nutritionists = ({ setName, setEmail }) => {
           <SearchBarComponent />
         </div>
         <div className="multiple_cards">
-          {nutritionists.map((item) => (item.verified &&
+          {nutritionists.map((item) => (
+            item.verified &&
             <MDBCard className="nutritionist_card">
               <div className="image_div"><MDBCardImage
                 className="picture"
-                src={item.image == "" ? NoAvatar : JSON.parse(item.image).base64}
+                src={(item.image == undefined || item.image == "")? NoAvatar : JSON.parse(item.image).base64}
                 position="top"
                 alt="..."
               /></div>

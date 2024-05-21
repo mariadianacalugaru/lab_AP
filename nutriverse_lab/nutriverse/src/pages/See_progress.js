@@ -11,9 +11,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import "../pages/css/See_progress.css"
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
+import Form from 'react-bootstrap/Form';
 
 const Progress = () => {
 
@@ -22,9 +21,28 @@ const Progress = () => {
     const [mynutr, setNutritionists] = useState([])
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const navigate = useNavigate()
-    const [lastVisit, setLastVisit] = useState(Object)
     const [patient, setPatient] = useSearchParams()
     const [date_of_visit, setDate_of_visit] = useState([])
+    const [disabled, setDisabled] = useState(true);
+    const [weights, setWeights] = useState([])
+
+
+    const handleChange = () => {
+        var date = new Date(document.getElementById("date").value);
+        var weight = document.getElementById("weight").value;
+        var vita = document.getElementById("vita").value
+        var fianchi = document.getElementById("fianchi").value
+        var coscia_dx = document.getElementById("coscia_dx").value
+        var coscia_sx = document.getElementById("coscia_sx").value
+        var torace = document.getElementById("torace").value
+        if (date == "invalid" || weight == "" || vita == "" || fianchi == "" || coscia_dx == "" || coscia_sx == "" || torace == "") {
+            setDisabled(true);
+        }
+        else {
+            setDisabled(false)
+        }
+    }
+
     useEffect(() => {
         const configuration = {
             method: "GET",
@@ -52,8 +70,6 @@ const Progress = () => {
                                 return a - b;
                             });
 
-                            setDate_of_visit(results)
-
                             var time = []
                             for (var i = 0; i < results.length; i++) {
                                 var data = {
@@ -66,9 +82,8 @@ const Progress = () => {
                             const nutritionists = res.data.map((item) => {
                                 return item.nutritionist;
                             })
-                            setDates(time)
+                            setDates(results)
                             setNutritionists(nutritionists)
-                            setLastVisit(time[time.length - 1])
                         }
                     })
                     .catch((event) => {
@@ -82,8 +97,83 @@ const Progress = () => {
         if (!info) {
             get_appointments()
         }
+        else {
+            console.log(dates)
+        }
 
     });
+
+    function createData(date, weight, vita, fianchi, coscia_dx, coscia_sx, torace) {
+        return { date, weight, vita, fianchi, coscia_dx, coscia_sx, torace };
+    }
+
+    const [rows, setRows] = useState([])
+
+    useEffect(() => {
+        const configuration = {
+            method: "get",
+            url: "http://localhost:4000/measurements?patient=" + patient.get("patient"),
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "http://localhost:4000",
+            },
+            withCredentials: true,
+        };
+
+        async function get_measurements() {
+            setGetInfo(true)
+            try {
+                axios(configuration)
+                    .then((res) => {
+                        if (res.data === "not logged") {
+                            navigate("/")
+                        }
+                        else if (res.data === "no measurements") {
+                            console.log("ciao")
+                        }
+                        else {
+                            var result = res.data
+                            var length = res.data.date.length
+                            var list = []
+                            var list_dates = []
+                            result.sort(function (a, b) {
+                                return a - b;
+                            });
+                            for (var i = 0; i < length; i++) {
+                                var date = new Date(result.date[i])
+                                list_dates.push(date)
+                                list.push(createData(
+                                    date.getDate().toString() + "-" + month[date.getMonth()] + "-" + date.getFullYear().toString(),
+                                    result.weight[i],
+                                    result.vita[i],
+                                    result.fianchi[i],
+                                    result.coscia_dx[i],
+                                    result.coscia_sx[i],
+                                    result.torace[i]))
+                            }
+
+                            setRows(list)
+                            setDate_of_visit(list_dates)
+                            setWeights(result.weight)
+                        }
+                    })
+                    .catch((event) => {
+                        console.log(event);
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+        if (!info) {
+            get_measurements()
+        }
+        else {
+            console.log(date_of_visit)
+        }
+
+    });
+
 
     const add_row = async () => {
         var date = new Date(document.getElementById("date").value);
@@ -93,7 +183,7 @@ const Progress = () => {
         var coscia_dx = document.getElementById("coscia_dx").value
         var coscia_sx = document.getElementById("coscia_sx").value
         var torace = document.getElementById("torace").value
-        
+
         const configuration = {
             method: "post",
             url: "http://localhost:4000/add_measurements",
@@ -110,7 +200,7 @@ const Progress = () => {
                 fianchi: fianchi,
                 coscia_dx: coscia_dx,
                 coscia_sx: coscia_sx,
-                torace:torace
+                torace: torace
             }
         };
         try {
@@ -119,7 +209,10 @@ const Progress = () => {
                     if (res.data == "not logged") {
                         navigate("/")
                     }
-                    console.log(res.data)
+                    else {
+                        window.location.reload()
+                    }
+
                 })
                 .catch((event) => {
                     console.log(event);
@@ -129,16 +222,9 @@ const Progress = () => {
         }
 
     }
-    function createData(date, weight, vita, fianchi, coscia_dx, coscia_sx, torace) {
-        return { date, weight, vita, fianchi, coscia_dx, coscia_sx, torace };
-    }
 
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 5, 6)
-    ];
     return (
         <>
-            <h1>last visit was: {lastVisit.day} {month[lastVisit.month]} {lastVisit.year}</h1>
             <center>
 
                 <div className='charts'>
@@ -147,7 +233,7 @@ const Progress = () => {
                         xAxis={[{ scaleType: 'time', data: date_of_visit, label: "date of visit", valueFormatter: (value) => value.getDate().toString() + "-" + month[value.getMonth()] + "-" + value.getFullYear().toString() }]}
                         series={[
                             {
-                                data: date_of_visit, label: "weight"
+                                data: weights, label: "weight"
                             },
                         ]}
                         width={500}
@@ -176,45 +262,52 @@ const Progress = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Date of visit</TableCell>
-                                    <TableCell align="right">Weight</TableCell>
-                                    <TableCell align="right">Vita</TableCell>
-                                    <TableCell align="right">Fianchi</TableCell>
-                                    <TableCell align="right">Coscia dx</TableCell>
-                                    <TableCell align="right">Coscia sx</TableCell>
-                                    <TableCell align="right">Torace</TableCell>
+                                    <TableCell align="right">Weight (Kg)</TableCell>
+                                    <TableCell align="right">Vita (cm)</TableCell>
+                                    <TableCell align="right">Fianchi (cm)</TableCell>
+                                    <TableCell align="right">Coscia dx (cm)</TableCell>
+                                    <TableCell align="right">Coscia sx (cm)</TableCell>
+                                    <TableCell align="right">Torace (cm)</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {rows.map((row) => (
-                                    <>
-                                        <TableRow
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell component="th" scope="row">
-                                                {row.date}
-                                            </TableCell>
-                                            <TableCell align="right">{row.weight}</TableCell>
-                                            <TableCell align="right">{row.vita}</TableCell>
-                                            <TableCell align="right">{row.fianchi}</TableCell>
-                                            <TableCell align="right">{row.coscia_dx}</TableCell>
-                                            <TableCell align="right">{row.coscia_sx}</TableCell>
-                                            <TableCell align="right">{row.torace}</TableCell>
-                                        </TableRow>
-                                        <TableRow
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell component="th" scope="row">
-                                                <input type='date' id="date"></input>
-                                            </TableCell>
-                                            <TableCell align="right"><input type='text' className='input_progress' placeholder='weight' id="weight"></input></TableCell>
-                                            <TableCell align="right"><input type='text' className='input_progress' placeholder='vita' id="vita"></input></TableCell>
-                                            <TableCell align="right"><input type='text' className='input_progress' placeholder='fianchi' id="fianchi"></input></TableCell>
-                                            <TableCell align="right"><input type='text' className='input_progress' placeholder='coscia_dx' id="coscia_dx"></input></TableCell>
-                                            <TableCell align="right"><input type='text' className='input_progress' placeholder='coscia_sx' id="coscia_sx"></input></TableCell>
-                                            <TableCell align="right"><input type='text' className='input_progress' placeholder='torace' id="torace"></input></TableCell>
-                                        </TableRow>
-                                    </>
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            {row.date}
+                                        </TableCell>
+                                        <TableCell align="right">{row.weight}</TableCell>
+                                        <TableCell align="right">{row.vita}</TableCell>
+                                        <TableCell align="right">{row.fianchi}</TableCell>
+                                        <TableCell align="right">{row.coscia_dx}</TableCell>
+                                        <TableCell align="right">{row.coscia_sx}</TableCell>
+                                        <TableCell align="right">{row.torace}</TableCell>
+                                    </TableRow>
                                 ))}
+                                <TableRow
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <Form.Select aria-label="Default select example" id="date">
+                                        <option value={"invalid"}>date</option>
+                                        {dates.map((date) => (
+                                            (!date_of_visit.find(item => {
+                                                alert(item.getTime() == date.getTime());
+                                                return item.getTime() == date.getTime()
+                                            })) && <option value={date.toString()}>{date.getDate().toString() + "-" + month[date.getMonth()] + "-" + date.getFullYear().toString()}</option>
+                                        ))}
+                                    </Form.Select>
+
+
+                                    <TableCell align="right"><input type='number' className='input_progress' placeholder='weight' id="weight" onChange={handleChange}></input></TableCell>
+                                    <TableCell align="right"><input type='number' className='input_progress' placeholder='vita' id="vita" onChange={handleChange}></input></TableCell>
+                                    <TableCell align="right"><input type='number' className='input_progress' placeholder='fianchi' id="fianchi" onChange={handleChange}></input></TableCell>
+                                    <TableCell align="right"><input type='number' className='input_progress' placeholder='coscia_dx' id="coscia_dx" onChange={handleChange}></input></TableCell>
+                                    <TableCell align="right"><input type='number' className='input_progress' placeholder='coscia_sx' id="coscia_sx" onChange={handleChange}></input></TableCell>
+                                    <TableCell align="right"><input type='number' className='input_progress' placeholder='torace' id="torace" onChange={handleChange}></input></TableCell>
+                                </TableRow>
+
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -223,7 +316,7 @@ const Progress = () => {
             <center>
                 <div>
 
-                    <Button variant="contained" className='button_measurements' onClick={add_row}>Add measurements</Button>
+                    <Button disabled={disabled} variant="contained" className='button_measurements' onClick={add_row}>Add measurements</Button>
                 </div>
             </center>
         </>
