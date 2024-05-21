@@ -21,3 +21,11 @@
     background-color: #9bb150 !important;
     margin-top: 10px !important;
 }
+
+#date{
+    margin: 9px;
+}
+
+.progress_card{
+    width: 90%;
+}

@@ -106,11 +106,13 @@ const MyPatients = ({is_nut}) => {
         get_info();
     },);
 
-    const see_progress = (id) => {
+    const see_progress = (name,surname,id) => {
         navigate({
             pathname: "/see_progress",
             search: createSearchParams({
-                patient: id
+                patient: id,
+                name: name,
+                surname: surname
             }).toString()
         });}
     return (
@@ -136,7 +138,7 @@ const MyPatients = ({is_nut}) => {
                                 <td>{item.name}</td>
                                 <td>{item.lastname}</td>
                                 <td>{item.patient}</td>
-                                <td><button onClick={() =>see_progress(item.patient)}>Progress</button></td>
+                                <td><button onClick={() =>see_progress(item.name,item.lastname,item.patient)}>Progress</button></td>
                                 <td><button onClick={ () =>create_foodplan(item.name,item.lastname,item.patient)}>Food Plan</button>
                                     
                                 </td>

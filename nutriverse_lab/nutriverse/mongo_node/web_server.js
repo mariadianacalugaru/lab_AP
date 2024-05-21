@@ -179,13 +179,25 @@ app.get("/measurements", async (req, res) => {
         const nutriverse = client.db("nutriverse");
         const measurements = nutriverse.collection("measurements");
         var query;
-        query = { nutritionist: req.session.user.email, patient: req.query.patient }
-        const result = await measurements.find(query, {}).toArray();
-        if (result.length == 0) {
-            res.send("no measurements")
+        if (req.session.user.is_nutritionist) {
+            query = { nutritionist: req.session.user.email, patient: req.query.patient }
+            const result = await measurements.find(query, {}).toArray();
+            if (result.length == 0) {
+                res.send("no measurements")
+            }
+            else {
+                res.send(result[0])
+            }
         }
         else {
-            res.send(result[0])
+            query = { patient: req.session.user.email}
+            const result = await measurements.find(query, {}).toArray();
+            if (result.length == 0) {
+                res.send("no measurements")
+            }
+            else {
+                res.send(result[0])
+            }
         }
     }
     else {

@@ -8,6 +8,12 @@ import { useNavigate } from "react-router-dom"
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import { GiProgression } from "react-icons/gi";
+import { GiKnifeFork } from "react-icons/gi";
+import { PiBowlFoodFill } from "react-icons/pi";
+import { FaUserDoctor } from "react-icons/fa6";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { GiFat } from "react-icons/gi";
+
 import "../pages/css/Sidebar.css"
 export default function Navbar({ sid, setSid, is_nutritionist }) {
     function CustomLink({ to, children, ...props }) {
@@ -69,12 +75,12 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
             <img src={Logo} className="Logo" alt="Nutriverse" ></img>
         </Link>
         <ul>
-            {(sid != "") && <CustomLink to="/Search_recipes">Recipes</CustomLink>}
-            {!is_nutritionist && <CustomLink to="/Nutritionists">Nutritionists</CustomLink>}
-            {is_nutritionist && <CustomLink to="/Appointments">Appointments</CustomLink>}
-            {(sid != "" && !is_nutritionist) && <CustomLink to="/MyProgress"><GiProgression className="icon"/> Progress</CustomLink>}
-            {(sid != "" && !is_nutritionist) && <CustomLink to="/MyFoodPlan">MyFoodPlan</CustomLink>}
-            {(sid != "" && is_nutritionist) && <CustomLink to="/MyPatients">MyPatients</CustomLink>}
+            {(sid != "") && <CustomLink to="/Search_recipes"><PiBowlFoodFill className="icon" />Recipes</CustomLink>}
+            {!is_nutritionist && <CustomLink to="/Nutritionists"><FaUserDoctor className="icon" />Nutritionists</CustomLink>}
+            {is_nutritionist && <CustomLink to="/Appointments"><FaRegCalendarAlt className="icon" />Appointments</CustomLink>}
+            {(sid != "" && !is_nutritionist) && <CustomLink to="/MyProgress"><GiProgression className="icon" /> Progress</CustomLink>}
+            {(sid != "" && !is_nutritionist) && <CustomLink to="/MyFoodPlan"><GiKnifeFork className="icon" />MyFoodPlan</CustomLink>}
+            {(sid != "" && is_nutritionist) && <CustomLink to="/MyPatients"><GiFat className="icon" />MyPatients</CustomLink>}
             {(sid != "") && <CustomLink to="/MyProfile">
                 <FaRegUser /> {sid}
             </CustomLink>}
@@ -95,10 +101,13 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
                     {(sid != "") && <CustomLink onClick={() => closeNav()} to="/MyProfile">
                         <FaRegUser /> {sid}
                     </CustomLink>}
-                    {!is_nutritionist && <CustomLink to="/Nutritionists">Nutritionists</CustomLink>}
-                    {is_nutritionist && <CustomLink to="/Appointments">Appointments</CustomLink>}
-                    {(sid != "" && !is_nutritionist) && <CustomLink onClick={() => closeNav()} to="/MyFoodPlan">MyFoodPlan</CustomLink>}
-                    {(sid != "" && is_nutritionist) && <CustomLink onClick={() => closeNav()} to="/MyPatients">MyPatients</CustomLink>}
+                    {!is_nutritionist && <CustomLink to="/Nutritionists"><FaUserDoctor className="icon" />Nutritionists</CustomLink>}
+                    {is_nutritionist && <CustomLink to="/Appointments"><FaRegCalendarAlt  className="icon" />Appointments</CustomLink>}
+
+                    {(sid != "" && !is_nutritionist) && <CustomLink onClick={() => closeNav()} to="/MyFoodPlan"><GiKnifeFork className="icon" />MyFoodPlan</CustomLink>}
+                    {(sid != "" && !is_nutritionist) && <CustomLink to="/MyProgress"><GiProgression className="icon" /> Progress</CustomLink>}
+                    {(sid != "") && <CustomLink to="/Search_recipes"><PiBowlFoodFill className="icon" />Recipes</CustomLink>}
+                    {(sid != "" && is_nutritionist) && <CustomLink to="/MyPatients"><GiFat className="icon" />MyPatients</CustomLink>}
                     {(sid != "") && <CustomLink to="/" id="logout" onClick={logout}>
                         <CiLogout /> Logout
                     </CustomLink>}
