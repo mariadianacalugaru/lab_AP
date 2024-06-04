@@ -438,9 +438,30 @@ app.post("/logout", (req, res) => {
 app.get('/search_nutritionists', async (req, res) => {
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
-    const result = await users.find({}).toArray();
+    const query = { is_nutritionist: true, verified: true}
+    const result = await users.find(query, {}).toArray();
+    console.log(result)
     res.send(result);
 });
+
+app.get('/search_nutritionists_cities', async (req, res) => {
+    const nutriverse = client.db("nutriverse");
+    const users = nutriverse.collection("users");
+    const query = { is_nutritionist: true, verified: true}
+    const cities = await users.find(query, { projection: {_id:0, city:1} }).toArray();
+
+    let result = [];
+    cities.forEach(element => {
+        if (!result.includes(element.city)) {
+            result.push(element.city);
+        }
+    });
+    
+    console.log(result)
+    console.log(typeof(result))
+    res.send(result)
+});
+
 
 app.get('/info_nutritionist', async (req, res) => {
     const nutr = { email: req.query.email }

@@ -50,7 +50,7 @@ const Nutritionists = ({ setName, setEmail }) => {
   const [info, setInfo] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [nutritionists, setNutritionists] = useState([]);
-
+  const [city, setCity] = useState("");
   const navigate = useNavigate()
 
   const handleBook = async (nutr) => {
@@ -106,7 +106,7 @@ const Nutritionists = ({ setName, setEmail }) => {
           .then((json) => {
             setInfo(true);
             const results = json.filter((user) => {
-              return user && user.is_nutritionist && user.verified;
+              return user;
             });
             setNutritionists(results);
           })
@@ -131,7 +131,9 @@ const Nutritionists = ({ setName, setEmail }) => {
         show={modalShow}
         onHide={() => close()}
       />
-          <SearchBarComponent />
+          
+          <SearchBarComponent city={city} setCity={setCity} />
+          <h1>{city}</h1>
         </div>
         <div className="multiple_cards">
           {nutritionists.map((item) => (

@@ -3,28 +3,22 @@ import { FaSearch } from 'react-icons/fa'
 import { useState } from 'react'
 
 
-const SearchBar = ({setResults}) => {
+const SearchBar = ({setResults, city, setCity}) => {
     const [input, setInput] = useState("");
 
       const fetchData = (value) => {
-        fetch("http://localhost:4000/search_nutritionists")
+        fetch("http://localhost:4000/search_nutritionists_cities")
             .then(response => response.json())
             .then(json => {
-                const results = json.filter((user) => {
+                const results = json.filter((city) => {
                     return value
-                        && user
-                        && user.is_nutritionist
-                        && user.verified
-                        && user.firstname
-                        && user.lastname
-                        && ((user.firstname+" "+user.lastname).toLowerCase().startsWith(value.toLowerCase()) || (user.lastname+" "+user.firstname).toLowerCase().startsWith(value.toLowerCase()))
+                        && (city.toLowerCase().startsWith(value.toLowerCase()))
                 });
                 setResults(results);
             });
     }
 
 
-    
     const handleChange = (value) => {
         setInput(value);
         fetchData(value);

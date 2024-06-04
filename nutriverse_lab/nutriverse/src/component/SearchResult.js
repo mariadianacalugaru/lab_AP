@@ -1,9 +1,13 @@
 import React from 'react'
 import "../App.css"
 
-const SearchResult = ({result}) => {
+const SearchResult = ({result, setCity}) => {
+    const ciao = () => {
+      setCity(result)
+    }
+
     return (
-        <div className='search-result' onClick={(e)=>alert(`You clicked on ${result.firstname}`)}>{result.firstname+" "+result.lastname}</div>
+        <div className='search-result'  onClick={ciao}>{result}</div>
   )
 }
 
