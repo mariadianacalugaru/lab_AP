@@ -26,17 +26,21 @@ const Progress = () => {
     const [date_of_visit, setDate_of_visit] = useState([])
     const [disabled, setDisabled] = useState(true);
     const [weights, setWeights] = useState([])
+    const [massa_grassa_list, setList_massa_grassa] = useState([])
+    const [massa_magra_list, setListmassa_magra] = useState([])
 
 
     const handleChange = () => {
         var date = new Date(document.getElementById("date").value);
         var weight = document.getElementById("weight").value;
+        var massa_grassa = document.getElementById("massa_grassa").value;
+        var massa_magra = document.getElementById("massa_magra").value;
         var vita = document.getElementById("vita").value
         var fianchi = document.getElementById("fianchi").value
         var coscia_dx = document.getElementById("coscia_dx").value
         var coscia_sx = document.getElementById("coscia_sx").value
         var torace = document.getElementById("torace").value
-        if (document.getElementById("date").value == "invalid" || weight == "" || vita == "" || fianchi == "" || coscia_dx == "" || coscia_sx == "" || torace == "") {
+        if (date == "invalid" || weight == "" || massa_grassa == "" || massa_magra == "" || vita == "" || fianchi == "" || coscia_dx == "" || coscia_sx == "" || torace == "") {
             setDisabled(true);
         }
         else {
@@ -104,8 +108,8 @@ const Progress = () => {
 
     });
 
-    function createData(date, weight, vita, fianchi, coscia_dx, coscia_sx, torace) {
-        return { date, weight, vita, fianchi, coscia_dx, coscia_sx, torace };
+    function createData(date, weight, massa_grassa, massa_magra, vita, fianchi, coscia_dx, coscia_sx, torace) {
+        return { date, weight, massa_grassa, massa_magra, vita, fianchi, coscia_dx, coscia_sx, torace };
     }
 
     const [rows, setRows] = useState([])
@@ -137,7 +141,9 @@ const Progress = () => {
                             var length = res.data.date.length
                             var list = []
                             var list_dates = []
-
+                            var list_weights = []
+                            var list_massa_grassa = []
+                            var list_massa_magra = []
                             for (var i = 0; i < length; i++) {
                                 var date = new Date(result.date[i])
                                 list_dates.push(date)
@@ -148,15 +154,20 @@ const Progress = () => {
                                         break;
                                     }
                                 }
-                                console.log(index)
                                 list.splice(index, 0, createData(
                                     date.getDate().toString() + "-" + month[date.getMonth()] + "-" + date.getFullYear().toString(),
                                     result.weight[i],
+                                    result.massa_grassa[i],
+                                    result.massa_magra[i],
                                     result.vita[i],
                                     result.fianchi[i],
                                     result.coscia_dx[i],
                                     result.coscia_sx[i],
                                     result.torace[i]))
+
+                                list_weights.splice(index, 0, result.weight[i])
+                                list_massa_grassa.splice(index, 0, result.massa_grassa[i])
+                                list_massa_magra.splice(index, 0, result.massa_magra[i])
 
                             }
                             setRows(list)
@@ -164,7 +175,9 @@ const Progress = () => {
                                 return a - b;
                             });
                             setDate_of_visit(list_dates)
-                            setWeights(result.weight)
+                            setWeights(list_weights)
+                            setList_massa_grassa(list_massa_grassa)
+                            setListmassa_magra(list_massa_magra)
                         }
                     })
                     .catch((event) => {
@@ -188,6 +201,8 @@ const Progress = () => {
     const add_row = async () => {
         var date = new Date(document.getElementById("date").value);
         var weight = document.getElementById("weight").value;
+        var massa_grassa = document.getElementById("massa_grassa").value;
+        var massa_magra = document.getElementById("massa_magra").value;
         var vita = document.getElementById("vita").value
         var fianchi = document.getElementById("fianchi").value
         var coscia_dx = document.getElementById("coscia_dx").value
@@ -206,6 +221,8 @@ const Progress = () => {
                 patient: patient.get("patient"),
                 date: date,
                 weight: weight,
+                massa_grassa: massa_grassa,
+                massa_magra: massa_magra,
                 vita: vita,
                 fianchi: fianchi,
                 coscia_dx: coscia_dx,
@@ -255,18 +272,19 @@ const Progress = () => {
                                     width={500}
                                     height={300}
                                 />
-                                <PieChart
+
+                                <LineChart
+                                    xAxis={[{ scaleType: 'time', data: date_of_visit, label: "date of visit", valueFormatter: (value) => value.getDate().toString() + "-" + month[value.getMonth()] + "-" + value.getFullYear().toString() }]}
                                     series={[
                                         {
-                                            data: [
-                                                { id: 0, value: 10, label: 'Carbos' },
-                                                { id: 1, value: 15, label: 'Proteins' },
-                                                { id: 2, value: 20, label: 'Fats' },
-                                            ],
+                                            data: massa_grassa_list, label: "massa_grassa", curve: "linear"
+                                        },
+                                        {
+                                            data: massa_magra_list, label: "massa_magra", curve: "linear"
                                         },
                                     ]}
-                                    width={400}
-                                    height={200}
+                                    width={500}
+                                    height={300}
                                 />
                             </div>
                         </center>
@@ -277,6 +295,8 @@ const Progress = () => {
                                         <TableRow>
                                             <TableCell>Date of visit</TableCell>
                                             <TableCell align="right">Weight (Kg)</TableCell>
+                                            <TableCell align="right"> % massa grassa </TableCell>
+                                            <TableCell align="right"> % massa magra </TableCell>
                                             <TableCell align="right">Vita (cm)</TableCell>
                                             <TableCell align="right">Fianchi (cm)</TableCell>
                                             <TableCell align="right">Coscia dx (cm)</TableCell>
@@ -293,6 +313,8 @@ const Progress = () => {
                                                     {row.date}
                                                 </TableCell>
                                                 <TableCell align="right">{row.weight}</TableCell>
+                                                <TableCell align="right">{row.massa_grassa}</TableCell>
+                                                <TableCell align="right">{row.massa_magra}</TableCell>
                                                 <TableCell align="right">{row.vita}</TableCell>
                                                 <TableCell align="right">{row.fianchi}</TableCell>
                                                 <TableCell align="right">{row.coscia_dx}</TableCell>
@@ -313,16 +335,15 @@ const Progress = () => {
                                                     })) && <option value={date.toString()}>{date.getDate().toString() + "-" + month[date.getMonth()] + "-" + date.getFullYear().toString()}</option>
                                                 ))}
                                             </Form.Select>
-
-
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='weight' id="weight" onChange={handleChange}></input></TableCell>
+                                            <TableCell align="right"><input type='number' className='input_progress' placeholder='weight' id="massa_grassa" onChange={handleChange}></input></TableCell>
+                                            <TableCell align="right"><input type='number' className='input_progress' placeholder='weight' id="massa_magra" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='vita' id="vita" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='fianchi' id="fianchi" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='coscia_dx' id="coscia_dx" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='coscia_sx' id="coscia_sx" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='torace' id="torace" onChange={handleChange}></input></TableCell>
                                         </TableRow>
-
                                     </TableBody>
                                 </Table>
                             </TableContainer>
@@ -334,8 +355,9 @@ const Progress = () => {
                             </div>
                         </center>
                     </Card.Body>
-                </Card>
 
+
+                </Card>
             </center>
 
         </>
