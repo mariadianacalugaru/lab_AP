@@ -223,7 +223,9 @@ app.post('/add_measurements', async (req, res) => {
             var new_value = {
                 $push: {
                         date: req.body.date,
-                        weight: req.body.weight,
+                    weight: req.body.weight,
+                    massa_grassa: req.body.massa_grassa,
+                        massa_magra: req.body.massa_magra,
                         vita: req.body.vita,
                         fianchi: req.body.fianchi,
                         coscia_dx: req.body.coscia_dx,
@@ -243,6 +245,8 @@ app.post('/add_measurements', async (req, res) => {
                 patient: req.body.patient,
                 date: [req.body.date],
                 weight: [req.body.weight],
+                massa_grassa: [req.body.massa_grassa],
+                massa_magra: [req.body.massa_magra],
                 vita: [req.body.vita],
                 fianchi: [req.body.fianchi],
                 coscia_dx: [req.body.coscia_dx],
