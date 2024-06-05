@@ -33,7 +33,7 @@ const MyFoodPlan = () => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
   const [email, setEmail] = useState("")
-  const[is_nutritionist,setIsNutritionist] = useState(false)
+  const[is_nutritionist, setIsNutritionist] = useState(false)
 
   const [day, setDay] = useState("Monday");
   const [meal, setMeal] = useState("");

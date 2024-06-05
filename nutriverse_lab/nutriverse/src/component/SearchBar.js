@@ -3,7 +3,7 @@ import { FaSearch } from 'react-icons/fa'
 import { useState } from 'react'
 
 
-const SearchBar = ({setResults, city, setCity}) => {
+const SearchBar = ({setResults, city, setCity, setListCities}) => {
     const [input, setInput] = useState("");
 
       const fetchData = (value) => {
@@ -20,6 +20,7 @@ const SearchBar = ({setResults, city, setCity}) => {
 
 
     const handleChange = (value) => {
+        setCity(value)
         setInput(value);
         fetchData(value);
     }
@@ -27,8 +28,8 @@ const SearchBar = ({setResults, city, setCity}) => {
   return (
       <div className='input-wrapper'>
           <FaSearch id="search-icon" />
-          <input placeholder='Search for nutritionist'
-              value={input}
+          <input placeholder='ex: Rome'
+              value={city}
               onChange={(e) => handleChange(e.target.value)}
               
           />

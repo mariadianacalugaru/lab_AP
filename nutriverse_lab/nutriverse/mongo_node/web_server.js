@@ -442,8 +442,7 @@ app.post("/logout", (req, res) => {
 app.get('/search_nutritionists', async (req, res) => {
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
-    const query = { is_nutritionist: true, verified: true}
-    const result = await users.find(query, {}).toArray();
+    const result = await users.find().toArray();
     console.log(result)
     res.send(result);
 });

@@ -27,4 +27,15 @@
     background-color: white;
 }
 
+.search_loc{
+    padding-top: 20px;
+}
+ 
+.search_title{
+    margin-bottom: 20px;
+}
+
+.location{
+    height: 40vh;
+}
 

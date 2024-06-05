@@ -6,6 +6,8 @@ import SearchBarComponent from "../component/SearchBarComponent";
 import "./css/Home.css";
 import "./css/Nutritionists.css";
 import NoAvatar from "../assets/no_avatar.png"
+import Search_location from "../assets/search_location.png";
+import Image from 'react-bootstrap/Image';
 
 import {
   MDBCard,
@@ -51,6 +53,7 @@ const Nutritionists = ({ setName, setEmail }) => {
   const [modalShow, setModalShow] = useState(false);
   const [nutritionists, setNutritionists] = useState([]);
   const [city, setCity] = useState("");
+  const [listCities, setListCities] = useState([])
   const navigate = useNavigate()
 
   const handleBook = async (nutr) => {
@@ -88,9 +91,9 @@ const Nutritionists = ({ setName, setEmail }) => {
   const close = () => {
     setModalShow(false);
     navigate("/login")
-}
-  useEffect(() => {
-    async function get_nutritionists() {
+  }
+  
+  async function get_nutritionists(city) {
       const configuration = {
         method: "get",
         url: "http://localhost:4000/search_nutritionists",
@@ -106,9 +109,10 @@ const Nutritionists = ({ setName, setEmail }) => {
           .then((json) => {
             setInfo(true);
             const results = json.filter((user) => {
-              return user;
+              return user && user.is_nutritionist && user.verified && user.city == city;
             });
             setNutritionists(results);
+           
           })
           .catch((event) => {
             console.log(event);
@@ -117,10 +121,8 @@ const Nutritionists = ({ setName, setEmail }) => {
         console.log(event);
       }
     }
-    if (!info) {
-      get_nutritionists();
-    }
-  }, []);
+  
+  
 
 
   return (
@@ -131,9 +133,15 @@ const Nutritionists = ({ setName, setEmail }) => {
         show={modalShow}
         onHide={() => close()}
       />
-          
-          <SearchBarComponent city={city} setCity={setCity} />
-          <h1>{city}</h1>
+        <div className="search_loc">
+        <center>
+          <h5 className="search_title">Search nutritionists by city ...</h5>
+          <SearchBarComponent city={city} setCity={setCity} get_nutritionists={get_nutritionists} listCities={listCities} setListCities={setListCities}/>
+          {city == '' && 
+            <Image src={Search_location} className='location' ></Image>
+          }
+          </center>
+       </div>
         </div>
         <div className="multiple_cards">
           {nutritionists.map((item) => (
