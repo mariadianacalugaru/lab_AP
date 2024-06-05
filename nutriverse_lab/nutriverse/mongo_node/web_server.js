@@ -156,6 +156,7 @@ app.post('/get_reservations', upload.any(), async (req, res) => {
         const nutriverse = client.db("nutriverse");
         const users = nutriverse.collection("bookings");
         const result = await users.find({ nutritionist: req.body.nutritionist }, { projection: { _id: 0, date: 1 } }).toArray();
+        console.log(result)
         res.send(result);
     }
 });
@@ -224,13 +225,13 @@ app.post('/add_measurements', async (req, res) => {
                 $push: {
                         date: req.body.date,
                     weight: req.body.weight,
-                    massa_grassa: req.body.massa_grassa,
-                        massa_magra: req.body.massa_magra,
-                        vita: req.body.vita,
-                        fianchi: req.body.fianchi,
-                        coscia_dx: req.body.coscia_dx,
-                        coscia_sx: req.body.coscia_sx,
-                        torace: req.body.torace
+                    body_fat: req.body.body_fat,
+                        lean_mass: req.body.lean_mass,
+                        waist: req.body.waist,
+                        hips: req.body.hips,
+                        right_tight: req.body.right_tight,
+                        left_tight: req.body.left_tight,
+                        chest: req.body.chest
                 }
             };
             measurements.updateOne(query, new_value, function (err, res) {
@@ -245,13 +246,13 @@ app.post('/add_measurements', async (req, res) => {
                 patient: req.body.patient,
                 date: [req.body.date],
                 weight: [req.body.weight],
-                massa_grassa: [req.body.massa_grassa],
-                massa_magra: [req.body.massa_magra],
-                vita: [req.body.vita],
-                fianchi: [req.body.fianchi],
-                coscia_dx: [req.body.coscia_dx],
-                coscia_sx: [req.body.coscia_sx],
-                torace: [req.body.torace]
+                body_fat: [req.body.body_fat],
+                lean_mass: [req.body.lean_mass],
+                waist: [req.body.waist],
+                hips: [req.body.hips],
+                right_tight: [req.body.right_tight],
+                left_tight: [req.body.left_tight],
+                chest: [req.body.chest]
             }
             measurements.insertOne(value, function (err, res) {
                 if (err) throw err;

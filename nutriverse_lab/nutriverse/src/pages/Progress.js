@@ -14,6 +14,9 @@ import "../pages/css/See_progress.css"
 import Button from '@mui/material/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const Progress = () => {
 
@@ -87,8 +90,8 @@ const Progress = () => {
 
     });
 
-    function createData(date, weight, vita, fianchi, coscia_dx, coscia_sx, torace) {
-        return { date, weight, vita, fianchi, coscia_dx, coscia_sx, torace };
+    function createData(date, weight, Waist, Hips, right_tight, left_tight, chest) {
+        return { date, weight, Waist, Hips, right_tight, left_tight, chest };
     }
 
     const [rows, setRows] = useState([])
@@ -135,11 +138,11 @@ const Progress = () => {
                                 list.splice(index, 0, createData(
                                     date.getDate().toString() + "-" + month[date.getMonth()] + "-" + date.getFullYear().toString(),
                                     result.weight[i],
-                                    result.vita[i],
-                                    result.fianchi[i],
-                                    result.coscia_dx[i],
-                                    result.coscia_sx[i],
-                                    result.torace[i]))
+                                    result.Waist[i],
+                                    result.Hips[i],
+                                    result.right_tight[i],
+                                    result.left_tight[i],
+                                    result.chest[i]))
 
                             }
                             setRows(list)
@@ -171,11 +174,11 @@ const Progress = () => {
     const add_row = async () => {
         var date = new Date(document.getElementById("date").value);
         var weight = document.getElementById("weight").value;
-        var vita = document.getElementById("vita").value
-        var fianchi = document.getElementById("fianchi").value
-        var coscia_dx = document.getElementById("coscia_dx").value
-        var coscia_sx = document.getElementById("coscia_sx").value
-        var torace = document.getElementById("torace").value
+        var Waist = document.getElementById("Waist").value
+        var Hips = document.getElementById("Hips").value
+        var right_tight = document.getElementById("right_tight").value
+        var left_tight = document.getElementById("left_tight").value
+        var chest = document.getElementById("chest").value
 
         const configuration = {
             method: "post",
@@ -189,11 +192,11 @@ const Progress = () => {
                 patient: patient.get("patient"),
                 date: date,
                 weight: weight,
-                vita: vita,
-                fianchi: fianchi,
-                coscia_dx: coscia_dx,
-                coscia_sx: coscia_sx,
-                torace: torace
+                Waist: Waist,
+                Hips: Hips,
+                right_tight: right_tight,
+                left_tight: left_tight,
+                chest: chest
             }
         };
         try {
@@ -227,7 +230,9 @@ const Progress = () => {
                         <center>
 
                             <div className='charts'>
-
+                            <Container>
+                            <Row>
+                                <Col>
                                 <LineChart
                                     xAxis={[{ scaleType: 'time', data: date_of_visit, label: "date of visit", valueFormatter: (value) => value.getDate().toString() + "-" + month[value.getMonth()] + "-" + value.getFullYear().toString() }]}
                                     series={[
@@ -238,6 +243,8 @@ const Progress = () => {
                                     width={500}
                                     height={300}
                                 />
+                                </Col>
+                                <Col>
                                 <PieChart
                                     series={[
                                         {
@@ -251,6 +258,9 @@ const Progress = () => {
                                     width={400}
                                     height={200}
                                 />
+                                </Col>
+                                </Row>
+                                </Container>
                             </div>
                         </center>
                         <div className='table_progress_user'>
@@ -260,11 +270,11 @@ const Progress = () => {
                                         <TableRow>
                                             <TableCell>Date of visit</TableCell>
                                             <TableCell align="right">Weight (Kg)</TableCell>
-                                            <TableCell align="right">Vita (cm)</TableCell>
-                                            <TableCell align="right">Fianchi (cm)</TableCell>
-                                            <TableCell align="right">Coscia dx (cm)</TableCell>
-                                            <TableCell align="right">Coscia sx (cm)</TableCell>
-                                            <TableCell align="right">Torace (cm)</TableCell>
+                                            <TableCell align="right">Waist (cm)</TableCell>
+                                            <TableCell align="right">Hips (cm)</TableCell>
+                                            <TableCell align="right">Right Tight (cm)</TableCell>
+                                            <TableCell align="right">Left Tight (cm)</TableCell>
+                                            <TableCell align="right">chest (cm)</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -276,11 +286,11 @@ const Progress = () => {
                                                     {row.date}
                                                 </TableCell>
                                                 <TableCell align="right">{row.weight}</TableCell>
-                                                <TableCell align="right">{row.vita}</TableCell>
-                                                <TableCell align="right">{row.fianchi}</TableCell>
-                                                <TableCell align="right">{row.coscia_dx}</TableCell>
-                                                <TableCell align="right">{row.coscia_sx}</TableCell>
-                                                <TableCell align="right">{row.torace}</TableCell>
+                                                <TableCell align="right">{row.Waist}</TableCell>
+                                                <TableCell align="right">{row.Hips}</TableCell>
+                                                <TableCell align="right">{row.right_tight}</TableCell>
+                                                <TableCell align="right">{row.left_tight}</TableCell>
+                                                <TableCell align="right">{row.chest}</TableCell>
                                             </TableRow>
                                         ))}
                             
