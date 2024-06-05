@@ -1,9 +1,11 @@
 import React from 'react'
 import "../App.css"
 
-const SearchResult = ({result, setCity}) => {
+const SearchResult = ({result, setCity, get_nutritionists, setListCities}) => {
     const ciao = () => {
       setCity(result)
+      get_nutritionists(result)
+      setListCities([]);
     }
 
     return (

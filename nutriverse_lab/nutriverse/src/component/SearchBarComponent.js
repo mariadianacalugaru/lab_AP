@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import SearchBar from './SearchBar'
 import SearchResultsList from './SearchResultsList';
-const SearchBarComponent = ({city, setCity}) => {
-  const [results, setResults] = useState([]);
+//import { set } from 'mongoose';
+
+const SearchBarComponent = ({city, setCity, get_nutritionists, listCities, setListCities}) => {
+  //const [results, setResults] = useState([]);
     return (
       <div className='SearchBarComponent'>
-          <SearchBar setResults={ setResults} city={city} setCity={setCity}/>
-          <SearchResultsList results={results} city={city} setCity={setCity}/>
+          <SearchBar setResults={setListCities} city={city} setCity={setCity} get_nutritionists={get_nutritionists} />
+          <SearchResultsList results={listCities} city={city} setCity={setCity} setListCities={setListCities}get_nutritionists={get_nutritionists} />
           
     </div>
   )
