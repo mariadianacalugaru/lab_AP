@@ -36,9 +36,7 @@ const ChatList = (props)=>{
             />
     )
 
-
     
-
     function render_chatbox(){
         return(
             <div class="chatlist_box">

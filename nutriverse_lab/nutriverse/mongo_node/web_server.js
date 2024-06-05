@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 var amqp = require('amqplib/callback_api');
+var mongoose = require('mongoose');
 
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
@@ -60,6 +61,7 @@ function compute_chat_id(user1,user2){
 
 const bcrypt = require('bcrypt');
 const session = require('express-session')
+var ObjectId = require('mongodb').ObjectId; 
 const saltRounds = 10;
 var MongoDBStore = require('connect-mongodb-session')(session);
 
@@ -88,6 +90,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const { MongoClient } = require('mongodb');
+var mongodb = require("mongodb");
+var ObjectID = require('mongodb').ObjectID;
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 
@@ -271,6 +275,7 @@ app.post('/add_measurements', async (req, res) => {
 app.post("/add_reservation", upload.any(), (req, res) => {
     
     if (req.session.authenticated) {
+        console.log(req.body)
         const email_user = req.session.user.email;
         const name_user = req.session.user.firstname;
         const lastname_user = req.session.user.lastname;
@@ -278,7 +283,17 @@ app.post("/add_reservation", upload.any(), (req, res) => {
         const date = req.body.date;
         const nutriverse = client.db("nutriverse");
         const bookings = nutriverse.collection("bookings");
-        var reservation = { "user":email_user, "nutritionist": email_nutr,"date":date };
+        var reservation = { "user":email_user,
+        "nutritionist": email_nutr,
+        "date":date,
+        "name_user": name_user,
+        "lastname_user": lastname_user,
+        "name_nutr": req.body.name_nutritionist,
+        "lastname_nutr": req.body.surname_nutritionist,
+        "address_nutr": req.body.address_nutritionist,
+        "city_nutr": req.body.city_nutritionist,
+        "country_nutr": req.body.country_nutritionist
+    };
         bookings.insertOne(reservation, function(err, res) {
             if (err) throw err;
             console.log("1 document inserted");
@@ -491,6 +506,39 @@ app.get('/get_appointments', async (req, res) => {
     }
 });
 
+app.get('/fetch_appointments', async (req, res) => {
+    if (req.session.authenticated) {
+        const nutriverse = client.db("nutriverse");
+        const bookings = nutriverse.collection("bookings");
+        var query;
+        query = { user: req.session.user.email }
+        const result = await bookings.find(query).toArray();
+        res.send(result)
+    }
+    else {
+        res.send("not logged");
+    }
+})
+app.get('/delete_appointment/',async (req,res)=>{
+    if(req.session.authenticated){
+        const nutriverse = client.db("nutriverse");
+        const bookings = nutriverse.collection("bookings");
+        console.log(req.query.id);
+        var o_id = new ObjectId(req.query.id);
+        var query = { _id: o_id }
+        console.log(query)
+        bookings.deleteOne(query, function (err, res) {
+            if (err) throw err;
+            console.log("1 document deleted");
+            nutriverse.close();
+        });
+        console.log("appointment deleted")
+        res.send("appointment deleted")
+    }
+    else{
+        res.send("not logged")
+    }
+})
 app.get('/myappointments', async (req, res) => {
     if (req.session.authenticated) {
         const nutriverse = client.db("nutriverse");

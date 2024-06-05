@@ -182,6 +182,11 @@ const Booking = () => {
         var formdata = new FormData()
         formdata.append("email_nutritionist", email);
         formdata.append("date", dateTime)
+        formdata.append("name_nutritionist",firstname)
+        formdata.append("surname_nutritionist",lastname)
+        formdata.append("address_nutritionist",address)
+        formdata.append("city_nutritionist",city)
+        formdata.append("country_nutritionist",country)
         const configuration = {
             headers: {
                 "Content-Type": "application/json",

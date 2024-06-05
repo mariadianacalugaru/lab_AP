@@ -42,6 +42,8 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
+
+
 const MyProfile = ({setSid,setIs_nutritionist}) => {
   const [info, setInfo] = useState(false)
   const[firstname,setFirstname] = useState("")
@@ -61,6 +63,8 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
     city: "",
     address: "",
   });
+  const [appointment_list,change_appointment_list] = useState([]);
+  const [appointment,setAppointment] = useState('');
 
   const history = useNavigate();
 
@@ -74,6 +78,36 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
         }).toString()
     });
   }
+  async function delete_appointment(appointment_id){
+    console.log(appointment_id);
+    const configuration = {
+      method: "post",
+        crossDomain: true,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "http://localhost:4000",
+        },
+        withCredentials: true,
+      params:{
+        id: appointment_id,
+      }
+    }
+    try {
+      await axios.get("http://localhost:4000/delete_appointment/", configuration)
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch(event => {
+          console.log(event);
+        })
+
+    }
+    catch (event) {
+      console.log(event);
+
+    }
+}
   
   const chngFn = (event) => {
     const { name, value } = event.target;
@@ -106,6 +140,37 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
           console.log(error);
       }
   }
+
+  useEffect(() => {
+  async function get_user_appointments(){
+    const configuration = {
+      method: "post",
+        crossDomain: true,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "http://localhost:4000",
+        },
+        withCredentials: true,
+    }
+    try {
+      axios.get("http://localhost:4000/fetch_appointments",configuration)
+        .then((res) => {
+          console.log(res.data)
+          change_appointment_list(res.data);
+        })
+        .catch((event) => {
+          console.log(event);
+        });
+    } catch (event) {
+      console.log(event);
+    }
+
+  }
+  if (!info) {
+    get_user_appointments();
+  }
+},[])
 
 
   const close = () => {
@@ -258,6 +323,9 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
             {!is_nutritionist && <ListGroup.Item className='listgroup' action href="#myfoodplan">
               MyFoodPlan
             </ListGroup.Item>}
+            {!is_nutritionist && <ListGroup.Item className='listgroup' action href="#appointments">
+              Appointments
+              </ListGroup.Item>}
             {is_nutritionist && <ListGroup.Item className='listgroup' action href="#myfoodplan">
               MyPatients
             </ListGroup.Item>}
@@ -424,6 +492,33 @@ const MyProfile = ({setSid,setIs_nutritionist}) => {
                 </Card.Body>}
             </Card>
             </Tab.Pane >
+            <Tab.Pane className='pane' eventKey="#appointments">
+            <Card>
+            <Card.Header as="h5">Appointments</Card.Header>
+            <Card.Body>
+              {
+                appointment_list.map((item) => (
+                  <div>
+                    <Card>
+                      <Card.Header as="h5">Appointment</Card.Header>
+                      <Card.Body>
+                        <Card.Title>Appointment with {item.name_nutr + ' ' + item.lastname_nutr}</Card.Title>
+                        <Card.Text>
+                          When: {new Date(item.date).getDate()}/{new Date(item.date).getMonth()+1}/{ new Date(item.date).getFullYear()} {new Date(item.date).getHours() + ':00'}
+                        </Card.Text>
+                        <Card.Text>
+                          Where: {item.city_nutr + ', ' + item.address_nutr + ', ' + item.country_nutr}
+                        </Card.Text>
+                        {(new Date(item.date) > new Date()) && <Button onClick={()=>{delete_appointment(item._id)}}>Cancel Appointment</Button>}
+                      </Card.Body>
+                    </Card>
+                  </div>
+                ))
+              }
+
+            </Card.Body>
+            </Card>
+            </Tab.Pane>
             
             <TabPane className='pane' eventKey="#foodplan">
             <Card>
