@@ -36,8 +36,9 @@ const MyPatients = ({is_nut}) => {
                         if (res.data == "not logged") {
                             navigate("/")
                         }
-                        console.log(res.data[0].list_patients)
-                        setPatients(res.data[0].list_patients)
+                        if (! (res.data[0].list_patients == undefined)) {
+                            setPatients(res.data[0].list_patients)
+                        }
                     })
                     .catch((event) => {
                         console.log(event);
@@ -120,7 +121,7 @@ const MyPatients = ({is_nut}) => {
             <Card.Header as="h5">My patients</Card.Header>
             <Card.Body>
 
-                <Table responsive bordered variant="dark">
+                <Table responsive bordered striped>
                     <thead>
                         <tr>
                             <th>First Name</th>
@@ -133,7 +134,7 @@ const MyPatients = ({is_nut}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {patients.map((item) => (
+                        {patients.map((item) =>  (
                             <tr>
                                 <td>{item.name}</td>
                                 <td>{item.lastname}</td>
