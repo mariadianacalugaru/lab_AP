@@ -221,7 +221,7 @@ const Progress = () => {
 
     return (
         <>
-
+        <div className="home-background">
             <center>
                 <Card className="progress_card">
                     <Card.Header as="h5">My Progress {patient.get("name")} {patient.get("surname")}
@@ -274,7 +274,7 @@ const Progress = () => {
                                             <TableCell align="right">Hips (cm)</TableCell>
                                             <TableCell align="right">Right Tight (cm)</TableCell>
                                             <TableCell align="right">Left Tight (cm)</TableCell>
-                                            <TableCell align="right">chest (cm)</TableCell>
+                                            <TableCell align="right">Chest (cm)</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -303,7 +303,7 @@ const Progress = () => {
                 </Card>
 
             </center>
-
+        </div>
         </>
 
     )

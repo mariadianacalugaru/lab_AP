@@ -35,12 +35,15 @@ function MyVerticallyCenteredModal(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Success Reservation
+                    Successful appointment!
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <p>
-                    La prenotazione è andata a buon fine
+                    Your booking has been registered correctly.
+                </p>
+                <p>
+                     You fill find details about the booking in your personal area.
                 </p>
             </Modal.Body>
             <Modal.Footer>
@@ -146,7 +149,8 @@ const Booking = () => {
 
     const close = () => {
         setModalShow(false);
-        history(0)
+        history("/MyProfile#appointments");
+        //history(0)
     }
 
     function timeSlotValidator(slotTime) {
@@ -208,8 +212,9 @@ const Booking = () => {
     };
 
     return (
+        <div className="home-background">
         <center>
-
+            
             <div className='booking'>
                 <div className='card_nutritionist'>
 
@@ -224,7 +229,7 @@ const Booking = () => {
                             <p className="text-muted mb-1">Nutritionist</p>
                             <p className="text-muted mb-2">{firstname} {lastname}</p>
                             <p className="text-muted mb-2">{email}</p>
-                            <p className="text-muted mb-2">{country}, {city}, {address}</p>
+                            <p className="text-muted mb-2">{address}, {city}, {country}</p>
                             <div className="d-flex justify-content-center mb-2">
                                 <Button>Contact</Button>
                             </div>
@@ -244,6 +249,7 @@ const Booking = () => {
                 />
             </div>
         </center>
+        </div>
     )
 }
 

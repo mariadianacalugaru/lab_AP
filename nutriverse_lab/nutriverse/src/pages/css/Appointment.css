@@ -1,4 +1,12 @@
 .calendar{
     margin-top:50px;
-    width: 50% !important;
+    width: 65% !important;
+    background-color: white;
+    padding:40px;
+    padding-left: 150px;
+    padding-right: 150px;
+    border-radius: 10px;
+    margin-bottom: 100px;
+    height: auto !important;
 }
+

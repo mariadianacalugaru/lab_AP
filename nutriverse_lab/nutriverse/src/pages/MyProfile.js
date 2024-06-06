@@ -307,6 +307,7 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
 
 
   return (
+    <div className="home-background">
     <Tab.Container id="list-group-tabs-example" defaultActiveKey="#editprofile">
       <Row>
 
@@ -442,14 +443,14 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
                 appointment_list.map((item) => (
                   <div>
                     <Card className='appo'>
-                      <Card.Header as="h5">Appointment</Card.Header>
+                      
                       <Card.Body>
-                        <Card.Title>Appointment with {item.name_nutr + ' ' + item.lastname_nutr}</Card.Title>
+                        <Card.Title>Nutritionist: {item.name_nutr + ' ' + item.lastname_nutr}</Card.Title>
                         <Card.Text>
                           When: {new Date(item.date).getDate()}/{new Date(item.date).getMonth()+1}/{ new Date(item.date).getFullYear()} {new Date(item.date).getHours() + ':00'}
                         </Card.Text>
                         <Card.Text>
-                          Where: {item.city_nutr + ', ' + item.address_nutr + ', ' + item.country_nutr}
+                          Where: {item.address_nutr + ', ' + item.city_nutr + ', ' + item.country_nutr}
                         </Card.Text>
                         {(new Date(item.date) > new Date()) && <Button onClick={()=>{delete_appointment(item._id)}}>Cancel Appointment</Button>}
                       </Card.Body>
@@ -468,6 +469,7 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
         </Col>
       </Row>
     </Tab.Container>
+    </div>
   )
 }
 

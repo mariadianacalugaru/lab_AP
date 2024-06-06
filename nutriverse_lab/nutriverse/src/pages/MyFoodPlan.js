@@ -142,7 +142,7 @@ const MyFoodPlan = () => {
       {existsPlan && <>
         <Tab.Container className="container_form" id="left-tabs-example" defaultActiveKey="Monday">
           <Card className="cont1">
-            <Card.Header as="h5">Foodplan created by {nutritionist}</Card.Header>
+            <Card.Header as="h5">Foodplan</Card.Header>
             <Card.Body>
               <Nav className='tabs_days' variant="tabs" defaultActiveKey="Monday" fill>
                 {["Monday", "Tuesday ", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(

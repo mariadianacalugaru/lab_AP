@@ -117,6 +117,7 @@ const MyPatients = ({is_nut}) => {
             }).toString()
         });}
     return (
+        <div className="home-background">
         <Card className='cont1'>
             <Card.Header as="h5">My patients</Card.Header>
             <Card.Body>
@@ -139,8 +140,8 @@ const MyPatients = ({is_nut}) => {
                                 <td>{item.name}</td>
                                 <td>{item.lastname}</td>
                                 <td>{item.patient}</td>
-                                <td><button onClick={() =>see_progress(item.name,item.lastname,item.patient)}>Progress</button></td>
-                                <td><button onClick={ () =>create_foodplan(item.name,item.lastname,item.patient)}>Create Food Plan</button>
+                                <td><button onClick={() =>see_progress(item.name,item.lastname,item.patient)}>Update progress</button></td>
+                                <td><button onClick={ () =>create_foodplan(item.name,item.lastname,item.patient)}>Create food plan</button>
                                     
                                 </td>
                                 <td></td>
@@ -154,6 +155,7 @@ const MyPatients = ({is_nut}) => {
 
             </Card.Body>
         </Card>
+        </div>
     )
 }
 

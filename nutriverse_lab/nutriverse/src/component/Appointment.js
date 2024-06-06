@@ -75,15 +75,15 @@ const Appointment = () => {
 
 
     return (
-        <center>
-
+        <div className="home-background">
+            <center >
             <div className='calendar'>
-
                 <Calendar
                     events={bookings}
                 />
             </div>
         </center>
+        </div>
     );
 }
 

@@ -112,7 +112,7 @@ const Search_recipes = ({setSid}) => {
                                             <div> {parseInt(item.recipe.totalNutrients.CHOLE.quantity)} {item.recipe.totalNutrients.CHOLE.unit}</div>
                                         </ListGroup.Item>
                                         <ListGroup.Item  className="val" variant="light" style={{ display: "flex", justifyContent: "space-between" }}>
-                                            <div >Sugar</div>
+                                            <div >Sugars</div>
                                             <div> {parseInt(item.recipe.totalNutrients.SUGAR.quantity)} {item.recipe.totalNutrients.SUGAR.unit}</div>
                                         </ListGroup.Item>
                                         <ListGroup.Item  variant="light" style={{ display: "flex", justifyContent: "space-between" }}>
