@@ -36,30 +36,17 @@
  
 }
 
-
-
-.listgroup{
-  outline: none;
-  border: none;
-
-
+.listgroup2{
+  color: black !important;
+  background-color: white !important;
+  border-color: none !important;
+  transition: none !important;
+  outline: none !important;
 }
 
-.listgroup:active{
-  background-color:#9BB150 !important; 
-  border: none;
 
-}
 
-.listgroup:hover:not(.active) {
-  background-color: #555;
-}
 
-.listgroup:focus{
-    background-color:#9BB150 !important; 
-    border: none;
-
-}
 
 .pane{
   margin-right:15px;
@@ -116,4 +103,8 @@
 
 .mb-3-special{
   margin-top:20px !important;
+}
+
+.appo{
+  margin-top: 5px;
 }

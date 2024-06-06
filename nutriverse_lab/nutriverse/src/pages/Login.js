@@ -33,7 +33,7 @@ function MyVerticallyCenteredModal(props) {
       </Modal.Header>
       <Modal.Body>
         <p>
-          registrazione andata a buon fine, accedi per usufruire di tutti i servizi
+        Registration successful, log in to use all services.
         </p>
       </Modal.Body>
       <Modal.Footer>
@@ -229,7 +229,7 @@ const Login = (show) => {
               alert("incorrect password");
             }
             else { 
-              history('/MyProfile');
+              history("/MyProfile");
             } 
           })
           .catch(event => {
