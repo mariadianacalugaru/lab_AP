@@ -35,7 +35,9 @@ const Appointment = () => {
                 axios(configuration)
                     .then((res) => res.data)
                     .then((json) => {
-                        console.log(json)
+                        if (json == "not logged") {
+                            navigate("/")
+                        }
                         const results = json.map((date) => {
                             return new Date(date.date);
                         });

@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import DayTimePicker from '@mooncake-dev/react-day-time-picker';
 import "./css/Booking.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import NoAvatar from "../assets/no_avatar.png"
+import NoAvatar from "../assets/no_avatar.png";
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
+
+
 import {
-    MDBCol,
-    MDBContainer,
-    MDBRow,
+    MDBCardTitle,
     MDBCard,
     MDBCardText,
     MDBCardBody,
     MDBCardImage,
+    MDBTextArea,
     MDBBtn,
-    MDBBreadcrumb,
-    MDBBreadcrumbItem,
-    MDBProgress,
-    MDBProgressBar,
-    MDBIcon,
-    MDBListGroup,
-    MDBListGroupItem
 } from 'mdb-react-ui-kit';
 
 
@@ -40,10 +36,10 @@ function MyVerticallyCenteredModal(props) {
             </Modal.Header>
             <Modal.Body>
                 <p>
-                    Your booking has been registered correctly.
+                    You have successfully booked an appointment.
                 </p>
                 <p>
-                     You fill find details about the booking in your personal area.
+                    You will find details about the booking in your personal area.
                 </p>
             </Modal.Body>
             <Modal.Footer>
@@ -186,11 +182,11 @@ const Booking = () => {
         var formdata = new FormData()
         formdata.append("email_nutritionist", email);
         formdata.append("date", dateTime)
-        formdata.append("name_nutritionist",firstname)
-        formdata.append("surname_nutritionist",lastname)
-        formdata.append("address_nutritionist",address)
-        formdata.append("city_nutritionist",city)
-        formdata.append("country_nutritionist",country)
+        formdata.append("name_nutritionist", firstname)
+        formdata.append("surname_nutritionist", lastname)
+        formdata.append("address_nutritionist", address)
+        formdata.append("city_nutritionist", city)
+        formdata.append("country_nutritionist", country)
         const configuration = {
             headers: {
                 "Content-Type": "application/json",
@@ -213,42 +209,52 @@ const Booking = () => {
 
     return (
         <div className="home-background">
-        <center>
-            
-            <div className='booking'>
-                <div className='card_nutritionist'>
+            <center>
 
-                    <MDBCard className="mb-10">
-                        <MDBCardBody className="text-center">
-                            <MDBCardImage
-                                src={image == "" ? NoAvatar : image}
-                                alt="avatar"
-                                className="rounded-circle"
-                                style={{ width: '150px' }}
-                                fluid />
-                            <p className="text-muted mb-1">Nutritionist</p>
-                            <p className="text-muted mb-2">{firstname} {lastname}</p>
-                            <p className="text-muted mb-2">{email}</p>
-                            <p className="text-muted mb-2">{address}, {city}, {country}</p>
-                            <div className="d-flex justify-content-center mb-2">
-                                <Button>Contact</Button>
-                            </div>
-                        </MDBCardBody>
-                    </MDBCard>
-                </div>
-                <div className='Calendar_timeslot'>
-                    <DayTimePicker
-                        timeSlotSizeMinutes={60}
-                        timeSlotValidator={timeSlotValidator}
-                        onConfirm={handleScheduled}
+                <div className='booking'>
+                    <div className='card_nutritionist'>
+
+                        <MDBCard className="mb-10">
+                            <MDBCardBody className="text-center">
+                                <MDBCardImage
+                                    src={image == "" ? NoAvatar : image}
+                                    alt="avatar"
+                                    className="rounded-circle"
+                                    style={{ width: '200px' }}
+                                    fluid />
+                                <p className="text-muted mb-1">Nutritionist</p>
+                                <p className="text-muted mb-2">{firstname} {lastname}</p>
+                                <p className="text-muted mb-2">{email}</p>
+                                <p className="text-muted mb-2">{country}, {city}, {address}</p>
+                                <Typography component="legend">Rating</Typography>
+                                <Rating precision={0.5} name="read-only" value={3.5} readOnly />
+                                <Link to={{
+                                    pathname: "/reviews",
+                                    search: "?nutr="+email,
+                                }}>
+                                    <MDBCardText>
+                                        See reviews
+                                    </MDBCardText>
+                                </Link>
+                            </MDBCardBody>
+                        </MDBCard>
+
+
+                    </div>
+                    <div className='Calendar_timeslot'>
+                        <DayTimePicker
+                            timeSlotSizeMinutes={60}
+                            timeSlotValidator={timeSlotValidator}
+                            onConfirm={handleScheduled}
+                        />
+                    </div>
+                    <MyVerticallyCenteredModal
+                        show={modalShow}
+                        onHide={() => close()}
                     />
                 </div>
-                <MyVerticallyCenteredModal
-                    show={modalShow}
-                    onHide={() => close()}
-                />
-            </div>
-        </center>
+
+            </center>
         </div>
     )
 }

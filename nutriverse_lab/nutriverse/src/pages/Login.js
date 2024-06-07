@@ -101,6 +101,7 @@ const Login = (show) => {
       }
       else {
         var arr = document.getElementById("formFile").files[0].name.split(".")
+        console.log(arr)
         if (arr[arr.length - 1] === "pdf") {
           setEmpty(false);
         }
@@ -342,7 +343,7 @@ const Login = (show) => {
                       </Form.Group>
                     </Col>
                     {nutritionist && <Col>
-                      <Form.Group id="form_nutritionist" controlId="formFile" className="mb-3" onChange={()=>change_pdf}>
+                      <Form.Group id="form_nutritionist" controlId="formFile" className="mb-3" onChange={change_pdf}>
                         <Form.Label >Insert your certificate</Form.Label>
                         <Form.Control className='control' accept=".pdf" isInvalid={empty && validated} isValid={!empty && validated} type="file" />
                         <Form.Control.Feedback type="invalid">

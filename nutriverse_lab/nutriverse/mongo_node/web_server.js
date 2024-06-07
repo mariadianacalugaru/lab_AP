@@ -271,6 +271,50 @@ app.post('/add_measurements', async (req, res) => {
     }
 });
 
+app.post('/add_review', async (req, res) => {
+    if (req.session.authenticated) {
+        const star = Number(req.body.star);
+        const review = req.body.review;
+        const nutritionist = req.body.nutritionist;
+        var data = {
+            firstnamename: req.session.user.firstname,
+            lastname: req.session.user.lastname,
+            image: req.session.user.image,
+            email_user: req.session.user.email,
+            nutritionist: req.body.nutritionist,
+            star: star,
+            comment: review
+        }
+        const nutriverse = client.db("nutriverse");
+        const reviews = nutriverse.collection("reviews");
+        reviews.insertOne(data, function(err, res) {
+            if (err) throw err;
+            console.log("1 document inserted");
+            nutriverse.close();
+        });
+        res.send("review inserted")
+    }
+    else {
+        res.send("not logged");
+    }
+
+});
+
+app.get('/get_reviews', async (req, res) => {
+    if (req.session.authenticated) {
+        const nutriverse = client.db("nutriverse");
+        const reviews = nutriverse.collection("reviews");
+        var query = { nutritionist: req.query.email };
+        const result = await reviews.find(query, {}).toArray();
+        console.log(result)
+        res.send(result)
+    }
+    else {
+        res.send("not logged");
+    }
+});
+
+
 
 
 app.post("/add_reservation", upload.any(), (req, res) => {
@@ -499,6 +543,7 @@ app.get('/get_appointments', async (req, res) => {
         var query;
         query = { nutritionist: req.session.user.email }
         const result = await bookings.find(query, { projection: { _id: 0, date: 1,user:1} }).toArray();
+        console.log(result)
         res.send(result)
     }
     else {

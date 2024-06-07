@@ -32,6 +32,7 @@ const Admin = () => {
         await axios(configuration)
           .then((res) => res.data)
           .then((json) => {
+            console.log(json)
             setInfo(true);
             const results = json.filter((user) => {
               return user && user.is_nutritionist && !user.verified;

@@ -17,6 +17,7 @@ import Search_recipes from "./pages/Search_recipes"
 import Appointment from "./component/Appointment";
 import Progress from "./pages/Progress";
 import See_progress from "./pages/See_progress";
+import Review from "./pages/Review";
 
 function App() {
   const [sid, setSid] = useState("")
@@ -80,6 +81,7 @@ function App() {
         <Route path="/Appointments" element={<Appointment />} />
         <Route path="/MyProgress" element={<Progress />} />
         <Route path="/see_progress" element={<See_progress />} />
+        <Route path="/reviews" element={<Review />} />
       </Routes>
       
     </>

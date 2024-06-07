@@ -101,7 +101,7 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
                     {(sid != "") && <CustomLink onClick={() => closeNav()} to="/MyProfile">
                         <FaRegUser /> {sid}
                     </CustomLink>}
-                    {!is_nutritionist && <CustomLink to="/Nutritionists"><FaUserDoctor className="icon" />Nutritionists</CustomLink>}
+                    {!is_nutritionist && <CustomLink to="/Nutritionists" onClick={() => closeNav()}><FaUserDoctor className="icon" />Nutritionists</CustomLink>}
                     {is_nutritionist && <CustomLink to="/Appointments"><FaRegCalendarAlt  className="icon" />Appointments</CustomLink>}
 
                     {(sid != "" && !is_nutritionist) && <CustomLink onClick={() => closeNav()} to="/MyFoodPlan"><GiKnifeFork className="icon" />MyFoodPlan</CustomLink>}
