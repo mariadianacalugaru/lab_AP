@@ -771,6 +771,16 @@ app.post('/save_foodplan', upload.any(), async (req,res) => {
     }
 });
 
+app.get('/userId', (req, res) => {
+    if (req.session.authenticated) {
+        res.send(req.session.user);
+    }
+    else {
+        res.send("no user authenticated")
+    }
+})
+
+
 
 app.get("/get_foodplan", async (req, res) => {
     if (req.session.authenticated) {

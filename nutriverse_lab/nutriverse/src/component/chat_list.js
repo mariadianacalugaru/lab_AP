@@ -3,26 +3,41 @@ import { ChatItem,MessageList,Input } from 'react-chat-elements';
 import close_icon from '../assets/close_icon.png';
 import React,{useState} from 'react';
 import Button from 'react-bootstrap/esm/Button';
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 
 
 
 const ChatList = (props)=>{
     const [name, setName] = useState('');
-    
-    
+    const [list_users, update_list_user] = useState([]);
+
+    let limit = 30;
+        let conversationsRequest = new CometChat.ConversationsRequestBuilder().setLimit(limit).build();
+        conversationsRequest.fetchNext().then(
+        conversationList => {
+            console.log("Conversations list received:", conversationList);
+            update_list_user(conversationList);
+        }, error => {
+            console.log("Conversations list fetching failed with error:", error);
+        });
     
     var messageListReferance = React.createRef();
     var inputReferance = React.createRef();
-    var user1 = {avatar:"https://www.forumcyber40.it/wp-content/uploads/2023/05/Mecella-1024x1024.jpg",
-        alt:"Massimo mecella",
-        title:"Massimo Mecella",
-        subtitle:"How you doing?",
-        date: new Date(),
-        unread: 0,
-        onClick: ()=>{props.change_list_display(false)}
-    }
+    var users = list_users.map((conversation) => {
+        return {
+            alt: conversation.conversationWith.name,
+            title: conversation.conversationWith.name,
+            subtitle: conversation.lastMessage.text,
+            date: new Date(conversation.lastMessage.sentAt * 1000),
+            unread: conversation.unreadMessageCount,
+            onClick: () => {
+                props.change_list_display(false);
+                setName(conversation.conversationWith.name);
+            }
+        };
+    });
+    
     var input_value;
-    var users = [user1,user1,user1,user1,user1,user1,user1,user1,user1,user1,user1];
 
     const array_list_items =  users.map((user)=>
         <ChatItem
