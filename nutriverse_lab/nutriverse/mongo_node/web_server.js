@@ -277,7 +277,7 @@ app.post('/add_review', async (req, res) => {
         const review = req.body.review;
         const nutritionist = req.body.nutritionist;
         var data = {
-            firstnamename: req.session.user.firstname,
+            firstname: req.session.user.firstname,
             lastname: req.session.user.lastname,
             image: req.session.user.image,
             email_user: req.session.user.email,

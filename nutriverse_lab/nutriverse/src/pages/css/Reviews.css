@@ -1,0 +1,28 @@
+.new_review{
+    width: 90%;
+    margin-left: 5%;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+.old_reviews{
+    margin-bottom: 100px;
+}
+
+.review{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 1%;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.reviewer_name{
+    margin-left: 15px;
+    margin-bottom: 0px !important;
+}
+
+.review_body{
+    padding-top: 0px !important;
+}

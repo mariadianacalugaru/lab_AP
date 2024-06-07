@@ -5,6 +5,7 @@ import Rating from '@mui/material/Rating';
 import Button from 'react-bootstrap/Button';
 import Typography from '@mui/material/Typography';
 import { useEffect } from 'react';
+import './css/Reviews.css';
 import axios from 'axios';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
@@ -118,17 +119,8 @@ const Review = () => {
     });
     return (
         <>
-            {list_reviews.map((user) => (
-                <Card>
-                    <Card.Title>{user.firstname}{user.lastname}</Card.Title>
-                    <Card.Body>
-                        <Card.Text>
-                            {user.comment}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            ))}
-            <MDBCard id='review'>
+        <div className="home-background">  
+        <MDBCard className="new_review" id='review'>
                 <MDBCardBody>
                     <MDBCardTitle>Write a review</MDBCardTitle>
                     <MDBTextArea onChange={handleReview} id="comment" placeholder='Leave a comment about your experience with this nutritionist'>
@@ -152,6 +144,22 @@ const Review = () => {
                     <Button disabled={review} onClick={handleSendReview}> Send review </Button>
                 </MDBCardBody>
             </MDBCard>
+            <div className = "old_reviews">
+                {list_reviews.map((user) => (
+                    <Card className="review">
+                        <Card.Title className="reviewer_name">{user.firstname} {user.lastname}</Card.Title>
+                        <hr />
+                        <Card.Body className="review_body">
+                            <Card.Text>
+                                {user.comment}
+                            </Card.Text>
+                            <Rating value={user.star}/>
+                            
+                        </Card.Body>
+                    </Card>
+                ))}
+            </div>
+        </div>
         </>
     )
 }
