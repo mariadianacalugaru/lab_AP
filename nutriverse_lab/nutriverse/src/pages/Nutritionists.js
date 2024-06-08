@@ -48,9 +48,37 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
+function Send_messageModal(props){
+  return(
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Send a message to the nutritionist
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <textarea placeholder="Write your message here..." className="message_text"></textarea>
+        
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Send</Button>
+        <Button onClick={props.onHide}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+
+}
+
 const Nutritionists = ({ setName, setEmail }) => {
   const [info, setInfo] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [messageModalShow, setMessageModalShow] = useState(false);
+  const [nutrionist_dest, setNutritionist_dest] = useState('');
   const [nutritionists, setNutritionists] = useState([]);
   const [city, setCity] = useState("");
   const [listCities, setListCities] = useState([])
@@ -91,6 +119,10 @@ const Nutritionists = ({ setName, setEmail }) => {
   const close = () => {
     setModalShow(false);
     navigate("/login")
+  }
+
+  const closeMessage = () => {
+    setMessageModalShow(false);
   }
   
   async function get_nutritionists(city) {
@@ -133,6 +165,11 @@ const Nutritionists = ({ setName, setEmail }) => {
         show={modalShow}
         onHide={() => close()}
       />
+      <Send_messageModal
+        show={messageModalShow}
+        onHide={() => closeMessage()}
+      />
+
         <div className="search_loc">
         <center>
           <h5 className="search_title">Search nutritionists by city ...</h5>
@@ -163,6 +200,8 @@ const Nutritionists = ({ setName, setEmail }) => {
                   {item.city}, {item.country}
                 </MDBCardText>
                 <Button onClick={(e) => handleBook(item)}>Book</Button>
+                
+                <Button className="sender" onClick={(e)=>{ setMessageModalShow(true); setNutritionist_dest(item._id); }}> Send Message </Button>
               </MDBCardBody>
             </MDBCard>
             

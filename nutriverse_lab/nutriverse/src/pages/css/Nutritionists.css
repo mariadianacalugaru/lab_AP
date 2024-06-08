@@ -39,3 +39,11 @@
     height: 40vh;
 }
 
+.sender{
+    margin-left: 10px;
+}
+
+.message_text{
+    width: 100%;
+    resize: none;
+}

@@ -4,6 +4,7 @@ import close_icon from '../assets/close_icon.png';
 import React,{useState} from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import { CometChat } from "@cometchat/chat-sdk-javascript";
+import Chat_searchbar from './Chat_searchbar';
 
 
 
@@ -141,6 +142,9 @@ const ChatList = (props)=>{
         <div class="heading">
             <h1 class="chat_title" >Chat</h1>
             <img class="close_icon" onClick={()=>{props.change_visibility(true)}} src={close_icon} alt="close" width="40" ></img>
+        </div>
+        <div>
+            <Chat_searchbar/>
         </div>
         <div class="scrollable_list">
             {

@@ -17,7 +17,7 @@
 }
 
 .scrollable_list{
-    max-height: 600px;
+    height: 600px;
     overflow-y:scroll;
 }
 
