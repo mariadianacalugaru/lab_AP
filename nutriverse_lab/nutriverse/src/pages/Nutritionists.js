@@ -9,6 +9,10 @@ import NoAvatar from "../assets/no_avatar.png"
 import Search_location from "../assets/search_location.png";
 import Image from 'react-bootstrap/Image';
 
+import { CometChat } from "@cometchat/chat-sdk-javascript"; 
+import { CometChatUIKit } from "@cometchat/chat-uikit-react"; //import uikit package
+import { CometChatUIKitConstants } from "@cometchat/uikit-resources";
+
 import {
   MDBCard,
   MDBCardBody,
@@ -21,6 +25,8 @@ import {
 import { Link, useNavigate, createSearchParams } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import Cookies from 'js-cookie';
+
+
 
 
 function MyVerticallyCenteredModal(props) {
@@ -48,7 +54,7 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
-function Send_messageModal(props){
+function SendMessageModal(props){
   return(
     <Modal
       {...props}
@@ -66,13 +72,16 @@ function Send_messageModal(props){
         
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Send</Button>
+        <Button onClick={()=>{props.SendMessage()}}>Send</Button>
         <Button onClick={props.onHide}>Cancel</Button>
+        
       </Modal.Footer>
     </Modal>
   );
 
 }
+
+
 
 const Nutritionists = ({ setName, setEmail }) => {
   const [info, setInfo] = useState(false);
@@ -84,6 +93,28 @@ const Nutritionists = ({ setName, setEmail }) => {
   const [listCities, setListCities] = useState([])
   const navigate = useNavigate()
 
+
+
+  const SendMessage = ()=>{
+    alert(nutrionist_dest);
+    const receiverId = nutrionist_dest;
+    const messageText = "Hello world!";
+    const receiverType = CometChatUIKitConstants.MessageReceiverType.user;
+    const textMessage = new CometChat.TextMessage(
+      receiverId,
+      messageText,
+      receiverType
+    );
+  
+    CometChatUIKit.sendTextMessage(textMessage)
+    .then((message) => {
+      console.log("Message sent successfully:", message);
+      })
+    .catch(console.log);
+      setMessageModalShow(false);
+
+  }
+  
   const handleBook = async (nutr) => {
     const configuration = {
       method: "post",
@@ -117,6 +148,7 @@ const Nutritionists = ({ setName, setEmail }) => {
   }
 
   const close = () => {
+    alert("close eeeeeeee");
     setModalShow(false);
     navigate("/login")
   }
@@ -124,7 +156,9 @@ const Nutritionists = ({ setName, setEmail }) => {
   const closeMessage = () => {
     setMessageModalShow(false);
   }
-  
+
+
+
   async function get_nutritionists(city) {
       const configuration = {
         method: "get",
@@ -165,9 +199,12 @@ const Nutritionists = ({ setName, setEmail }) => {
         show={modalShow}
         onHide={() => close()}
       />
-      <Send_messageModal
+      <SendMessageModal
         show={messageModalShow}
         onHide={() => closeMessage()}
+        SendMessage = {()=> SendMessage()}
+        nutrionist_dest = {nutrionist_dest}
+        
       />
 
         <div className="search_loc">

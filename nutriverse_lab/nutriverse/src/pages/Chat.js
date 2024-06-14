@@ -3,6 +3,8 @@ import ChatIcon from '../component/ChatIcon'
 import './css/Chat.css'
 import ChatList from '../component/chat_list';
 import { CometChat } from "@cometchat/chat-sdk-javascript";
+import { CometChatUIKit } from "@cometchat/chat-uikit-react";
+import { CometChatUIKitConstants } from "@cometchat/uikit-resources";
 import axios from 'axios';
 
 
@@ -15,13 +17,17 @@ const COMETCHAT_CONSTANTS = {
 
 
 export default class Chat extends Component {
+
+  
+
     constructor(props){
         super(props);
 
         this.state = {
             icon_visibility: true,
             display_list: true,
-            user: undefined
+            user: undefined,
+            chat_list: []
         };
     }
     change_visibility = (visibility)=>{
@@ -91,10 +97,14 @@ export default class Chat extends Component {
             conversationsRequest.fetchNext().then(
             conversationList => {
                 console.log("Conversations list received:", conversationList);
+                conversationList.map((conversation)=>{
+                    let chat = {name: conversation.conversationWith.name, id: conversation.conversationWith.uid, last_message: conversation.lastMessage.text};
+                })
+
             }, error => {
             console.log("Conversations list fetching failed with error:", error);
             }
-    ); 
+            ); 
             
           },
           (error) => {

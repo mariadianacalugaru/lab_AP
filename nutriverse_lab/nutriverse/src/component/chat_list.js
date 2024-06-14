@@ -1,7 +1,7 @@
 import '../pages/css/Chat.css'
 import { ChatItem,MessageList,Input } from 'react-chat-elements';
 import close_icon from '../assets/close_icon.png';
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import { CometChat } from "@cometchat/chat-sdk-javascript";
 import Chat_searchbar from './Chat_searchbar';
@@ -9,45 +9,46 @@ import Chat_searchbar from './Chat_searchbar';
 
 
 const ChatList = (props)=>{
+
+    useEffect(()=>{
+        get_chats();
+    })
+
+
     const [name, setName] = useState('');
     const [list_users, update_list_user] = useState([]);
+    const [users_render, update_users_render] = useState([]);
+    
+    var messageListReferance = React.createRef();
+    var inputReferance = React.createRef();
 
-    let limit = 30;
+    function get_chats(){
+
+        let limit = 30;
         let conversationsRequest = new CometChat.ConversationsRequestBuilder().setLimit(limit).build();
         conversationsRequest.fetchNext().then(
         conversationList => {
             console.log("Conversations list received:", conversationList);
-            update_list_user(conversationList);
+            update_users_render(conversationList);
+            
+            
         }, error => {
             console.log("Conversations list fetching failed with error:", error);
-        });
-    
-    var messageListReferance = React.createRef();
-    var inputReferance = React.createRef();
-    var users = list_users.map((conversation) => {
-        return {
-            alt: conversation.conversationWith.name,
-            title: conversation.conversationWith.name,
-            subtitle: conversation.lastMessage.text,
-            date: new Date(conversation.lastMessage.sentAt * 1000),
-            unread: conversation.unreadMessageCount,
-            onClick: () => {
-                props.change_list_display(false);
-                setName(conversation.conversationWith.name);
-            }
-        };
-    });
+        }
+    );
+    }
     
     var input_value;
 
-    const array_list_items =  users.map((user)=>
+    const array_list_items =  users_render.map((user)=>
         <ChatItem
-                avatar={user.avatar}
-                alt={user.alt}
-                title={user.title}
-                subtitle={user.subtitle}
-                date={user.date}
-                unread={user.unread}
+                avatar={''}
+                uid={user.conversationWith.uid}
+                alt={user.conversationWith.name}
+                title={user.conversationWith.name}
+                subtitle={user.lastMessage.text}
+                date={user.lastMessage.sentAt}
+                unread={user.unreadMessageCount}
                 onClick={()=>{props.change_list_display(false); setName(user.title)}}
             />
     )
