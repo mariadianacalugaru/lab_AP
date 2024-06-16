@@ -18,7 +18,7 @@ const COMETCHAT_CONSTANTS = {
 
 export default class Chat extends Component {
 
-  
+
 
     constructor(props){
         super(props);
@@ -135,7 +135,6 @@ export default class Chat extends Component {
   render() {
     return (
     <>
-    <h1>Questa è la chat</h1>
     {this.state.icon_visibility ? <ChatIcon change_visibility={this.change_visibility} ></ChatIcon> : <ChatList display_list={this.state.display_list} change_visibility={this.change_visibility} change_list_display={this.change_list_display}></ChatList> }
     </>
     )
