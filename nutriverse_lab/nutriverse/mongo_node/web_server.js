@@ -551,6 +551,31 @@ app.get('/get_appointments', async (req, res) => {
     }
 });
 
+app.get('/get_rating', async (req, res) => {
+    if (req.session.authenticated) {
+        const nutriverse = client.db("nutriverse");
+        const bookings = nutriverse.collection("reviews");
+        var query;
+        query = { nutritionist: req.query.email }
+        const result = await bookings.find(query, { projection: { _id: 0, star: 1 } }).toArray();
+        var rating = 0
+        if (result.length != 0) {
+            
+            for (var i = 0; i < result.length; i++){
+                rating += result[i].star;
+            }
+            let x = (rating / (result.length)).toString()
+            res.send(x)
+        }
+        else {
+            res.send("no rating")
+        }
+    }
+    else {
+        res.send("not logged");
+    }
+});
+
 app.get('/fetch_appointments', async (req, res) => {
     if (req.session.authenticated) {
         const nutriverse = client.db("nutriverse");

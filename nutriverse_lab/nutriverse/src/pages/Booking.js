@@ -65,6 +65,8 @@ const Booking = () => {
     const [address, set_address] = useState("")
     const [image, set_image] = useState("")
     const [get_info, setGetInfo] = useState(false)
+    const [rating, set_rating] = useState(0)
+    const [is_reviewd, set_reviewed] = useState(false)
 
     useEffect(() => {
         const configuration = {
@@ -97,8 +99,38 @@ const Booking = () => {
             }
 
         }
+        const configuration_rating = {
+            method: "GET",
+            url: "http://localhost:4000/get_rating?email=" + email,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "http://localhost:4000",
+            },
+            withCredentials: true,
+        };
+        const get_rating = () => {
+            setGetInfo(true)
+            try {
+                axios(configuration_rating)
+                    .then((res) => {
+                        if (res.data == "no rating") {
+                            set_reviewed(false)
+                        }
+                        else {
+                            set_rating(res.data)
+                            set_reviewed(true)
+                        }
+                    })
+                    .catch((event) => {
+                        console.log(event);
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        }
         if (!get_info) {
-            get_info_nutritionist()
+            get_info_nutritionist();
+            get_rating();
         }
     });
 
@@ -226,8 +258,8 @@ const Booking = () => {
                                 <p className="text-muted mb-2">{firstname} {lastname}</p>
                                 <p className="text-muted mb-2">{email}</p>
                                 <p className="text-muted mb-2">{country}, {city}, {address}</p>
-                                <Typography component="legend">Rating</Typography>
-                                <Rating precision={0.5} name="read-only" value={3.5} readOnly />
+                                <Typography component="legend"></Typography>
+                                {is_reviewd && <Rating precision={0.5} name="read-only" value={rating} readOnly />}
                                 <Link to={{
                                     pathname: "/reviews",
                                     search: "?nutr="+email,

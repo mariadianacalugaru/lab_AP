@@ -244,21 +244,6 @@ const Progress = () => {
                                     height={300}
                                 />
                                 </Col>
-                                <Col>
-                                <PieChart
-                                    series={[
-                                        {
-                                            data: [
-                                                { id: 0, value: 10, label: 'Carbos' },
-                                                { id: 1, value: 15, label: 'Proteins' },
-                                                { id: 2, value: 20, label: 'Fats' },
-                                            ],
-                                        },
-                                    ]}
-                                    width={400}
-                                    height={200}
-                                />
-                                </Col>
                                 </Row>
                                 </Container>
                             </div>

@@ -148,7 +148,6 @@ const Nutritionists = ({ setName, setEmail }) => {
   }
 
   const close = () => {
-    alert("close eeeeeeee");
     setModalShow(false);
     navigate("/login")
   }

@@ -95,7 +95,7 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
     </nav>
         <div id="hamburger_nutriverse">
 
-            <div id="sidebar" >
+            <div id="sidebar" onClick={() => closeNav()}>
                 <ul>
                     <div className="closebtn" onClick={() => closeNav()}><MdClose /></div>
                     {(sid != "") && <CustomLink onClick={() => closeNav()} to="/MyProfile">
