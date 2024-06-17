@@ -98,7 +98,7 @@ export default class Chat extends Component {
             conversationList => {
                 console.log("Conversations list received:", conversationList);
                 conversationList.map((conversation)=>{
-                    let chat = {name: conversation.conversationWith.name, id: conversation.conversationWith.uid, last_message: conversation.lastMessage.text};
+                    let chat = {name: conversation.conversationWith.name, id: conversation.conversationWith.uid, last_message: conversation.lastMessage.text, unread: 1};
                 })
 
             }, error => {
