@@ -5,6 +5,8 @@ import React,{useEffect, useState} from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import { CometChat } from "@cometchat/chat-sdk-javascript";
 import Chat_searchbar from './Chat_searchbar';
+import { CometChatUIKit } from "@cometchat/chat-uikit-react";
+import { CometChatUIKitConstants } from "@cometchat/uikit-resources";
 
 
 
@@ -21,9 +23,35 @@ const ChatList = (props)=>{
     const [list_users, update_list_user] = useState([]);
     const [users_render, update_users_render] = useState([]);
     const [message_list, update_message_list] = useState([]);
+    const [destination, setDestination] = useState('');
+    const [message_list_render, update_message_list_render] = useState([]);
     
     var messageListReferance = React.createRef();
     var inputReferance = React.createRef();
+
+
+
+
+    const sendMessage = ()=>{
+        alert(destination);
+        const receiverId = destination;
+        const messageText = "Hello world!";
+        const receiverType = CometChatUIKitConstants.MessageReceiverType.user;
+        const textMessage = new CometChat.TextMessage(
+          receiverId,
+          messageText,
+          receiverType
+        );
+      
+        CometChatUIKit.sendTextMessage(textMessage)
+        .then((message) => {
+          console.log("Message sent successfully:", message);
+          })
+        .catch(console.log);
+
+    
+    }
+
 
 
     function get_chats(){
@@ -43,31 +71,39 @@ const ChatList = (props)=>{
     }
 
     var get_messages = (uid, name)=>{
-        
+        setDestination(uid);
         props.change_list_display(false);
         setName(name);
-        var messagesRequest = new CometChat.MessagesRequestBuilder()
-        .setUID(uid)
-        .setLimit(30)
-        .build();
+        var messagesRequest = new CometChat.MessagesRequestBuilder().setUID(uid).setLimit(30).build();
         messagesRequest.fetchPrevious().then(
         messages => {
             console.log("Message list fetched:", messages);
-            messages.map((message)=>{
-                var new_message = {
-                    position: message.receiverId === uid ? 'right' : 'left',
+            update_message_list(messages);
+            var message_to_append;
+            var list_rendering = [];
+            for(var i=0; i<messages.length; i++){
+                console.log(messages[i].text);
+                message_to_append = {
+                    position: messages[i].sender.uid === uid ? 'left' : 'right',
                     type: 'text',
-                    text: message.text,
-                    date: new Date(message.sentAt*1000)
+                    text: messages[i].text,
+                    date: messages[i].sentAt*1000
                 }
-                update_message_list([...message_list, new_message]);
-            });
+                list_rendering.push(message_to_append);
+            }
+            update_message_list(list_rendering);
         },
         error => {
             console.log("Message fetching failed with error:", error);
+            update_message_list([]);
         }
         );
 
+        console.log(message_list);
+
+        
+
+        
 
     }
     
@@ -92,7 +128,7 @@ const ChatList = (props)=>{
             <div class="chatlist_box">
                 <div class="chat_heading">
                     <center>
-                    <h5 class="exit_chat" onClick={()=>{props.change_list_display(true); update_message_list([])}}>&lt;chats</h5>
+                    <h5 class="exit_chat" onClick={()=>{props.change_list_display(true); update_message_list([]); setDestination('');}}>&lt;chats</h5>
                         <h3 class="chat_name">{name}</h3>
                         </center>
                 </div>
@@ -111,9 +147,9 @@ const ChatList = (props)=>{
         <Input class="input_field_text"
             referance={inputReferance}
             placeholder='Type here...'
-            multiline={true}
+            multiline={false}
             value={input_value}
-            rightButtons={<Button color='white' backgroundColor='black' text='Send' />}
+            rightButtons={<Button onClick={()=>{sendMessage()}} text='Send' />}
         />
         
     </div>
