@@ -542,7 +542,7 @@ app.get('/get_appointments', async (req, res) => {
         const bookings = nutriverse.collection("bookings");
         var query;
         query = { nutritionist: req.session.user.email }
-        const result = await bookings.find(query, { projection: { _id: 0, date: 1,user:1} }).toArray();
+        const result = await bookings.find(query, { projection: { _id: 0} }).toArray();
         console.log(result)
         res.send(result)
     }

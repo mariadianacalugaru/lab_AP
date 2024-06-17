@@ -42,7 +42,7 @@ const Appointment = () => {
                             return new Date(date.date);
                         });
                         const patients = json.map((item) => {
-                            return item.user;
+                            return item.name_user + " " + item.lastname_user;
                         })
                         var events = []
                         for (var i = 0; i < results.length; i++) {
