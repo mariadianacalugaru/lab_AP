@@ -17,9 +17,9 @@ const Home = ({setSid}) => {
         <center>
           <div className='logo-home'><img src={Logo_home} alt="Nutriverse"></img></div>
           {/* <div className="search-bar"><SearchBarComponent /></div> */}
-          <Chat></Chat>
         </center>
         </div> 
+        <Chat></Chat>
       </>
   )
 }

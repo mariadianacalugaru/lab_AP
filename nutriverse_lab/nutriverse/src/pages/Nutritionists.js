@@ -55,6 +55,8 @@ function MyVerticallyCenteredModal(props) {
 }
 
 function SendMessageModal(props){
+  
+
   return(
     <Modal
       {...props}
@@ -68,11 +70,11 @@ function SendMessageModal(props){
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <textarea placeholder="Write your message here..." className="message_text"></textarea>
+        <textarea placeholder="Write your message here..." value={props.message} className="message_text" onInput={e=> props.setMessage(e.target.value)}></textarea>
         
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={()=>{props.SendMessage()}}>Send</Button>
+        <Button onClick={()=>{alert(props.message); props.SendMessage(props.message)}}>Send</Button>
         <Button onClick={props.onHide}>Cancel</Button>
         
       </Modal.Footer>
@@ -92,26 +94,30 @@ const Nutritionists = ({ setName, setEmail }) => {
   const [city, setCity] = useState("");
   const [listCities, setListCities] = useState([])
   const navigate = useNavigate()
+  const [message, setMessage] = useState('');
 
 
 
   const SendMessage = ()=>{
     alert(nutrionist_dest);
     const receiverId = nutrionist_dest;
-    const messageText = "Hello world!";
+    alert("inside send message: ", message)
     const receiverType = CometChatUIKitConstants.MessageReceiverType.user;
     const textMessage = new CometChat.TextMessage(
       receiverId,
-      messageText,
+      message,
       receiverType
     );
   
     CometChatUIKit.sendTextMessage(textMessage)
     .then((message) => {
       console.log("Message sent successfully:", message);
+      setMessage('');
       })
     .catch(console.log);
       setMessageModalShow(false);
+    
+      
 
   }
   
@@ -187,7 +193,7 @@ const Nutritionists = ({ setName, setEmail }) => {
       }
     }
   
-  
+   
 
 
   return (
@@ -203,6 +209,8 @@ const Nutritionists = ({ setName, setEmail }) => {
         onHide={() => closeMessage()}
         SendMessage = {()=> SendMessage()}
         nutrionist_dest = {nutrionist_dest}
+        message = {message}
+        setMessage = {setMessage}
         
       />
 

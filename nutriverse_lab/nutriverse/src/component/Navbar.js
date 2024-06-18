@@ -13,6 +13,7 @@ import { PiBowlFoodFill } from "react-icons/pi";
 import { FaUserDoctor } from "react-icons/fa6";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { GiFat } from "react-icons/gi";
+import { CometChatUIKit } from "@cometchat/chat-uikit-react";
 
 import "../pages/css/Sidebar.css"
 export default function Navbar({ sid, setSid, is_nutritionist }) {
@@ -41,6 +42,8 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
     }
 
     async function logout() {
+        CometChatUIKit.logout();
+        
         const configuration = {
             method: "post",
             url: "http://localhost:4000/logout",
