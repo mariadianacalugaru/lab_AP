@@ -146,6 +146,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
   const show_nutritional_values = (day) => {
     const table = document.getElementById("nutritional_table")
     table.style.display = "block";
+    get_nutritional_values()
   }
 
   const hide_nutritional_table = (day) =>{
@@ -168,8 +169,7 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {props.day}
-            {props.meal}
+            {props.day} {props.meal}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -270,16 +270,16 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
     try {
       await axios(configuration)
         .then(res => {
-          const cal = res.data.totalNutrients.ENERC_KCAL.quantity+" "+res.data.totalNutrients.ENERC_KCAL.unit;
-          const fats = res.data.totalNutrients.FAT.quantity+" "+res.data.totalNutrients.FAT.unit;
-          const carbs = res.data.totalNutrients.CHOCDF.quantity+" "+res.data.totalNutrients.CHOCDF.unit;
-          const chol = res.data.totalNutrients.CHOLE.quantity+" "+res.data.totalNutrients.CHOLE.unit;
-          const prot = res.data.totalNutrients.PROCNT.quantity+" "+res.data.totalNutrients.PROCNT.unit;
-          const sug = res.data.totalNutrients.SUGAR.quantity+" "+res.data.totalNutrients.SUGAR.unit;
-          const fib = res.data.totalNutrients.FIBTG.quantity+" "+res.data.totalNutrients.FIBTG.unit;
-          const ca = res.data.totalNutrients.CA.quantity+" "+res.data.totalNutrients.CA.unit;
-          const mg = res.data.totalNutrients.MG.quantity+" "+res.data.totalNutrients.MG.unit;
-          const po = res.data.totalNutrients.K.quantity+" "+res.data.totalNutrients.K.unit;
+          const cal = parseInt(res.data.totalNutrients.ENERC_KCAL.quantity)+" "+res.data.totalNutrients.ENERC_KCAL.unit;
+          const fats = parseInt(res.data.totalNutrients.FAT.quantity)+" "+res.data.totalNutrients.FAT.unit;
+          const carbs = parseInt(res.data.totalNutrients.CHOCDF.quantity)+" "+res.data.totalNutrients.CHOCDF.unit;
+          const chol = parseInt(res.data.totalNutrients.CHOLE.quantity)+" "+res.data.totalNutrients.CHOLE.unit;
+          const prot = parseInt(res.data.totalNutrients.PROCNT.quantity)+" "+res.data.totalNutrients.PROCNT.unit;
+          const sug = parseInt(res.data.totalNutrients.SUGAR.quantity)+" "+res.data.totalNutrients.SUGAR.unit;
+          const fib = parseInt(res.data.totalNutrients.FIBTG.quantity)+" "+res.data.totalNutrients.FIBTG.unit;
+          const ca = parseInt(res.data.totalNutrients.CA.quantity)+" "+res.data.totalNutrients.CA.unit;
+          const mg = parseInt(res.data.totalNutrients.MG.quantity)+" "+res.data.totalNutrients.MG.unit;
+          const po = parseInt(res.data.totalNutrients.K.quantity)+" "+res.data.totalNutrients.K.unit;
         
           setNutritional([cal, fats, carbs, chol, prot, sug, fib, ca, mg, po]);
         })

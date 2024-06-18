@@ -78,7 +78,7 @@ store.on('error', function (error) {
 app.use(
     session({
         secret: "some secret",
-        cookie: { maxAge: 60000 * 20 },
+        cookie: { maxAge: 60000 * 200 },
         saveUninitialized: false,
         store: store,
         resave: true

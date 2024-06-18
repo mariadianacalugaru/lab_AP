@@ -130,8 +130,6 @@ const MyPatients = ({is_nut}) => {
                             <th>Email</th>
                             <th>Progress</th>
                             <th>FoodPlan</th>
-                            <th>Next Appointments</th>
-
                         </tr>
                     </thead>
                     <tbody>
@@ -141,12 +139,7 @@ const MyPatients = ({is_nut}) => {
                                 <td>{item.lastname}</td>
                                 <td>{item.patient}</td>
                                 <td><button onClick={() =>see_progress(item.name,item.lastname,item.patient)}>Update progress</button></td>
-                                <td><button onClick={ () =>create_foodplan(item.name,item.lastname,item.patient)}>Create food plan</button>
-                                    
-                                </td>
-                                <td></td>
-
-
+                                <td><button onClick={ () =>create_foodplan(item.name,item.lastname,item.patient)}>Create food plan</button></td>
                             </tr>
                         ))}
                     </tbody>

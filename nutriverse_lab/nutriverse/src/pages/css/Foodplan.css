@@ -137,7 +137,7 @@
     padding: 30px;
     width: 60%;
     border-radius: 10px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     box-shadow: 3px 3px 3px 3px #dededeb9;
 }
 .nutritional_card h3{
@@ -155,7 +155,7 @@
 }
 
 .value{
-    width: 35% !important;
+    width: 25% !important;
 }
 
 .rec_values{
