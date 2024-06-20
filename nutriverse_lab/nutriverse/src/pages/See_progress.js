@@ -38,12 +38,12 @@ const Progress = () => {
         var weight = document.getElementById("weight").value;
         var body_fat = document.getElementById("body_fat").value;
         var lean_mass = document.getElementById("lean_mass").value;
-        var Waist = document.getElementById("Waist").value
-        var fianchi = document.getElementById("fianchi").value
+        var waist = document.getElementById("waist").value
+        var hips = document.getElementById("hips").value
         var right_tight = document.getElementById("right_tight").value
         var left_tight = document.getElementById("left_tight").value
         var chest = document.getElementById("chest").value
-        if (document.getElementById("date").value == "invalid" || weight == "" || body_fat == "" || lean_mass == "" || Waist == "" || fianchi == "" || right_tight == "" || left_tight == "" || chest == "") {
+        if (document.getElementById("date").value == "invalid" || weight == "" || body_fat == "" || lean_mass == "" || waist == "" || hips == "" || right_tight == "" || left_tight == "" || chest == "") {
             setDisabled(true);
         }
         else {
@@ -91,6 +91,7 @@ const Progress = () => {
                                 return item.nutritionist;
                             })
                             setDates(results)
+                            console.log(results)
                             setNutritionists(nutritionists)
                         }
                     })
@@ -111,8 +112,8 @@ const Progress = () => {
 
     });
 
-    function createData(date, weight, body_fat, lean_mass, Waist, fianchi, right_tight, left_tight, chest) {
-        return { date, weight, body_fat, lean_mass, Waist, fianchi, right_tight, left_tight, chest };
+    function createData(date, weight, body_fat, lean_mass, waist, hips, right_tight, left_tight, chest) {
+        return { date, weight, body_fat, lean_mass, waist, hips, right_tight, left_tight, chest };
     }
 
     const [rows, setRows] = useState([])
@@ -137,10 +138,11 @@ const Progress = () => {
                             navigate("/")
                         }
                         else if (res.data === "no measurements") {
-                            console.log("ciao")
+                            console.log("no measurements")
                         }
                         else {
                             var result = res.data
+                            console.log(res.data)
                             var length = res.data.date.length
                             var list = []
                             var list_dates = []
@@ -162,12 +164,12 @@ const Progress = () => {
                                     result.weight[i],
                                     result.body_fat[i],
                                     result.lean_mass[i],
-                                    result.Waist[i],
-                                    result.fianchi[i],
+                                    result.waist[i],
+                                    result.hips[i],
                                     result.right_tight[i],
                                     result.left_tight[i],
                                     result.chest[i]))
-
+                                alert(result.weight[i])
                                 list_weights.splice(index, 0, result.weight[i])
                                 list_body_fat.splice(index, 0, result.body_fat[i])
                                 list_lean_mass.splice(index, 0, result.lean_mass[i])
@@ -206,8 +208,8 @@ const Progress = () => {
         var weight = document.getElementById("weight").value;
         var body_fat = document.getElementById("body_fat").value;
         var lean_mass = document.getElementById("lean_mass").value;
-        var Waist = document.getElementById("Waist").value
-        var fianchi = document.getElementById("fianchi").value
+        var waist = document.getElementById("waist").value
+        var hips = document.getElementById("hips").value
         var right_tight = document.getElementById("right_tight").value
         var left_tight = document.getElementById("left_tight").value
         var chest = document.getElementById("chest").value
@@ -226,8 +228,8 @@ const Progress = () => {
                 weight: weight,
                 body_fat: body_fat,
                 lean_mass: lean_mass,
-                Waist: Waist,
-                fianchi: fianchi,
+                waist: waist,
+                hips: hips,
                 right_tight: right_tight,
                 left_tight: left_tight,
                 chest: chest
@@ -307,7 +309,7 @@ const Progress = () => {
                                             <TableCell align="right">Weight (Kg)</TableCell>
                                             <TableCell align="right"> % body fat </TableCell>
                                             <TableCell align="right"> % lean mass </TableCell>
-                                            <TableCell align="right">Waist (cm)</TableCell>
+                                            <TableCell align="right">waist (cm)</TableCell>
                                             <TableCell align="right">Hips (cm)</TableCell>
                                             <TableCell align="right">Right Tight (cm)</TableCell>
                                             <TableCell align="right">Left Tight (cm)</TableCell>
@@ -325,8 +327,8 @@ const Progress = () => {
                                                 <TableCell align="right">{row.weight}</TableCell>
                                                 <TableCell align="right">{row.body_fat}</TableCell>
                                                 <TableCell align="right">{row.lean_mass}</TableCell>
-                                                <TableCell align="right">{row.Waist}</TableCell>
-                                                <TableCell align="right">{row.fianchi}</TableCell>
+                                                <TableCell align="right">{row.waist}</TableCell>
+                                                <TableCell align="right">{row.hips}</TableCell>
                                                 <TableCell align="right">{row.right_tight}</TableCell>
                                                 <TableCell align="right">{row.left_tight}</TableCell>
                                                 <TableCell align="right">{row.chest}</TableCell>
@@ -341,15 +343,15 @@ const Progress = () => {
                                                 <option value={"invalid"}>date</option>
                                                 {dates.map((date) => (
                                                     (!date_of_visit.find(item => {
-                                                        return item.getTime() == date.getTime()
+                                                            return item.getTime() == date.getTime()
                                                     })) && date.getTime() < new Date().getTime() && <option value={date.toString()}>{date.getDate().toString() + "-" + month[date.getMonth()] + "-" + date.getFullYear().toString()}</option>
                                                 ))}
                                             </Form.Select>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='weight' id="weight" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='weight' id="body_fat" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='weight' id="lean_mass" onChange={handleChange}></input></TableCell>
-                                            <TableCell align="right"><input type='number' className='input_progress' placeholder='Waist' id="Waist" onChange={handleChange}></input></TableCell>
-                                            <TableCell align="right"><input type='number' className='input_progress' placeholder='fianchi' id="fianchi" onChange={handleChange}></input></TableCell>
+                                            <TableCell align="right"><input type='number' className='input_progress' placeholder='waist' id="waist" onChange={handleChange}></input></TableCell>
+                                            <TableCell align="right"><input type='number' className='input_progress' placeholder='hips' id="hips" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='right_tight' id="right_tight" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='left_tight' id="left_tight" onChange={handleChange}></input></TableCell>
                                             <TableCell align="right"><input type='number' className='input_progress' placeholder='chest' id="chest" onChange={handleChange}></input></TableCell>
