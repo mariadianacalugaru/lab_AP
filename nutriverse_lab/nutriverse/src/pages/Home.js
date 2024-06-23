@@ -7,7 +7,7 @@ import Chat from './Chat'
 
 
 
-const Home = ({setSid}) => {
+const Home = ({sid, setSid}) => {
 
   
  
@@ -19,7 +19,7 @@ const Home = ({setSid}) => {
           {/* <div className="search-bar"><SearchBarComponent /></div> */}
         </center>
         </div> 
-        <Chat></Chat>
+        {(sid != "") && <Chat></Chat>}
       </>
   )
 }

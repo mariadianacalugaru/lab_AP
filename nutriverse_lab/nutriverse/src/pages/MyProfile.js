@@ -14,6 +14,8 @@ import { TabPane } from 'react-bootstrap';
 import { useNavigate, Link, useLocation, createSearchParams } from "react-router-dom"
 import Modal from 'react-bootstrap/Modal';
 import NoAvatar from "../assets/no_avatar.png"
+import Chat from './Chat'
+
 
 
 
@@ -307,6 +309,7 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
 
 
   return (
+    <div>
     <div className="home-background">
     <Tab.Container id="list-group-tabs-example" defaultActiveKey="#editprofile">
       <Row>
@@ -469,6 +472,8 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
         </Col>
       </Row>
     </Tab.Container>
+    </div>
+    <Chat></Chat>
     </div>
   )
 }
