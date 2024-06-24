@@ -18,3 +18,34 @@
 .logo-home{
     padding: 50px;
 }
+
+.home-cards{
+    margin-bottom: 150px;
+    display: inline-flex; 
+    flex-wrap: wrap;
+    width: 90% !important;
+    margin-left: 8%;
+    margin-right: 5%;
+    gap: 10px;
+}
+
+.nutritionist_header{
+    display: inline-flex; 
+    flex-wrap: wrap;
+}
+.nut_icon{
+    width: 200px !important;
+}
+
+.nut_title{
+    margin-top: 40px !important;
+    margin-left: 10px;
+}
+
+.nutritionist_card{
+    padding: 30px;
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
+    width: 40% !important;
+}
+
