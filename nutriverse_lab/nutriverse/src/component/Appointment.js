@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import "../pages/css/Appointment.css"
+import Chat from '../pages/Chat'
 
 console.log(new Date().getTime())
 const event = [{
@@ -77,6 +78,7 @@ const Appointment = () => {
 
 
     return (
+        <div>
         <div className="home-background">
             <center >
             <div className='calendar'>
@@ -85,6 +87,8 @@ const Appointment = () => {
                 />
             </div>
         </center>
+        </div>
+        <Chat></Chat>
         </div>
     );
 }

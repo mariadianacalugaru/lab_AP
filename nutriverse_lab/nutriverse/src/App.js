@@ -68,7 +68,7 @@ function App() {
       <Navbar sid={sid} setSid={setSid} is_nutritionist={is_nutritionist} />
       <Routes>
       <Route path="/admin" element={<Admin />} />
-        <Route path="/" element={<Home setSid={setSid}/>} />
+        <Route path="/" element={<Home sid= {sid} setSid={setSid}/>} />
           <Route path="/MyProfile" element={<MyProfile setSid={setSid} setIs_nutritionist={setIs_nutritionist}/>} />
         <Route path="/MyFoodPlan" element={<MyFoodPlan />} />
         <Route path="/MyPatients" element={<MyPatients is_nut={is_nutritionist} />} />

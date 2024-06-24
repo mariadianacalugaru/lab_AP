@@ -28,7 +28,8 @@ const Progress = () => {
     const [patient, setPatient] = useSearchParams()
     const [date_of_visit, setDate_of_visit] = useState([])
     const [weights, setWeights] = useState([])
-
+    const [body_fat_list, setList_body_fat] = useState([])
+    const [lean_mass_list, setListlean_mass] = useState([])
 
     useEffect(() => {
         const configuration = {
@@ -90,8 +91,8 @@ const Progress = () => {
 
     });
 
-    function createData(date, weight, Waist, Hips, right_tight, left_tight, chest) {
-        return { date, weight, Waist, Hips, right_tight, left_tight, chest };
+    function createData(date, weight, waist, hips, right_tight, left_tight, chest) {
+        return { date, weight, waist, hips, right_tight, left_tight, chest };
     }
 
     const [rows, setRows] = useState([])
@@ -123,7 +124,8 @@ const Progress = () => {
                             var length = res.data.date.length
                             var list = []
                             var list_dates = []
-
+                            var list_body_fat = []
+                            var list_lean_mass = []
                             for (var i = 0; i < length; i++) {
                                 var date = new Date(result.date[i])
                                 list_dates.push(date)
@@ -138,11 +140,13 @@ const Progress = () => {
                                 list.splice(index, 0, createData(
                                     date.getDate().toString() + "-" + month[date.getMonth()] + "-" + date.getFullYear().toString(),
                                     result.weight[i],
-                                    result.Waist[i],
-                                    result.Hips[i],
+                                    result.waist[i],
+                                    result.hips[i],
                                     result.right_tight[i],
                                     result.left_tight[i],
                                     result.chest[i]))
+                                list_body_fat.splice(index, 0, result.body_fat[i])
+                                list_lean_mass.splice(index, 0, result.lean_mass[i])
 
                             }
                             setRows(list)
@@ -151,6 +155,8 @@ const Progress = () => {
                             });
                             setDate_of_visit(list_dates)
                             setWeights(result.weight)
+                            setList_body_fat(list_body_fat)
+                            setListlean_mass(list_lean_mass)
                         }
                     })
                     .catch((event) => {
@@ -174,8 +180,8 @@ const Progress = () => {
     const add_row = async () => {
         var date = new Date(document.getElementById("date").value);
         var weight = document.getElementById("weight").value;
-        var Waist = document.getElementById("Waist").value
-        var Hips = document.getElementById("Hips").value
+        var waist = document.getElementById("waist").value
+        var hips = document.getElementById("hips").value
         var right_tight = document.getElementById("right_tight").value
         var left_tight = document.getElementById("left_tight").value
         var chest = document.getElementById("chest").value
@@ -192,8 +198,8 @@ const Progress = () => {
                 patient: patient.get("patient"),
                 date: date,
                 weight: weight,
-                Waist: Waist,
-                Hips: Hips,
+                waist: waist,
+                hips: hips,
                 right_tight: right_tight,
                 left_tight: left_tight,
                 chest: chest
@@ -243,6 +249,22 @@ const Progress = () => {
                                     width={500}
                                     height={300}
                                 />
+                                            </Col>
+                                            <Col>
+
+                                <LineChart
+                                    xAxis={[{ scaleType: 'time', data: date_of_visit, label: "date of visit", valueFormatter: (value) => value.getDate().toString() + "-" + month[value.getMonth()] + "-" + value.getFullYear().toString() }]}
+                                    series={[
+                                        {
+                                            data: body_fat_list, label: "body_fat", curve: "linear"
+                                        },
+                                        {
+                                            data: lean_mass_list, label: "lean_mass", curve: "linear"
+                                        },
+                                    ]}
+                                    width={500}
+                                    height={300}
+                                />
                                 </Col>
                                 </Row>
                                 </Container>
@@ -255,8 +277,8 @@ const Progress = () => {
                                         <TableRow>
                                             <TableCell>Date of visit</TableCell>
                                             <TableCell align="right">Weight (Kg)</TableCell>
-                                            <TableCell align="right">Waist (cm)</TableCell>
-                                            <TableCell align="right">Hips (cm)</TableCell>
+                                            <TableCell align="right">waist (cm)</TableCell>
+                                            <TableCell align="right">hips (cm)</TableCell>
                                             <TableCell align="right">Right Tight (cm)</TableCell>
                                             <TableCell align="right">Left Tight (cm)</TableCell>
                                             <TableCell align="right">Chest (cm)</TableCell>
@@ -271,8 +293,8 @@ const Progress = () => {
                                                     {row.date}
                                                 </TableCell>
                                                 <TableCell align="right">{row.weight}</TableCell>
-                                                <TableCell align="right">{row.Waist}</TableCell>
-                                                <TableCell align="right">{row.Hips}</TableCell>
+                                                <TableCell align="right">{row.waist}</TableCell>
+                                                <TableCell align="right">{row.hips}</TableCell>
                                                 <TableCell align="right">{row.right_tight}</TableCell>
                                                 <TableCell align="right">{row.left_tight}</TableCell>
                                                 <TableCell align="right">{row.chest}</TableCell>

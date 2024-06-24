@@ -25,6 +25,8 @@ const ChatList = (props)=>{
     const [message_list, update_message_list] = useState([]);
     const [destination, setDestination] = useState('');
     const [message_list_render, update_message_list_render] = useState([]);
+    const [message_text, set_message_text] = useState('');
+    const [inside_chat, set_inside_chat] = useState(false);
     
     var messageListReferance = React.createRef();
     var inputReferance = React.createRef();
@@ -33,13 +35,12 @@ const ChatList = (props)=>{
 
 
     const sendMessage = ()=>{
-        alert(destination);
+        
         const receiverId = destination;
-        const messageText = "Hello world!";
         const receiverType = CometChatUIKitConstants.MessageReceiverType.user;
         const textMessage = new CometChat.TextMessage(
           receiverId,
-          messageText,
+          message_text,
           receiverType
         );
       
@@ -48,6 +49,10 @@ const ChatList = (props)=>{
           console.log("Message sent successfully:", message);
           })
         .catch(console.log);
+
+        set_message_text('');
+        get_messages(destination,name);
+
 
     
     }
@@ -149,7 +154,8 @@ const ChatList = (props)=>{
             placeholder='Type here...'
             multiline={false}
             value={input_value}
-            rightButtons={<Button onClick={()=>{sendMessage()}} text='Send' />}
+            onChange={(e)=>{input_value = e.target.value; set_message_text(e.target.value);}}
+            rightButtons={<Button onClick={()=>{ sendMessage(); get_messages(destination,name)}} text='Send' />}
         />
         
     </div>

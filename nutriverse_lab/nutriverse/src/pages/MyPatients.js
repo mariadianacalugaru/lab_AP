@@ -7,6 +7,7 @@ import Table from 'react-bootstrap/Table';
 import './css/MyProfile.css';
 import axios from 'axios';
 import { useNavigate, createSearchParams, Link } from 'react-router-dom';
+import Chat from './Chat';
 
 
 const MyPatients = ({is_nut}) => {
@@ -117,6 +118,7 @@ const MyPatients = ({is_nut}) => {
             }).toString()
         });}
     return (
+        <div>
         <div className="home-background">
         <Card className='cont1'>
             <Card.Header as="h5">My patients</Card.Header>
@@ -148,6 +150,8 @@ const MyPatients = ({is_nut}) => {
 
             </Card.Body>
         </Card>
+        </div>
+        <Chat></Chat>
         </div>
     )
 }

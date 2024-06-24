@@ -9,7 +9,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Nut from "../assets/nut.png";
 import Client from "../assets/client.png";
 
-const Home = ({setSid}) => {
+const Home = ({sid, setSid}) => {
 
   
  
@@ -18,6 +18,7 @@ const Home = ({setSid}) => {
         <div className="home-background">      
         <center>
           <div className='logo-home'><img src={Logo_home} alt="Nutriverse"></img></div>
+
           <div className='home-cards'>
             <Card className='nutritionist_card'>
               <div className='nutritionist_header'>
@@ -56,8 +57,10 @@ const Home = ({setSid}) => {
 
           </div>
           <Chat></Chat>
+
         </center>
         </div> 
+        {(sid != "") && <Chat></Chat>}
       </>
   )
 }
