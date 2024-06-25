@@ -11,10 +11,11 @@ import Tab from 'react-bootstrap/Tab';
 import './css/MyProfile.css';
 import axios from 'axios';
 import { TabPane } from 'react-bootstrap';
-import { useNavigate, Link, useLocation, createSearchParams } from "react-router-dom"
+import { useNavigate, Link, useLocation, createSearchParams, useSearchParams } from "react-router-dom"
 import Modal from 'react-bootstrap/Modal';
 import NoAvatar from "../assets/no_avatar.png"
 import Chat from './Chat'
+import Rating from '@mui/material/Rating';
 
 
 
@@ -69,6 +70,12 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
   const [appointment, setAppointment] = useState('');
 
   const history = useNavigate();
+  const navigate = useNavigate()
+
+  const [get_info, setGetInfo] = useState(false)
+  const [list_reviews, setListReviews] = useState([])
+
+  
 
   const create_foodplan = (name, lastname, patient) => {
     history({
@@ -260,6 +267,7 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
       get_patients();
     }
   }, []);
+  
 
 
   useEffect(() => {
@@ -305,7 +313,44 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
     }
     // Call the async function
     get_info();
-  }, []);
+  }, [])
+  
+  useEffect(() => {
+    const configuration = {
+        method: "GET",
+        url: "http://localhost:4000/get_reviews?email=" + email,
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:4000",
+        },
+        withCredentials: true,
+    };
+
+    const get_reviews = () => {
+        setGetInfo(true)
+        try {
+            axios(configuration)
+                .then((res) => {
+                    if (res.data == "not logged") {
+                        navigate("/")
+                    }
+                    setListReviews(res.data)
+                })
+                .catch((event) => {
+                    console.log(event);
+                });
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+    if (!get_info) {
+        get_reviews()
+    }
+  }
+)
+
+console.log(list_reviews);
 
 
   return (
@@ -325,6 +370,10 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
               {!is_nutritionist && <ListGroup.Item className='listgroup2' action href="#appointments">
                 Appointments
               </ListGroup.Item>}
+              {is_nutritionist && <ListGroup.Item className='listgroup2' action href="#reviews">
+                Reviews
+              </ListGroup.Item>}
+
 
             </ListGroup>
           </Card>
@@ -462,6 +511,30 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
                 ))
               } 
 
+                </Card.Body>
+              </Card>
+            </Tab.Pane>
+
+            <Tab.Pane className='pane' eventKey="#reviews">
+              <Card>
+                <Card.Header as="h5">Reviews</Card.Header>
+                <Card.Body>
+                <div className = "old_reviews">
+                 
+                {list_reviews.map((user) => (
+                    <Card className="review">
+                        <Card.Title className="reviewer_name">{user.firstname} {user.lastname}</Card.Title>
+                        <hr />
+                        <Card.Body className="review_body">
+                            <Card.Text>
+                                {user.comment}
+                            </Card.Text>
+                            <Rating value={user.star}/>
+                            
+                        </Card.Body>
+                    </Card>
+                ))}
+            </div>
                 </Card.Body>
               </Card>
             </Tab.Pane>
