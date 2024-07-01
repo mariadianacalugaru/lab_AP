@@ -56,7 +56,6 @@ const Home = ({sid, setSid}) => {
             </Card>
 
           </div>
-          <Chat></Chat>
 
         </center>
         </div> 
