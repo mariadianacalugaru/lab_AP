@@ -14,10 +14,11 @@
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     height: 70%;
-    
+    position: fixed;
 }
 
 .scrollable_list{
+    height: 75%;
     overflow-y:scroll;
 }
 
