@@ -17,8 +17,10 @@ const Home = ({sid, setSid}) => {
       <>
         <div className="home-background">      
         <center>
-          <div className='logo-home'><img src={Logo_home} alt="Nutriverse"></img></div>
-
+          <div className='logo-home'>
+            <img src={Logo_home} alt="Nutriverse" className="logo_grande"></img>
+          </div>
+          
           <div className='home-cards'>
             <Card className='nutritionist_card'>
               <div className='nutritionist_header'>

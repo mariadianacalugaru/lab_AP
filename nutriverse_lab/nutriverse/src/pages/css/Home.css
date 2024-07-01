@@ -16,7 +16,11 @@
 }
 
 .logo-home{
-    padding: 50px;
+    padding: 10px;
+}
+
+.logo_grande{
+    width: 40%;
 }
 
 .home-cards{
@@ -24,9 +28,9 @@
     display: inline-flex; 
     flex-wrap: wrap;
     width: 90% !important;
-    margin-left: 8%;
-    margin-right: 5%;
-    gap: 10px;
+    margin-left: 12%;
+    margin-right: 8%;
+    gap: 60px;
 }
 
 .nutritionist_header{

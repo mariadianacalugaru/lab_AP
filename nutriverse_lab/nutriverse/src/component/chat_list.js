@@ -1,6 +1,8 @@
 import '../pages/css/Chat.css'
 import { ChatItem,MessageList,Input } from 'react-chat-elements';
 import close_icon from '../assets/close_icon.png';
+import send_icon from '../assets/send.png';
+import back_icon from '../assets/back.png';
 import React,{useEffect, useState} from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import { CometChat } from "@cometchat/chat-sdk-javascript";
@@ -133,7 +135,7 @@ const ChatList = (props)=>{
             <div class="chatlist_box">
                 <div class="chat_heading">
                     <center>
-                    <h5 class="exit_chat" onClick={()=>{props.change_list_display(true); update_message_list([]); setDestination('');}}>&lt;chats</h5>
+                    <h5 class="exit_chat" onClick={()=>{props.change_list_display(true); update_message_list([]); setDestination('');}}><img src={back_icon} className="back_icon"></img></h5>
                         <h3 class="chat_name">{name}</h3>
                         </center>
                 </div>
@@ -155,7 +157,7 @@ const ChatList = (props)=>{
             multiline={false}
             value={input_value}
             onChange={(e)=>{input_value = e.target.value; set_message_text(e.target.value);}}
-            rightButtons={<Button onClick={()=>{ sendMessage(); get_messages(destination,name)}} text='Send' />}
+            rightButtons={<Button className="invio" onClick={()=>{ sendMessage(); get_messages(destination,name)}}><img src={send_icon} className="send_icon"></img></Button>}
         />
         
     </div>
@@ -167,7 +169,7 @@ const ChatList = (props)=>{
     return (
       <div class="chat_box">
         <div class="heading">
-            <h1 class="chat_title" >Chat</h1>
+            <h2 class="chat_title" >Chat</h2>
             <img class="close_icon" onClick={()=>{props.change_visibility(true)}} src={close_icon} alt="close" width="40" ></img>
         </div>
         <div class="scrollable_list">
