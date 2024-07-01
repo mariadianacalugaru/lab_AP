@@ -3,6 +3,7 @@ import { ChatItem,MessageList,Input } from 'react-chat-elements';
 import close_icon from '../assets/close_icon.png';
 import send_icon from '../assets/send.png';
 import back_icon from '../assets/back.png';
+import no_avatar from '../assets/no_avatar.png';
 import React,{useEffect, useState} from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import { CometChat } from "@cometchat/chat-sdk-javascript";
@@ -118,7 +119,7 @@ const ChatList = (props)=>{
 
     const array_list_items =  users_render.map((user)=>
         <ChatItem
-                avatar={''}
+                avatar={no_avatar}
                 uid={user.conversationWith.uid}
                 alt={user.conversationWith.name}
                 title={user.conversationWith.name}
