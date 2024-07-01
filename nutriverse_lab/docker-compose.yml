@@ -1,110 +1,33 @@
 version: "3.8"
 
 services:
-  nginx:
-    build: "./nginx"
-    container_name: "nginx_reverse_proxy"
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./ssl:/etc/nginx/certs/
-    networks:
-      - app
-    links:
-      - node1
-      - node2
-      - node3
-      - react1
-      - react2
-    
-
-  react1:
-    build: "./nutriverse"
-    container_name: "react1"
-    ports:
-      - 5174:3000
-    networks:
-      - app
-  
-  react2:
-    build: "./nutriverse"
-    container_name: "react2"
-    ports:
-      - 5173:3000
-    networks:
-      - app
-
-
-
-
-  node1:
+  node:
     build: "./node"
-    container_name: "node1"
+    container_name: node
     ports:
-      - 8080:3000
+      - 4000:4000
     volumes:
       - ./node:/app
     networks:
-      - app
       - database
-      - rabbit
     links:
       - mongodb
-      
-  node2:
-    build: "./node"
-    container_name: "node2"
-    ports:
-      - 8081:3000
-    volumes:
-      - ./node:/app
-    networks:
-      - app
-      - database
-      - rabbit
-    links:
-      - mongodb
-
-  node3:
-    build: "./node"
-    container_name: "node3"
-    ports:
-      - 8082:3000
-    volumes:
-      - ./node:/app
-    networks:
-      - app
-      - database
-      - rabbit
-    links:
+    depends_on:
       - mongodb
 
   mongodb:
-    image: mongo:6-jammy
-    container_name: "mongo"
+    image: mongo:latest
+    container_name: mongodb
     ports:
-      - '27016:27017'
+      - 27017:27017
     volumes:
       - ./mongo/datamongo:/data/db
-      - ./mongo/init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - database
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
       MONGO_INITDB_DATABASE: nutriverse
-    
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: "rabbitmq"
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    networks:
-      - rabbit
-
+  
 networks:
-  app:
   database:
-  rabbit:

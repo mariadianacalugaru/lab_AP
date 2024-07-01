@@ -304,6 +304,8 @@ app.get('/get_reviews', async (req, res) => {
     if (req.session.authenticated) {
         const nutriverse = client.db("nutriverse");
         const reviews = nutriverse.collection("reviews");
+        console.log("ciaooooooooo")
+        console.log(req.query)
         var query = { nutritionist: req.query.email };
         const result = await reviews.find(query, {}).toArray();
         console.log(result)
@@ -503,7 +505,6 @@ app.get('/search_nutritionists', async (req, res) => {
     const nutriverse = client.db("nutriverse");
     const users = nutriverse.collection("users");
     const result = await users.find().toArray();
-    console.log(result)
     res.send(result);
 });
 
