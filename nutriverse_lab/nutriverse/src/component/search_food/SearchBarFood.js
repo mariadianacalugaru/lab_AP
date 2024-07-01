@@ -7,7 +7,7 @@ const SearchBarFood = ({setResults, ingredient, setIngredient, setSelectedFood, 
     
 
       const fetchData = (value) => {
-        fetch("http://localhost:4000/search_food")
+        fetch("https://nginx_reverse_proxy/api/search_food")
             .then(response => response.json())
             .then(json => {
                 const results = json.filter((ingredient) => {

@@ -81,13 +81,13 @@ export default class Chat extends Component {
         var configuration = {
             headers: {
               "Content-Type": 'multipart/form-data',
-              "Access-Control-Allow-Origin": "http://localhost:4000",
+              "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
             },
             
             withCredentials: true,
         }
         var name;
-        await axios.get("http://localhost:4000/userId",configuration).then((res) => {UID = res.data._id; name =res.data.firstname + ' ' + res.data.lastname;});
+        await axios.get("http://nginx_reverse_proxy/api/userId",configuration).then((res) => {UID = res.data._id; name =res.data.firstname + ' ' + res.data.lastname;});
         console.log(UID);
         CometChat.login(UID, COMETCHAT_CONSTANTS.AUTH_KEY).then(
           (user) => {

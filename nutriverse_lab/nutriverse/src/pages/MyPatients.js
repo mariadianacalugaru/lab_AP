@@ -24,10 +24,10 @@ const MyPatients = ({is_nut}) => {
         async function get_patients() {
             const configuration = {
                 method: "post",
-                url: "http://localhost:4000/get_patients",
+                url: "https://nginx_reverse_proxy/api/get_patients",
                 headers: {
                     "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "http://localhost:4000",
+                    "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
                 },
                 withCredentials: true,
             };
@@ -71,10 +71,10 @@ const MyPatients = ({is_nut}) => {
         async function get_info() {
             const configuration = {
                 method: "post",
-                url: "http://localhost:4000/session_info",
+                url: "https://nginx_reverse_proxy/api/session_info",
                 headers: {
                     "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "http://localhost:4000",
+                    "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
                 },
                 withCredentials: true,
 

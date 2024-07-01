@@ -124,10 +124,10 @@ const Nutritionists = ({ setName, setEmail }) => {
   const handleBook = async (nutr) => {
     const configuration = {
       method: "post",
-      url: "http://localhost:4000/session_info",
+      url: "https://nginx_reverse_proxy/api/session_info",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost:4000",
+        "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
       },
       withCredentials: true,
     };
@@ -167,7 +167,7 @@ const Nutritionists = ({ setName, setEmail }) => {
   async function get_nutritionists(city) {
       const configuration = {
         method: "get",
-        url: "http://localhost:4000/search_nutritionists",
+        url: "https://nginx_reverse_proxy/api/search_nutritionists",
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "http://localhost:4000",

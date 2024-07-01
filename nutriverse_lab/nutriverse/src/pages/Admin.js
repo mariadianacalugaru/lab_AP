@@ -21,10 +21,10 @@ const Admin = () => {
     async function get_nutritionists() {
       const configuration = {
         method: "get",
-        url: "http://localhost:4000/search_nutritionists",
+        url: "http://nginx_reverse_proxy/api/search_nutritionists",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
+          "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
         },
         withCredentials: true,
       };
@@ -55,14 +55,14 @@ const Admin = () => {
     const configurations = {
       headers: {
         "Content-Type": "appplication/json",
-        "Access-Control-Allow-Origin": "http://localhost:4000",
+        "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
       },
       withCredentials: true,
       "email": email
     };
     try {
       axios
-        .post("http://localhost:4000/approve_nutritionist", configurations)
+        .post("http://nginx_reverse_proxy/api/approve_nutritionist", configurations)
         .then((response) => {
           if (response.data == "verified") {
             window.location.reload();
@@ -77,14 +77,14 @@ const Admin = () => {
     const configurations = {
       headers: {
         "Content-Type": "appplication/json",
-        "Access-Control-Allow-Origin": "http://localhost:4000",
+        "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
       },
       withCredentials: true,
       "email": email
     };
     try {
       axios
-        .post("http://localhost:4000/reject_nutritionist", configurations)
+        .post("http://nginx_reverse_proxy/api/reject_nutritionist", configurations)
         .then((response) => {
           if (response.data == "rejected") {
             window.location.reload();
@@ -99,7 +99,7 @@ const Admin = () => {
     const configurations = {
       headers: {
         'Content-Type': 'multipart/form-data',
-        "Access-Control-Allow-Origin": "http://localhost:4000",
+        "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
         'Accept': 'blob'
       },
       withCredentials: true,
@@ -108,7 +108,7 @@ const Admin = () => {
     var formdata = new FormData()
     formdata.append("filename",filename)
     try {
-      await axios.post('http://localhost:4000/get_certificate', formdata, configurations)
+      await axios.post('http://nginx_reverse_proxy/api/get_certificate', formdata, configurations)
       .then((response) => {
          
             // Creating new object of PDF file

@@ -31,10 +31,10 @@ const Review = () => {
         var review = document.getElementById("comment").value
         const configuration = {
             method: "post",
-            url: "http://localhost:4000/add_review",
+            url: "https://nginx_reverse_proxy/api/add_review",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:4000",
+                "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
             },
             withCredentials: true,
             data: {
@@ -87,10 +87,10 @@ const Review = () => {
     useEffect(() => {
         const configuration = {
             method: "GET",
-            url: "http://localhost:4000/get_reviews?email=" + email,
+            url: "https://nginx_reverse_proxy/api/get_reviews?email=" + email,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:4000",
+                "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
             },
             withCredentials: true,
         };

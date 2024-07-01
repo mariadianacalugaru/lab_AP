@@ -128,7 +128,7 @@ const Login = (show) => {
         configuration = {
             headers: {
               "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "http://localhost:4000",
+              "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
             },
             
             withCredentials: true
@@ -144,7 +144,7 @@ const Login = (show) => {
         configuration = {
           headers: {
             "Content-Type": 'multipart/form-data',
-            "Access-Control-Allow-Origin": "http://localhost:4000",
+            "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
           },
           
           withCredentials: true,
@@ -164,7 +164,7 @@ const Login = (show) => {
       }
 
       try {
-        await axios.post("http://localhost:4000/register",formdata,configuration)
+        await axios.post("https://nginx_reverse_proxy/api/register",formdata,configuration)
           .then(res => {
             console.log(res)
             if (res.data == "user already registered") {
@@ -198,6 +198,7 @@ const Login = (show) => {
 
 
   async function handleLogin(event){
+    alert("ciao")
     event.preventDefault();
     const form = event.currentTarget;
     

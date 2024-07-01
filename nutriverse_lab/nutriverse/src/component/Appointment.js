@@ -22,10 +22,10 @@ const Appointment = () => {
     useEffect(() => {
         const configuration = {
             method: "GET",
-            url: "http://localhost:4000/get_appointments",
+            url: "http://nginx_reverse_proxy/api/get_appointments",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:4000",
+                "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
             },
             withCredentials: true,
         };

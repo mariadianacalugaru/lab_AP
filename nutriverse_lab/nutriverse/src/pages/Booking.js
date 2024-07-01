@@ -72,10 +72,10 @@ const Booking = () => {
     useEffect(() => {
         const configuration = {
             method: "GET",
-            url: "http://localhost:4000/info_nutritionist?email=" + email,
+            url: "http://nginx_reverse_proxy/api/info_nutritionist?email=" + email,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:4000",
+                "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
             },
             withCredentials: true,
         };
@@ -102,10 +102,10 @@ const Booking = () => {
         }
         const configuration_rating = {
             method: "GET",
-            url: "http://localhost:4000/get_rating?email=" + email,
+            url: "http://nginx_reverse_proxy/api/get_rating?email=" + email,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:4000",
+                "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
             },
             withCredentials: true,
         };
@@ -143,12 +143,12 @@ const Booking = () => {
             const configuration = {
                 headers: {
                     "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "http://localhost:4000",
+                    "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
                 },
                 withCredentials: true,
             };
             try {
-                await axios.post("http://localhost:4000/get_reservations", formdata, configuration)
+                await axios.post("http://nginx_reverse_proxy/api/get_reservations", formdata, configuration)
                     .then((res) => {
                         if (res.data == "not logged") {
                             navigate("/login")
@@ -223,12 +223,12 @@ const Booking = () => {
         const configuration = {
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:4000",
+                "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
             },
             withCredentials: true,
         };
         try {
-            await axios.post("http://localhost:4000/add_reservation", formdata, configuration)
+            await axios.post("http://nginx_reverse_proxy/api/add_reservation", formdata, configuration)
                 .then((res) => {
                     if (res.data == "booking accepted") {
                         setModalShow(true)

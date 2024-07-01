@@ -1,19 +1,43 @@
 version: "3.8"
 
 services:
-  node:
+  nginx:
+    build: "./nginx"
+    container_name: "nginx_reverse_proxy"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./ssl:/etc/nginx/certs/
+    networks:
+      - app
+    links:
+      - node1
+
+  node1:
     build: "./node"
-    container_name: node
+    container_name: node1
     ports:
       - 4000:4000
     volumes:
       - ./node:/app
     networks:
       - database
+      - app
     links:
       - mongodb
     depends_on:
       - mongodb
+
+  react1:
+    build: "./nutriverse"
+    container_name: "react1"
+    ports:
+      - 5174:3000
+    volumes:
+      - ./nutriverse/src:/app/src
+    networks:
+      - app
 
   mongodb:
     image: mongo:latest
@@ -31,3 +55,4 @@ services:
   
 networks:
   database:
+  app:

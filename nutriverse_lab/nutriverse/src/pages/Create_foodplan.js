@@ -71,10 +71,10 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
       
       configuration = {
           method:'post',
-          url: "http://localhost:4000/save_foodplan",
+          url: "http://nginx_reverse_proxy/api/save_foodplan",
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "http://localhost:4000",
+            "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
           },
           
           withCredentials: true,
@@ -207,10 +207,10 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
     async function get_info() {
       const configuration = {
         method: "post",
-        url: "http://localhost:4000/session_info",
+        url: "http://nginx_reverse_proxy/api/session_info",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
+          "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
         },
         withCredentials: true,
 

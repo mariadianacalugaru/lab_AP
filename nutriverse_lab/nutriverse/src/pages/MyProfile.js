@@ -95,7 +95,7 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost:4000",
+        "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
       },
       withCredentials: true,
       params: {
@@ -103,7 +103,7 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
       }
     }
     try {
-      await axios.get("http://localhost:4000/delete_appointment/", configuration)
+      await axios.get("https://nginx_reverse_proxy/api/delete_appointment/", configuration)
         .then((res) => {
           console.log(res.data)
         })
@@ -158,12 +158,12 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
+          "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
         },
         withCredentials: true,
       }
       try {
-        axios.get("http://localhost:4000/fetch_appointments", configuration)
+        axios.get("https://nginx_reverse_proxy/api/fetch_appointments", configuration)
           .then((res) => {
             console.log(res.data)
             change_appointment_list(res.data);
@@ -209,12 +209,12 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
+          "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
         },
         withCredentials: true,
       }
       try {
-        await axios.post("http://localhost:4000/update_user", formdata, configuration)
+        await axios.post("https://nginx_reverse_proxy/api/update_user", formdata, configuration)
           .then((res) => {
             console.log(res.data)
             if (res.data === "user updated") {
@@ -239,10 +239,10 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
     async function get_patients() {
       const configuration = {
         method: "get",
-        url: "http://localhost:4000/search_nutritionists",
+        url: "https://nginx_reverse_proxy/api/search_nutritionists",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
+          "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
         },
         withCredentials: true,
       };
@@ -275,10 +275,10 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
     async function get_info() {
       const configuration = {
         method: "post",
-        url: "http://localhost:4000/session_info",
+        url: "https://nginx_reverse_proxy/api/session_info",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
+          "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
         },
         withCredentials: true,
 
@@ -324,10 +324,10 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
   const get_reviews = () => {
       const configuration_reviews = {
         method: "GET",
-        url: "http://localhost:4000/get_reviews?email=" + email,
+        url: "https://nginx_reverse_proxy/api/get_reviews?email=" + email,
         headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "http://localhost:4000",
+            "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
         },
         withCredentials: true,
     };

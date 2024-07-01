@@ -54,7 +54,7 @@ const Progress = () => {
     useEffect(() => {
         const configuration = {
             method: "GET",
-            url: "http://localhost:4000/myappointments?patient=" + patient.get("patient"),
+            url: "https://nginx_reverse_proxy/api/myappointments?patient=" + patient.get("patient"),
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "http://localhost:4000",
@@ -121,7 +121,7 @@ const Progress = () => {
     useEffect(() => {
         const configuration = {
             method: "get",
-            url: "http://localhost:4000/measurements?patient=" + patient.get("patient"),
+            url: "https://nginx_reverse_proxy/api/measurements?patient=" + patient.get("patient"),
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "http://localhost:4000",
@@ -216,10 +216,10 @@ const Progress = () => {
 
         const configuration = {
             method: "post",
-            url: "http://localhost:4000/add_measurements",
+            url: "https://nginx_reverse_proxy/api/add_measurements",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://localhost:4000",
+                "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
             },
             withCredentials: true,
             data: {
