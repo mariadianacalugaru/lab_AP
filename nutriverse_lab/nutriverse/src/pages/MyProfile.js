@@ -299,6 +299,42 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
               setNutritionist(res.data.user.is_nutritionist);
               setIs_nutritionist(res.data.user.is_nutritionist)
               setAvatar(JSON.parse(res.data.user.image).base64);
+
+              const configuration_reviews = {
+                method: "GET",
+                url: "http://localhost:4000/get_reviews?email=" + res.data.user.email,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "http://localhost:4000",
+                },
+                withCredentials: true,
+            };
+            console.log(email)
+        
+            const get_reviews = () => {
+                setGetInfo(true)
+                try {
+                    axios(configuration_reviews)
+                        .then((res) => {
+                            if (res.data == "not logged") {
+                                navigate("/")
+                            }
+                            setListReviews(res.data)
+                            console.log(res.data)
+                        })
+                        .catch((event) => {
+                            console.log(event);
+                        });
+                } catch (error) {
+                    console.log(error);
+                }
+        
+            }
+            if (!get_info) {
+                get_reviews()
+            }
+          
+
             }
           })
           .catch(event => {
@@ -315,40 +351,7 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
     get_info();
   }, [])
   
-  useEffect(() => {
-    const configuration = {
-        method: "GET",
-        url: "http://localhost:4000/get_reviews?email=" + email,
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "http://localhost:4000",
-        },
-        withCredentials: true,
-    };
-
-    const get_reviews = () => {
-        setGetInfo(true)
-        try {
-            axios(configuration)
-                .then((res) => {
-                    if (res.data == "not logged") {
-                        navigate("/")
-                    }
-                    setListReviews(res.data)
-                })
-                .catch((event) => {
-                    console.log(event);
-                });
-        } catch (error) {
-            console.log(error);
-        }
-
-    }
-    if (!get_info) {
-        get_reviews()
-    }
-  }
-)
+  
 
 console.log(list_reviews);
 
