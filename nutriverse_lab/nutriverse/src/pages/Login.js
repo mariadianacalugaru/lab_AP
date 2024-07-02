@@ -128,7 +128,7 @@ const Login = (show) => {
         configuration = {
             headers: {
               "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
+              "Access-Control-Allow-Origin": "https://nutriverse",
             },
             
             withCredentials: true
@@ -144,7 +144,7 @@ const Login = (show) => {
         configuration = {
           headers: {
             "Content-Type": 'multipart/form-data',
-            "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
+            "Access-Control-Allow-Origin": "https://nutriverse",
           },
           
           withCredentials: true,
@@ -164,7 +164,7 @@ const Login = (show) => {
       }
 
       try {
-        await axios.post("https://nginx_reverse_proxy/api/register",formdata,configuration)
+        await axios.post("https://nutriverse/api/register",formdata,configuration)
           .then(res => {
             console.log(res)
             if (res.data == "user already registered") {
@@ -208,11 +208,11 @@ const Login = (show) => {
     else {
       const configuration = {
         method: "post",
-        url: "http://localhost:4000/login",
+        url: "https://nutriverse_nginx_proxy/api/login",
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
+          "Access-Control-Allow-Origin": "https://nutriverse_nginx_proxy",
         },
         data: {
           email: form_Data.email_login,

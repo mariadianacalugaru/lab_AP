@@ -30,10 +30,10 @@ function App() {
     async function get_info() {
       const configuration = {
         method: "post",
-        url: "https://nginx_reverse_proxy/api/session_info",
+        url: "https://nutriverse/api/session_info",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
+          "Access-Control-Allow-Origin": "https://nutriverse",
         },
         withCredentials:true,
       };

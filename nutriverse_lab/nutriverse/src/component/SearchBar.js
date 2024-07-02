@@ -7,7 +7,7 @@ const SearchBar = ({setResults, city, setCity, setListCities}) => {
     const [input, setInput] = useState("");
 
       const fetchData = (value) => {
-        fetch("https://nginx_reverse_proxy/api/search_nutritionists_cities")
+        fetch("https://nutriverse/api/search_nutritionists_cities")
             .then(response => response.json())
             .then(json => {
                 const results = json.filter((city) => {

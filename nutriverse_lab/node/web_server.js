@@ -5,9 +5,10 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 var amqp = require('amqplib/callback_api');
 var mongoose = require('mongoose');
-
 app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({limit: '50mb'}));
+app.use(express.urlencoded({ limit: '50mb' }));
+app.set('trust proxy', 1);
+app.enable('trust proxy')
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -18,7 +19,7 @@ var transporter = nodemailer.createTransport({
 });
 
 const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: ["https://localhost:443","http://localhost:5174","http://localhost:3000", "https://nutriverse"],
     credentials: true,
     optionsSuccessStatus: 200,
 
@@ -78,7 +79,7 @@ store.on('error', function (error) {
 app.use(
     session({
         secret: "some secret",
-        cookie: { maxAge: 60000 * 200 },
+        cookie: { maxAge: 60000 * 200},
         saveUninitialized: false,
         store: store,
         resave: true
@@ -99,6 +100,7 @@ app.get('/',
     });
 
 app.post('/login', async (req, res) => {
+    res.header("Access-Control-Allow-Credentials", "true");
     if (req.session.authenticated) {
         res.json(session);
     }

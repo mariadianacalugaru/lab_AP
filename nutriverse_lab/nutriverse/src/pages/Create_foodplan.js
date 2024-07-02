@@ -71,10 +71,10 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
       
       configuration = {
           method:'post',
-          url: "http://nginx_reverse_proxy/api/save_foodplan",
+          url: "https://nutriverse/api/save_foodplan",
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
+            "Access-Control-Allow-Origin": "https://nutriverse",
           },
           
           withCredentials: true,
@@ -207,10 +207,10 @@ const Create_foodplan = ({ setSid, setIs_nutritionist }) => {
     async function get_info() {
       const configuration = {
         method: "post",
-        url: "http://nginx_reverse_proxy/api/session_info",
+        url: "https://nutriverse/api/session_info",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
+          "Access-Control-Allow-Origin": "https://nutriverse",
         },
         withCredentials: true,
 

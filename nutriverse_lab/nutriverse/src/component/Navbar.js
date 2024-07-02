@@ -46,11 +46,11 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
         
         const configuration = {
             method: "post",
-            url: "https://nginx_reverse_proxy/api/logout",
+            url: "https://nutriverse/api/logout",
             withCredentials: true,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
+                "Access-Control-Allow-Origin": "https://nutriverse",
             }
         };
 

@@ -24,10 +24,10 @@ const MyPatients = ({is_nut}) => {
         async function get_patients() {
             const configuration = {
                 method: "post",
-                url: "https://nginx_reverse_proxy/api/get_patients",
+                url: "https://nutriverse/api/get_patients",
                 headers: {
                     "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
+                    "Access-Control-Allow-Origin": "https://nutriverse",
                 },
                 withCredentials: true,
             };
@@ -71,10 +71,10 @@ const MyPatients = ({is_nut}) => {
         async function get_info() {
             const configuration = {
                 method: "post",
-                url: "https://nginx_reverse_proxy/api/session_info",
+                url: "https://nutriverse/api/session_info",
                 headers: {
                     "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
+                    "Access-Control-Allow-Origin": "https://nutriverse",
                 },
                 withCredentials: true,
 

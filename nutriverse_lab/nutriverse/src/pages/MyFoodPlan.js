@@ -49,10 +49,10 @@ const MyFoodPlan = () => {
     async function get_info() {
       const configuration = {
         method: "get",
-        url: "https://nginx_reverse_proxy/api/get_foodplan",
+        url: "https://nutriverse/api/get_foodplan",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api",
+          "Access-Control-Allow-Origin": "https://nutriverse",
         },
         withCredentials:true,
         

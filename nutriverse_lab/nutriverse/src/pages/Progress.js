@@ -34,10 +34,10 @@ const Progress = () => {
     useEffect(() => {
         const configuration = {
             method: "GET",
-            url: "https://nginx_reverse_proxy/api/myappointments",
+            url: "https://nutriverse/api/myappointments",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
+                "Access-Control-Allow-Origin": "https://nutriverse",
             },
             withCredentials: true,
         };
@@ -100,10 +100,10 @@ const Progress = () => {
     useEffect(() => {
         const configuration = {
             method: "get",
-            url: "https://nginx_reverse_proxy/api/measurements",
+            url: "https://nutriverse/api/measurements",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
+                "Access-Control-Allow-Origin": "https://nutriverse",
             },
             withCredentials: true,
         };
@@ -188,10 +188,10 @@ const Progress = () => {
 
         const configuration = {
             method: "post",
-            url: "https://nginx_reverse_proxy/api/add_measurements",
+            url: "https://nutriverse/api/add_measurements",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nginx_reverse_proxy/api/",
+                "Access-Control-Allow-Origin": "https://nutriverse",
             },
             withCredentials: true,
             data: {

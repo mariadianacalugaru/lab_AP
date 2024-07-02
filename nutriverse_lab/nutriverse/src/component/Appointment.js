@@ -22,10 +22,10 @@ const Appointment = () => {
     useEffect(() => {
         const configuration = {
             method: "GET",
-            url: "http://nginx_reverse_proxy/api/get_appointments",
+            url: "https://nutriverse/api/get_appointments",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://nginx_reverse_proxy/api",
+                "Access-Control-Allow-Origin": "https://nutriverse",
             },
             withCredentials: true,
         };

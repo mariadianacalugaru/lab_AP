@@ -13,14 +13,12 @@ services:
       - app
     links:
       - node1
-
+  
   node1:
     build: "./node"
     container_name: node1
     ports:
       - 4000:4000
-    volumes:
-      - ./node:/app
     networks:
       - database
       - app
@@ -28,16 +26,6 @@ services:
       - mongodb
     depends_on:
       - mongodb
-
-  react1:
-    build: "./nutriverse"
-    container_name: "react1"
-    ports:
-      - 5174:3000
-    volumes:
-      - ./nutriverse/src:/app/src
-    networks:
-      - app
 
   mongodb:
     image: mongo:latest
@@ -52,6 +40,14 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
       MONGO_INITDB_DATABASE: nutriverse
+
+  react1:
+    build: "./nutriverse"
+    container_name: "react1"
+    ports:
+      - 3000:3000
+    networks:
+      - app
   
 networks:
   database:
