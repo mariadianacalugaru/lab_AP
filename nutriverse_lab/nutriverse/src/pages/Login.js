@@ -223,6 +223,7 @@ const Login = (show) => {
       try {
         await axios(configuration)
           .then(res => {
+            alert(res.data)
             if (res.data == "No account associated to this email!"){
               alert("no account found");
             }

@@ -350,7 +350,6 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
   }
   
 
-console.log(list_reviews);
 
 
   return (
