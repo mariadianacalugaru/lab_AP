@@ -169,7 +169,6 @@ const Progress = () => {
                                     result.right_tight[i],
                                     result.left_tight[i],
                                     result.chest[i]))
-                                alert(result.weight[i])
                                 list_weights.splice(index, 0, result.weight[i])
                                 list_body_fat.splice(index, 0, result.body_fat[i])
                                 list_lean_mass.splice(index, 0, result.lean_mass[i])

@@ -198,7 +198,6 @@ const Login = (show) => {
 
 
   async function handleLogin(event){
-    alert("ciao")
     event.preventDefault();
     const form = event.currentTarget;
     
@@ -208,11 +207,11 @@ const Login = (show) => {
     else {
       const configuration = {
         method: "post",
-        url: "https://nutriverse_nginx_proxy/api/login",
+        url: "https://nutriverse/api/login",
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "https://nutriverse_nginx_proxy",
+          "Access-Control-Allow-Origin": "https://nutriverse",
         },
         data: {
           email: form_Data.email_login,
@@ -223,7 +222,6 @@ const Login = (show) => {
       try {
         await axios(configuration)
           .then(res => {
-            alert(res.data)
             if (res.data == "No account associated to this email!"){
               alert("no account found");
             }
@@ -231,8 +229,8 @@ const Login = (show) => {
               setPassword_wrong(true)
               alert("incorrect password");
             }
-            else { 
-              history("/MyProfile");
+            else if (res.data == "logged in") { 
+              history("/MyProfile")
             } 
           })
           .catch(event => {
@@ -270,14 +268,14 @@ const Login = (show) => {
             <Tab.Pane eventKey="login"><div className='Reg' >
               <left>
                 <Form noValidate onSubmit={handleLogin} href="/MyProfile">
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Group className="mb-3" >
                   <Form.Label>Email address</Form.Label>
                   <Form.Control className='control' type="email" name="email_login" placeholder="name@example.com" onChange={chngFn} required isInvalid={
                     (validated &&
                             !/^\S+@\S+\.\S+$/.test(form_Data.email))} />
                         <Form.Control.Feedback type='invalid'></Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Group className="mb-3" >
                   <Form.Label>Password</Form.Label>
                         <Form.Control className='control' type="password" name="password_login" placeholder="Password" onChange={chngFn} isInvalid={password_wrong} />
                     <Form.Control.Feedback type='invalid'></Form.Control.Feedback>

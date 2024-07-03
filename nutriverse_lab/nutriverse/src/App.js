@@ -23,7 +23,8 @@ function App() {
   const [sid, setSid] = useState("")
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
-  const[is_nutritionist,setIs_nutritionist] = useState(false)
+  const [is_nutritionist, setIs_nutritionist] = useState(false)
+  const [info, setInfo] = useState(false)
 
   useEffect(() => {
     // Define your async function
@@ -41,10 +42,9 @@ function App() {
         await axios(configuration)
           .then(res => {
             if (res.data == "No account") {
-              return "";
+              console.log(res.data)
             }
             else {
-              console.log(res)
               setIs_nutritionist(res.data.user.is_nutritionist)
               setSid(res.data.user.firstname+" "+res.data.user.lastname);
             }
@@ -60,7 +60,9 @@ function App() {
       }
     }
     // Call the async function
-    get_info();
+    if (!info) {
+      get_info();
+    }
   },);
   
   return (

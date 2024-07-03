@@ -76,17 +76,6 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
   const [list_reviews, setListReviews] = useState([])
 
   
-
-  const create_foodplan = (name, lastname, patient) => {
-    history({
-      pathname: "/Create_foodplan",
-      search: createSearchParams({
-        name: name,
-        lastname: lastname,
-        patient: patient
-      }).toString()
-    });
-  }
   async function delete_appointment(appointment_id) {
     console.log(appointment_id);
     const configuration = {
@@ -165,8 +154,13 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
       try {
         axios.get("https://nutriverse/api/fetch_appointments", configuration)
           .then((res) => {
-            console.log(res.data)
-            change_appointment_list(res.data);
+            if (res.data === "not logged") {
+              console.log("fetch appointments")
+              history("/")
+            }
+            else {
+              change_appointment_list(res.data);
+            }
           })
           .catch((event) => {
             console.log(event);
@@ -175,9 +169,82 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
         console.log(event);
       }
 
+      
+    }
+    async function get_patients() {
+      const configuration = {
+        method: "get",
+        url: "https://nutriverse/api/search_nutritionists",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "https://nutriverse",
+        },
+        withCredentials: true,
+      };
+      try {
+        await axios(configuration)
+          .then((res) => res.data)
+          .then((json) => {
+            setInfo(true);
+            const results = json.filter((user) => {
+              return user && !user.is_nutritionist;
+            });
+            setPatients(results);
+          })
+          .catch((event) => {
+            console.log(event);
+          });
+      } catch (event) {
+        console.log(event);
+      }
+    }
+    async function get_info() {
+      const configuration = {
+        method: "post",
+        url: "https://nutriverse/api/session_info",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "https://nutriverse",
+        },
+        withCredentials: true,
+
+
+      };
+      try {
+        await axios(configuration)
+          .then(res => {
+            console.log(res)
+            if (res.data == "No account") {
+              return "";
+            }
+            else {
+              setInfo(true);
+              setSid(res.data.user.firstname + " " + res.data.user.lastname)
+              setFirstname(res.data.user.firstname + " " + res.data.user.lastname);
+              setEmail(res.data.user.email);
+              setNutritionist(res.data.user.is_nutritionist);
+              setIs_nutritionist(res.data.user.is_nutritionist)
+              setAvatar(res.data.user.image !== "" ? (JSON.parse(res.data.user.image).base64) :"");
+
+              
+          
+
+            }
+          })
+          .catch(event => {
+            console.log(event);
+          })
+
+      }
+      catch (event) {
+        console.log(event);
+
+      }
     }
     if (!info) {
       get_user_appointments();
+      get_patients();
+      get_info();
     }
   }, [])
 
@@ -235,89 +302,8 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
     setValidated(true);
   }
 
-  useEffect(() => {
-    async function get_patients() {
-      const configuration = {
-        method: "get",
-        url: "https://nutriverse/api/search_nutritionists",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "https://nutriverse",
-        },
-        withCredentials: true,
-      };
-      try {
-        await axios(configuration)
-          .then((res) => res.data)
-          .then((json) => {
-            setInfo(true);
-            const results = json.filter((user) => {
-              return user && !user.is_nutritionist;
-            });
-            setPatients(results);
-          })
-          .catch((event) => {
-            console.log(event);
-          });
-      } catch (event) {
-        console.log(event);
-      }
-    }
-    if (!info) {
-      get_patients();
-    }
-  }, []);
   
 
-
-  useEffect(() => {
-    // Define your async function
-    async function get_info() {
-      const configuration = {
-        method: "post",
-        url: "https://nutriverse/api/session_info",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "https://nutriverse",
-        },
-        withCredentials: true,
-
-
-      };
-      try {
-        await axios(configuration)
-          .then(res => {
-            console.log(res)
-            if (res.data == "No account") {
-              return "";
-            }
-            else {
-              setInfo(true);
-              setSid(res.data.user.firstname + " " + res.data.user.lastname)
-              setFirstname(res.data.user.firstname + " " + res.data.user.lastname);
-              setEmail(res.data.user.email);
-              setNutritionist(res.data.user.is_nutritionist);
-              setIs_nutritionist(res.data.user.is_nutritionist)
-              setAvatar(JSON.parse(res.data.user.image).base64);
-
-              
-          
-
-            }
-          })
-          .catch(event => {
-            console.log(event);
-          })
-
-      }
-      catch (event) {
-        console.log(event);
-
-      }
-    }
-    // Call the async function
-    get_info();
-  }, [])
   
     
 
@@ -334,7 +320,7 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
       try {
           axios(configuration_reviews)
               .then((res) => {
-                  if (res.data == "not logged") {
+                if (res.data == "not logged") {
                       navigate("/")
                   }
                   setListReviews(res.data)

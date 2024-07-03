@@ -79,7 +79,7 @@ store.on('error', function (error) {
 app.use(
     session({
         secret: "some secret",
-        cookie: { maxAge: 60000 * 200},
+        cookie: { maxAge: 60000 * 200, sameSite:"none", secure: true},
         saveUninitialized: false,
         store: store,
         resave: true
@@ -100,20 +100,18 @@ app.get('/',
     });
 
 app.post('/login', async (req, res) => {
-    res.header("Access-Control-Allow-Credentials", "true");
     if (req.session.authenticated) {
         res.json(session);
     }
     else {
-
         const email = req.body.email;
         const password = req.body.password
 
         const nutriverse = client.db("nutriverse");
         const users = nutriverse.collection("users");
-
         users.findOne({ email: email }).then(user => {
             if (user) {
+                console.log("user trovato")
                 bcrypt.compare(password, user.password, function (err, result) {
                     if (result == true) {
                         req.session.authenticated = true;
@@ -125,7 +123,6 @@ app.post('/login', async (req, res) => {
                             is_nutritionist: user.is_nutritionist,
                             image: user.image
                         };
-                        res.cookie("sid", "ciao")
                         res.send("logged in")
                     }
                     else {
@@ -146,7 +143,7 @@ app.post("/session_info", (req, res) => {
         res.send(req.session);
     }
     else {
-        res.send("")
+        res.send("No account")
     }
 })
 
@@ -498,7 +495,9 @@ app.post("/update_user", async (req,res) => {
 
 
 app.post("/logout", (req, res) => {
-    res.clearCookie("connect.sid").status(200).send('Ok.');
+    res.clearCookie("connect.sid")
+    req.session.destroy();
+    res.send('Ok.');
 });
 
 app.get('/search_nutritionists', async (req, res) => {

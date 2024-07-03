@@ -41,8 +41,7 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
 
     }
 
-    async function logout() {
-        CometChatUIKit.logout();
+    const logout = async () =>{
         
         const configuration = {
             method: "post",
@@ -58,7 +57,7 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
             await axios(configuration)
                 .then(res => {
                     if (res.data == "Ok.") {
-                        window.location.reload()
+                        window.location.reload();
                     }
                 })
                 .catch(event => {

@@ -26,6 +26,32 @@ services:
       - mongodb
     depends_on:
       - mongodb
+  
+  node2:
+      build: "./node"
+      container_name: node2
+      ports:
+        - 4001:4000
+      networks:
+        - database
+        - app
+      links:
+        - mongodb
+      depends_on:
+        - mongodb
+  
+  node3:
+      build: "./node"
+      container_name: node3
+      ports:
+        - 4002:4000
+      networks:
+        - database
+        - app
+      links:
+        - mongodb
+      depends_on:
+        - mongodb
 
   mongodb:
     image: mongo:latest
@@ -48,7 +74,19 @@ services:
       - 3000:3000
     networks:
       - app
-  
+    volumes:
+      - ./nutriverse/src:/app/src
+
+  react2:
+    build: "./nutriverse"
+    container_name: "react2"
+    ports:
+      - 3001:3000
+    networks:
+      - app
+    volumes:
+      - ./nutriverse/src:/app/src
+   
 networks:
   database:
   app:
