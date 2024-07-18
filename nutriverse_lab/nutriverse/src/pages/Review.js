@@ -133,7 +133,8 @@ const Review = () => {
                         <Typography component="legend"> Rate the nutritionist</Typography>
                         <Rating
                             id="star"
-                            name="simple-controlled"
+                                name="simple-controlled"
+                                precision={0.5}
                             value={value}
                             onChange={(event, newValue) => {
                                 setValue(newValue);

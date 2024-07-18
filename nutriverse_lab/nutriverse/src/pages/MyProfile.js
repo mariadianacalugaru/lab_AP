@@ -95,6 +95,7 @@ const MyProfile = ({ setSid, setIs_nutritionist }) => {
       await axios.get("https://nutriverse/api/delete_appointment/", configuration)
         .then((res) => {
           console.log(res.data)
+          window.location.reload()
         })
         .catch(event => {
           console.log(event);
