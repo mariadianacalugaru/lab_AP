@@ -124,10 +124,10 @@ const Nutritionists = ({ setName, setEmail }) => {
   const handleBook = async (nutr) => {
     const configuration = {
       method: "post",
-      url: "https://nutriverse/api/session_info",
+      url: "https://localhost/api/session_info",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "https://nutriverse",
+        "Access-Control-Allow-Origin": "https://localhost",
       },
       withCredentials: true,
     };
@@ -167,10 +167,10 @@ const Nutritionists = ({ setName, setEmail }) => {
   async function get_nutritionists(city) {
       const configuration = {
         method: "get",
-        url: "https://nutriverse/api/search_nutritionists",
+        url: "https://localhost/api/search_nutritionists",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:4000",
+          "Access-Control-Allow-Origin": "http://localhost",
         },
         withCredentials: true,
       };

@@ -72,10 +72,10 @@ const Booking = () => {
     useEffect(() => {
         const configuration = {
             method: "GET",
-            url: "https://nutriverse/api/info_nutritionist?email=" + email,
+            url: "https://localhost/api/info_nutritionist?email=" + email,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nutriverse",
+                "Access-Control-Allow-Origin": "https://localhost",
             },
             withCredentials: true,
         };
@@ -102,10 +102,10 @@ const Booking = () => {
         }
         const configuration_rating = {
             method: "GET",
-            url: "https://nutriverse/api/get_rating?email=" + email,
+            url: "https://localhost/api/get_rating?email=" + email,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nutriverse",
+                "Access-Control-Allow-Origin": "https://localhost",
             },
             withCredentials: true,
         };

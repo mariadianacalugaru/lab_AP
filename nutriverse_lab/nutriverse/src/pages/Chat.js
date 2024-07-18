@@ -81,13 +81,13 @@ export default class Chat extends Component {
         var configuration = {
             headers: {
               "Content-Type": 'multipart/form-data',
-              "Access-Control-Allow-Origin": "https://nutriverse",
+              "Access-Control-Allow-Origin": "https://localhost",
             },
             
             withCredentials: true,
         }
         var name;
-        await axios.get("https://nutriverse/api/userId",configuration).then((res) => {UID = res.data._id; name =res.data.firstname + ' ' + res.data.lastname;});
+        await axios.get("https://localhost/api/userId",configuration).then((res) => {UID = res.data._id; name =res.data.firstname + ' ' + res.data.lastname;});
         console.log(UID);
         CometChat.login(UID, COMETCHAT_CONSTANTS.AUTH_KEY).then(
           (user) => {

@@ -49,10 +49,10 @@ const MyFoodPlan = () => {
     async function get_info() {
       const configuration = {
         method: "get",
-        url: "https://nutriverse/api/get_foodplan",
+        url: "https://localhost/api/get_foodplan",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "https://nutriverse",
+          "Access-Control-Allow-Origin": "https://localhost",
         },
         withCredentials:true,
         

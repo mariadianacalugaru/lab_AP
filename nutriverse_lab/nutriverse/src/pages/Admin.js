@@ -21,10 +21,10 @@ const Admin = () => {
     async function get_nutritionists() {
       const configuration = {
         method: "get",
-        url: "https://nutriverse/api/search_nutritionists",
+        url: "https://localhost/api/search_nutritionists",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "https://nutriverse",
+          "Access-Control-Allow-Origin": "https://localhost",
         },
         withCredentials: true,
       };
@@ -55,14 +55,14 @@ const Admin = () => {
     const configurations = {
       headers: {
         "Content-Type": "appplication/json",
-        "Access-Control-Allow-Origin": "https://nutriverse",
+        "Access-Control-Allow-Origin": "https://localhost",
       },
       withCredentials: true,
       "email": email
     };
     try {
       axios
-        .post("https://nutriverse/api/approve_nutritionist", configurations)
+        .post("https://localhost/api/approve_nutritionist", configurations)
         .then((response) => {
           if (response.data == "verified") {
             window.location.reload();
@@ -77,14 +77,14 @@ const Admin = () => {
     const configurations = {
       headers: {
         "Content-Type": "appplication/json",
-        "Access-Control-Allow-Origin": "https://nutriverse",
+        "Access-Control-Allow-Origin": "https://localhost",
       },
       withCredentials: true,
       "email": email
     };
     try {
       axios
-        .post("https://nutriverse/api/reject_nutritionist", configurations)
+        .post("https://localhost/api/reject_nutritionist", configurations)
         .then((response) => {
           if (response.data == "rejected") {
             window.location.reload();
@@ -99,7 +99,7 @@ const Admin = () => {
     const configurations = {
       headers: {
         'Content-Type': 'multipart/form-data',
-        "Access-Control-Allow-Origin": "https://nutriverse",
+        "Access-Control-Allow-Origin": "https://localhost",
         'Accept': 'blob'
       },
       withCredentials: true,
@@ -108,7 +108,7 @@ const Admin = () => {
     var formdata = new FormData()
     formdata.append("filename",filename)
     try {
-      await axios.post('https://nutriverse/api/get_certificate', formdata, configurations)
+      await axios.post('https://localhost/api/get_certificate', formdata, configurations)
       .then((response) => {
          
             // Creating new object of PDF file

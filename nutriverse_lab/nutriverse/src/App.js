@@ -31,10 +31,10 @@ function App() {
     async function get_info() {
       const configuration = {
         method: "post",
-        url: "https://nutriverse/api/session_info",
+        url: "https://localhost/api/session_info",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "https://nutriverse",
+          "Access-Control-Allow-Origin": "https://localhost",
         },
         withCredentials:true,
       };

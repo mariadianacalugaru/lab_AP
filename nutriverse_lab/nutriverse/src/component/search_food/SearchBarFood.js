@@ -7,7 +7,7 @@ const SearchBarFood = ({setResults, ingredient, setIngredient, setSelectedFood, 
     
 
       const fetchData = (value) => {
-        fetch("https://nutriverse/api/search_food")
+        fetch("https://localhost/api/search_food")
             .then(response => response.json())
             .then(json => {
                 const results = json.filter((ingredient) => {

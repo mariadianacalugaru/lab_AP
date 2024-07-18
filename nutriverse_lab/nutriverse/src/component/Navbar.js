@@ -45,11 +45,11 @@ export default function Navbar({ sid, setSid, is_nutritionist }) {
         
         const configuration = {
             method: "post",
-            url: "https://nutriverse/api/logout",
+            url: "https://localhost/api/logout",
             withCredentials: true,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nutriverse",
+                "Access-Control-Allow-Origin": "https://localhost",
             }
         };
 

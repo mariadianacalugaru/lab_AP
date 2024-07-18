@@ -31,10 +31,10 @@ const Review = () => {
         var review = document.getElementById("comment").value
         const configuration = {
             method: "post",
-            url: "https://nutriverse/api/add_review",
+            url: "https://localhost/api/add_review",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nutriverse",
+                "Access-Control-Allow-Origin": "https://localhost",
             },
             withCredentials: true,
             data: {
@@ -87,10 +87,10 @@ const Review = () => {
     useEffect(() => {
         const configuration = {
             method: "GET",
-            url: "https://nutriverse/api/get_reviews?email=" + email,
+            url: "https://localhost/api/get_reviews?email=" + email,
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nutriverse",
+                "Access-Control-Allow-Origin": "https://localhost",
             },
             withCredentials: true,
         };

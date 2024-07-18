@@ -22,10 +22,10 @@ const Appointment = () => {
     useEffect(() => {
         const configuration = {
             method: "GET",
-            url: "https://nutriverse/api/get_appointments",
+            url: "https://localhost/api/get_appointments",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "https://nutriverse",
+                "Access-Control-Allow-Origin": "https://localhost",
             },
             withCredentials: true,
         };
