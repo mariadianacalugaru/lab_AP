@@ -1,3 +1,42 @@
-nutriverse_lab/nutriverse/node_modules
-nutriverse_lab/nutriverse/mongo_node/node_modules
-nutriverse_lab/node/node_modules
+# ---------------------------------------------------------------
+# Nutriverse — files kept locally but not tracked in the repository
+# ---------------------------------------------------------------
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Dependencies (reinstalled by `npm install` inside the Docker images)
+node_modules/
+
+# Build output and logs
+build/
+dist/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.*
+
+# MongoDB runtime artefacts (the collection/index .wt files are kept
+# because they hold the seed data, e.g. the `food` collection)
+nutriverse_lab/mongo/datamongo/diagnostic.data/
+nutriverse_lab/mongo/datamongo/.mongodb/
+nutriverse_lab/mongo/datamongo/mongod.lock
+nutriverse_lab/mongo/datamongo/journal/
+
+# Files uploaded by users at runtime (e.g. nutritionist certificates)
+files/
+
+# Experiments, legacy code and outdated configs — not used by the
+# current docker-compose stack
+nutriverse_lab/prova/
+nutriverse_lab/react_prova/
+nutriverse_lab/nutriverse/mongo_node/
+old_docker_compose/
